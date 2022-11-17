@@ -82,7 +82,7 @@ DATABASES = {
         'NAME': 'dippolarelaxtour',
         'USER': 'postgres',
         'PASSWORD': '315053',
-        'HOST': 'localhost',
+        'HOST': '3.101.48.97',
         'PORT': '5432'
     }
 }
