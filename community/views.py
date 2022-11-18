@@ -33,7 +33,7 @@ def createUser(request):
 @api_view(['PUT'])
 def updateUser(request, uid):
     data = request.data
-    user = UserModel.objects.filter(uid=uid)
+    user = UserModel.objects.filter(uid=uid).first()
     serializer = UserModel_serializer(user, data=data)
     if serializer.is_valid():
         serializer.save()
@@ -118,7 +118,7 @@ def createMainComment(request, pk, uid):
 @api_view(['PUT'])
 def updateMain(request, pk):
     data = request.data
-    main = MainModel.objects.get(id=pk)
+    main = MainModel.objects.get(id=pk).first()
     serializer = MainModel_serializer(main, data=data)
     if serializer.is_valid():
         serializer.save()
