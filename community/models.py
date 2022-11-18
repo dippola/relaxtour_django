@@ -2,11 +2,11 @@ from django.db import models
 
 class UserModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
-    email = models.EmailField()
+    email = models.EmailField(null=True, default='')
     uid = models.CharField(max_length=50, null=True, default='')
     nickname = models.CharField(max_length=14, null=True, default='')
     imageurl = models.TextField(null=True, blank=True)
-    provider = models.CharField(max_length=20, null=False, default='')
+    provider = models.CharField(max_length=20, null=True, default='')
     class Meta:
         ordering = ['-id']
 
