@@ -6,7 +6,7 @@ class UserModel(models.Model):
     uid = models.CharField(max_length=50, null=True, default='')
     nickname = models.CharField(max_length=14, null=True, default='')
     imageurl = models.TextField(null=True, blank=True)
-    provider = models.CharField(null=False, default='')
+    provider = models.CharField(max_length=20, null=False, default='')
     class Meta:
         ordering = ['-id']
 
