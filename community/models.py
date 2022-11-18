@@ -6,6 +6,8 @@ class UserModel(models.Model):
     uid = models.CharField(max_length=50, null=True, default='')
     nickname = models.CharField(max_length=14, null=True, default='')
     imageurl = models.TextField(null=True, blank=True)
+    class Meta:
+        ordering = ['-id']
 
 class MainModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)

@@ -40,6 +40,12 @@ def updateUser(request, uid):
         return Response(serializer.data)
     return Response(serializer.errors)
 
+@api_view(['GET'])
+def searchNickname(request, nickname):
+    user = UserModel.objects.filter(nickname=nickname)
+    serializer = UserModel_serializer(user, many=True)
+    return Response(serializer.data)
+
 
 
 @api_view(['DELETE'])
