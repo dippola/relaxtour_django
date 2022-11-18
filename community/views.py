@@ -13,7 +13,7 @@ def getUsers(request):
 
 @api_view(['GET'])
 def getUser(request, uid):
-    user = UserModel.objects.get(uid=uid).uid
+    user = UserModel.objects.filter(uid=uid)
     serializer = UserModel_serializer(user, many=True)
     return Response(serializer.data)
 
@@ -33,7 +33,7 @@ def createUser(request):
 @api_view(['PUT'])
 def updateUser(request, uid):
     data = request.data
-    user = UserModel.objects.get(uid=uid).uid
+    user = UserModel.objects.filter(uid=uid)
     serializer = UserModel_serializer(user, data=data)
     if serializer.is_valid():
         serializer.save()
@@ -44,7 +44,7 @@ def updateUser(request, uid):
 
 @api_view(['DELETE'])
 def deleteUser(request, uid):
-    user = UserModel.objects.get(uid=uid)
+    user = UserModel.objects.filter(uid=uid)
     user.delete()
     return Response('board was deleted')
 
@@ -86,7 +86,7 @@ def getMainComments(request, page):
 # Main글쓰기
 @api_view(['POST'])
 def createMain(request, uid):
-    user = UserModel.objects.get(uid=uid).uid
+    user = UserModel.objects.filter(uid=uid)
     data = request.data
     main = MainModel.objects.create(
         parent_user = user,
@@ -101,7 +101,7 @@ def createMain(request, uid):
 # Main에 Comment 쓰기
 @api_view(['POST'])
 def createMainComment(request, pk, uid):
-    user = UserModel.objects.get(uid=uid).uid
+    user = UserModel.objects.filter(uid=uid)
     main = MainModel.objects.get(id=pk)
     data = request.data
     comment = MainCommentModel.objects.create(
@@ -171,7 +171,7 @@ def getQnasPage(request, page):
 # Qna 하나 가져오기(url)
 @api_view(['GET'])
 def getQna(request, uid):
-    qna = QnaModel.objects.get(uid=uid)
+    qna = QnaModel.objects.filter(uid=uid)
     serializer = QnaModel_serializer(qna, many=False)
     return Response(serializer.data)
 
@@ -188,7 +188,7 @@ def getQnaComments(request, page):
 # Qna글쓰기
 @api_view(['POST'])
 def createQna(request, uid):
-    user = UserModel.objects.get(uid=uid).uid
+    user = UserModel.objects.filter(uid=uid)
     data = request.data
     qna = QnaModel.objects.create(
         parent_user = user,
@@ -203,7 +203,7 @@ def createQna(request, uid):
 # Qna에 Comment 쓰기
 @api_view(['POST'])
 def createQnaComment(request, pk, uid):
-    user = UserModel.objects.get(uid=uid).uid
+    user = UserModel.objects.filter(uid=uid)
     qna = QnaModel.objects.get(id=pk)
     data = request.data
     comment = QnaCommentModel.objects.create(
