@@ -13,7 +13,7 @@ def getUsers(request):
 
 @api_view(['GET'])
 def getUser(request, uid):
-    user = UserModel.objects.filter(uid=uid)
+    user = UserModel.objects.get(uid=uid).uid
     serializer = UserModel_serializer(user, many=True)
     return Response(serializer.data)
 
@@ -33,7 +33,7 @@ def createUser(request):
 @api_view(['PUT'])
 def updateUser(request, uid):
     data = request.data
-    user = UserModel.objects.filter(uid=uid)
+    user = UserModel.objects.get(uid=uid).uid
     serializer = UserModel_serializer(user, data=data)
     if serializer.is_valid():
         serializer.save()
@@ -86,7 +86,7 @@ def getMainComments(request, page):
 # Main글쓰기
 @api_view(['POST'])
 def createMain(request, uid):
-    user = UserModel.objects.filter(uid=uid)
+    user = UserModel.objects.get(uid=uid).uid
     data = request.data
     main = MainModel.objects.create(
         parent_user = user,
@@ -101,7 +101,7 @@ def createMain(request, uid):
 # Main에 Comment 쓰기
 @api_view(['POST'])
 def createMainComment(request, pk, uid):
-    user = UserModel.objects.filter(uid=uid)
+    user = UserModel.objects.get(uid=uid).uid
     main = MainModel.objects.get(id=pk)
     data = request.data
     comment = MainCommentModel.objects.create(
@@ -132,7 +132,7 @@ def deleteMain(request, pk):
 
 @api_view(['PUT'])
 def updateMainComment(request, main_pk, comment_pk):
-    comments = MainCommentModel.objects.filter(parent_id=main_pk)
+    comments = MainCommentModel.objects.get(parent_id=main_pk).parent_id
     comment = comments.get(id=comment_pk)
     serializer = MainCommentModel_serializer(comment, data=request.data)
     if serializer.is_valid():
@@ -142,7 +142,7 @@ def updateMainComment(request, main_pk, comment_pk):
 
 @api_view(['DELETE'])
 def deleteMainComment(request, main_pk, comment_pk):
-    comments = MainCommentModel.objects.filter(parent_id=main_pk)
+    comments = MainCommentModel.objects.get(parent_id=main_pk).parent_id
     comment = comments.get(id=comment_pk)
     comment.delete()
     return Response('board was deleted')
@@ -188,7 +188,7 @@ def getQnaComments(request, page):
 # Qna글쓰기
 @api_view(['POST'])
 def createQna(request, uid):
-    user = UserModel.objects.filter(uid=uid)
+    user = UserModel.objects.get(uid=uid).uid
     data = request.data
     qna = QnaModel.objects.create(
         parent_user = user,
@@ -203,7 +203,7 @@ def createQna(request, uid):
 # Qna에 Comment 쓰기
 @api_view(['POST'])
 def createQnaComment(request, pk, uid):
-    user = UserModel.objects.filter(uid=uid)
+    user = UserModel.objects.get(uid=uid).uid
     qna = QnaModel.objects.get(id=pk)
     data = request.data
     comment = QnaCommentModel.objects.create(
@@ -234,7 +234,7 @@ def deleteQna(request, pk):
 
 @api_view(['PUT'])
 def updateQnaComment(request, main_pk, comment_pk):
-    comments = QnaCommentModel.objects.filter(parent_id=main_pk)
+    comments = QnaCommentModel.objects.get(parent_id=main_pk).parent_id
     comment = comments.get(id=comment_pk)
     serializer = QnaCommentModel_serializer(comment, data=request.data)
     if serializer.is_valid():
@@ -244,7 +244,7 @@ def updateQnaComment(request, main_pk, comment_pk):
 
 @api_view(['DELETE'])
 def deleteQnaComment(request, main_pk, comment_pk):
-    comments = QnaCommentModel.objects.filter(parent_id=main_pk)
+    comments = QnaCommentModel.objects.get(parent_id=main_pk).parent_id
     comment = comments.get(id=comment_pk)
     comment.delete()
     return Response('board was deleted')
