@@ -26,6 +26,7 @@ def createUser(request):
         email = data['email'],
         imageurl = data['imageurl'],
         nickname = data['nickname'],
+        provider = data['provider'],
     )
     serializer = UserModel_serializer(main, many=False)
     return Response(serializer.data)
