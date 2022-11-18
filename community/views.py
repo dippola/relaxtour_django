@@ -47,13 +47,18 @@ def searchNickname(request, nickname):
     serializer = UserModel_serializer(user, many=True)
     return Response(serializer.data)
 
-
-
 @api_view(['DELETE'])
 def deleteUser(request, uid):
     user = UserModel.objects.filter(uid=uid)
     user.delete()
-    return Response('board was deleted')
+    return Response('user was deleted')
+
+@api_view(['DELETE'])
+def deleteAllUser(request):
+    user = UserModel.objects.all()
+    user.delete()
+    return Response('user was deleted')
+
 
 
 # get all Main(url)
