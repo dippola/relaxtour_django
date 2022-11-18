@@ -30,13 +30,22 @@ def createUser(request):
     serializer = UserModel_serializer(main, many=False)
     return Response(serializer.data)
 
+@api_view(['PUT'])
+def updateUser(request, uid):
+    data = request.data
+    user = UserModel.objects.filter(uid=uid)
+    serializer = UserModel_serializer(user, data=data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
+
+
+
 @api_view(['DELETE'])
 def deleteUser(request, uid):
     user = UserModel.objects.get(uid=uid)
     user.delete()
     return Response('board was deleted')
-
-
 
 
 # get all Main(url)
