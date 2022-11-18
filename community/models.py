@@ -5,7 +5,7 @@ class UserModel(models.Model):
     email = models.EmailField()
     uid = models.CharField(max_length=50, null=True, default='')
     nickname = models.CharField(max_length=14, null=True, default='')
-    imageurl = models.TextField(null=True)
+    imageurl = models.TextField(null=True, blank=True)
 
 class MainModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
@@ -14,10 +14,10 @@ class MainModel(models.Model):
     uid = models.CharField(max_length=50, null=True, default='')
     title = models.CharField(max_length=30)
     body = models.TextField(null=False)
-    imageurl = models.TextField(null=True)
+    imageurl = models.TextField(null=True, blank=True)
     count = models.PositiveIntegerField(default=0)
     like = models.PositiveIntegerField(default=0)
-    list = models.TextField()
+    list = models.TextField(null=True, blank=True)
     class Meta:
         ordering = ['-date']
 
@@ -28,7 +28,7 @@ class MainCommentModel(models.Model):
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     uid = models.CharField(max_length=50, null=True, default='')
     body = models.TextField(null=False)
-    to = models.TextField()
+    to = models.TextField(null=True, blank=True)
     class Meta:
         ordering = ['-date']
 
@@ -39,7 +39,7 @@ class QnaModel(models.Model):
     uid = models.CharField(max_length=50, null=True, default='')
     title = models.CharField(max_length=30)
     body = models.TextField(null=False)
-    imageurl = models.TextField(null=True)
+    imageurl = models.TextField(null=True, blank=True)
     count = models.PositiveIntegerField(default=0)
     like = models.PositiveIntegerField(default=0)
     class Meta:
@@ -52,6 +52,6 @@ class QnaCommentModel(models.Model):
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     uid = models.CharField(max_length=50, null=True, default='')
     body = models.TextField(null=False)
-    to = models.TextField()
+    to = models.TextField(null=True, blank=True)
     class Meta:
         ordering = ['-date']
