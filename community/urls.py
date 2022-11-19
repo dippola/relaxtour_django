@@ -26,7 +26,7 @@ urlpatterns = [
     path('posts/', views.getMains),
     path('posts/page=<str:page>/', views.getMainsPage),
     path('post/create/', views.createMain),
-    path('post/<str:pk>', views.getMain),
+    path('post/<str:pk>/', views.getMain),
     path('post/<str:pk>/update/', views.updateMain),
     path('post/<str:pk>/delete/', views.deleteMain),
     path('post/<str:pk>/comment/create=<str:uid>/', views.createMainComment),
