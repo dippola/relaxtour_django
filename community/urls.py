@@ -14,19 +14,18 @@ urlpatterns = [
     # path('boards/page=<str:page>/', views.getBoardsPage),
     # path('comments', views.getAllComments)
 
-    path('users/', views.getUsers),
-    path('user/create/', views.createUser),
-    path('user/delete/', views.deleteAllUser),
-    path('user/searchemail/<str:email>', views.searchEmail),
-    path('user/searchnickname/<str:nickname>', views.searchNickname),
-    path('user/<str:uid>/', views.getUser),
-    path('user/<str:uid>/update/', views.updateUser),
-    path('user/<str:uid>/delete/', views.deleteUser),
+    path('users/', views.getUsers),#
+    path('user/create/', views.createUser),#
+    path('user/searchemail/<str:email>', views.searchEmail),#
+    path('user/searchnickname/<str:nickname>', views.searchNickname),#
+    path('user/<str:uid>/', views.getUser),#
+    path('user/<str:uid>/update/', views.updateUser),#
+    path('user/<str:uid>/delete/', views.deleteUser),#
 
-    path('posts/', views.getMains),
-    path('posts/page=<str:page>/', views.getMainsPage),
-    path('post/create/', views.createMain),
-    path('post/<str:pk>/', views.getMain),
+    path('posts/', views.getMains),#
+    path('posts/page=<str:page>/', views.getMainsPage),#
+    path('post/create/', views.createMain),#
+    path('post/<str:pk>/', views.getMain),#
     path('post/<str:pk>/update/', views.updateMain),
     path('post/<str:pk>/delete/', views.deleteMain),
     path('post/<str:pk>/comment/create=<str:uid>/', views.createMainComment),

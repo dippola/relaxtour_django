@@ -59,12 +59,6 @@ def deleteUser(request, uid):
     user.delete()
     return Response('user was deleted')
 
-@api_view(['DELETE'])
-def deleteAllUser(request):
-    user = UserModel.objects.all()
-    user.delete()
-    return Response('user was deleted')
-
 
 
 # get all Main(url)
@@ -136,7 +130,7 @@ def createMainComment(request, pk, uid):
 @api_view(['PUT'])
 def updateMain(request, pk):
     data = request.data
-    main = MainModel.objects.get(id=pk).first()
+    main = MainModel.objects.get(id=pk)
     serializer = MainModel_serializer(main, data=data)
     if serializer.is_valid():
         serializer.save()
