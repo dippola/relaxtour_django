@@ -130,7 +130,7 @@ def createMainComment(request, pk, uid):
 @api_view(['PUT'])
 def updateMain(request, pk):
     data = request.data
-    main = MainModel.objects.get(id=pk)
+    main = MainModel.objects.filter(id=pk)
     serializer = MainModel_serializer(main, data=data)
     if serializer.is_valid():
         serializer.save()
