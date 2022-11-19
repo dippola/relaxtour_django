@@ -105,9 +105,10 @@ def getMainComments(request, page):
 @api_view(['POST'])
 def createMain(request, uid):
     user = UserModel.objects.filter(uid=uid)
+    userid = user['id']
     data = request.data
     main = MainModel.objects.create(
-        parent_user = user,
+        parent_user = userid,
         uid = user['uid'],
         title = data['title'],
         body = data['body'],
