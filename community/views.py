@@ -127,7 +127,7 @@ def createMainComment(request, pk, uid):
     serializer = MainCommentModel_serializer(comment, many=False)
     return Response(serializer.data)
 
-@api_view(['PATCH'])
+@api_view(['PUT'])
 def updateMain(request, pk):
     data = request.data
     main = MainModel.objects.filter(id=pk).first()
