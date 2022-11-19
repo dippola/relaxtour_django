@@ -105,10 +105,10 @@ def getMainComments(request, page):
 @api_view(['POST'])
 def createMain(request):
     data = request.data
-    user = UserModel.objects.filter(uid=data['uid'])
+    user = UserModel.objects.filter(uid=data['uid']).first()
     main = MainModel.objects.create(
-        parent_user = user['id'],
-        uid = user['uid'],
+        parent_user = user,
+        uid = data['uid'],
         title = data['title'],
         body = data['body'],
         imageurl = data['imageurl'],
