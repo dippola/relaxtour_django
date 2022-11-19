@@ -130,11 +130,12 @@ def createMainComment(request, pk, uid):
 @api_view(['PUT'])
 def updateMain(request, pk):
     data = request.data
-    main = MainModel.objects.filter(id=pk)
+    main = MainModel.objects.filter(id=pk).first()
     serializer = MainModel_serializer(main, data=data)
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
+        return Response(serializer.data)
+    return Response(serializer.errors)
 
 @api_view(['DELETE'])
 def deleteMain(request, pk):
