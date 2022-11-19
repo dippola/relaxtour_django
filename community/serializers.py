@@ -11,7 +11,6 @@ class MainModel_serializer(serializers.ModelSerializer):
     class Meta:
         model = MainModel
         fields = '__all__'
-        extra_kwarhs = {'parent_id': {'request': False}}
         # fields = ('uid', 'nickname', 'body')
 
 class QnaModel_serializer(serializers.ModelSerializer):

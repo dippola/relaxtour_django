@@ -131,7 +131,7 @@ def createMainComment(request, pk, uid):
 def updateMain(request, pk):
     data = request.data
     main = MainModel.objects.filter(id=pk).first()
-    serializer = MainModel_serializer(main, data=data)
+    serializer = MainModel_serializer(main, data=data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
