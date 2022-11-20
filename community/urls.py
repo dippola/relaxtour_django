@@ -15,16 +15,16 @@ urlpatterns = [
     # path('comments', views.getAllComments)
 
     path('users/', views.getUsers),#
-    path('users/delete/', views.deleteAllUser),
+    path('users/delete/', views.deleteAllUser),#will delete
     path('user/create/', views.createUser),#
-    path('user/searchemail/<str:email>', views.searchEmail),#
-    path('user/searchnickname/<str:nickname>', views.searchNickname),#
+    path('user/searchemail/<str:email>/', views.searchEmail),#
+    path('user/searchnickname/<str:nickname>/', views.searchNickname),#
     path('user/<str:uid>/', views.getUser),#
     path('user/<str:uid>/update/', views.updateUser),#
     path('user/<str:uid>/delete/', views.deleteUser),#
 
     path('posts/', views.getMains),#
-    path('posts/delete/', views.deleteAllMain),
+    path('posts/delete/', views.deleteAllMain),#will delete
     path('posts/page=<str:page>/', views.getMainsPage),#
     path('post/create/', views.createMain),#
     path('post/<str:pk>/', views.getMain),#
