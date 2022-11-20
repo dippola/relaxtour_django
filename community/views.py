@@ -11,6 +11,12 @@ def getUsers(request):
     serializer = UserModel_serializer(users, many=True)
     return Response(serializer.data)
 
+@api_view(['DELETE'])
+def deleteAllUser(request):
+    users = UserModel.objects.all()
+    users.delete()
+    return Response('user was deleted')
+
 @api_view(['GET'])
 def getUser(request, uid):
     user = UserModel.objects.filter(uid=uid)
@@ -67,6 +73,12 @@ def getMains(request):
     posts = MainModel.objects.all()
     serializer = MainModel_serializer(posts, many=True)
     return Response(serializer.data)
+
+@api_view(['DELETE'])
+def deleteAllMain(request):
+    posts = MainModel.objects.all()
+    posts.delete()
+    return Response("deleted all main")
 
 # Main paginator(url)
 @api_view(['GET'])

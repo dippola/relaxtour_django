@@ -15,6 +15,7 @@ urlpatterns = [
     # path('comments', views.getAllComments)
 
     path('users/', views.getUsers),#
+    path('users/delete/', views.deleteAllUser),
     path('user/create/', views.createUser),#
     path('user/searchemail/<str:email>', views.searchEmail),#
     path('user/searchnickname/<str:nickname>', views.searchNickname),#
@@ -23,6 +24,7 @@ urlpatterns = [
     path('user/<str:uid>/delete/', views.deleteUser),#
 
     path('posts/', views.getMains),#
+    path('posts/delete/', views.deleteAllMain),
     path('posts/page=<str:page>/', views.getMainsPage),#
     path('post/create/', views.createMain),#
     path('post/<str:pk>/', views.getMain),#
