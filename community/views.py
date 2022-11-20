@@ -93,7 +93,7 @@ def getMainsPage(request, page):
 # Main 하나 가져오기(url)
 @api_view(['GET'])
 def getMain(request, pk):
-    post = MainModel.objects.filter(id=pk)
+    post = MainModel.objects.get(id=pk)
     serializer = MainModel_serializer(post, many=False)
     return Response(serializer.data)
 
