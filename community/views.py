@@ -99,8 +99,8 @@ def getMain(request, pk):
 
 # Main에 comments 가져오기(url)
 @api_view(['GET'])
-def getMainComments(request, page):
-    main_comment = MainCommentModel.objects.all()
+def getMainComments(request, pk, page):
+    main_comment = MainCommentModel.objects.filter(parent_id=pk)
     page = request.GET.get('page', page)
     paginator = Paginator(main_comment, 15)
     page_obj = paginator.page(page)
