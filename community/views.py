@@ -155,8 +155,8 @@ def deleteMain(request, pk):
 
 @api_view(['PUT'])
 def updateMainComment(request, pk):
-    comment = MainCommentModel.objects.get(id=pk)
-    serializer = MainCommentModel_serializer(comment, data=request.data)
+    comment = MainCommentModel.objects.filter(id=pk).first()
+    serializer = MainCommentModel_serializer(comment, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response("update comment success")
