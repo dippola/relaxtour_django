@@ -159,7 +159,7 @@ def updateMainComment(request, id):
     serializer = MainCommentModel_serializer(comment, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
-        return Response("update comment success")
+        return Response(comment)
     return Response(serializer.errors)
 
 @api_view(['DELETE'])
