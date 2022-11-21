@@ -33,6 +33,7 @@ def createUser(request):
         imageurl = data['imageurl'],
         nickname = data['nickname'],
         provider = data['provider'],
+        token = data['token'],
     )
     serializer = UserModel_serializer(main, many=False)
     return Response(serializer.data)
@@ -125,7 +126,7 @@ def createMain(request):
 # Main에 Comment 쓰기
 @api_view(['POST'])
 def createMainComment(request, pk, uid):
-    user = UserModel.objects.filter(uid=uid)
+    user = UserModel.objects.filter(uid=request.data['uid']).first()
     main = MainModel.objects.get(id=pk)
     data = request.data
     comment = MainCommentModel.objects.create(

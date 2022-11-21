@@ -7,6 +7,7 @@ class UserModel(models.Model):
     nickname = models.CharField(max_length=14, null=True, default='', blank=True)
     imageurl = models.TextField(null=True, default='', blank=True)
     provider = models.CharField(max_length=20, null=True, default='')
+    token = models.TextField(null=True, default='', blank=True)
     class Meta:
         ordering = ['-id']
 
@@ -31,7 +32,7 @@ class MainCommentModel(models.Model):
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     uid = models.CharField(max_length=50, null=True, default='')
     body = models.TextField(null=False)
-    to = models.TextField(null=True, blank=True)
+    to = models.TextField(null=True, blank=True, default='')
     class Meta:
         ordering = ['-date']
 

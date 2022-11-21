@@ -33,7 +33,7 @@ urlpatterns = [
     path('post/<str:pk>/comment/create=<str:uid>/', views.createMainComment),
     path('post/<str:pk>/comment/update/', views.updateMainComment),
     path('post/<str:pk>/comment/delete/', views.deleteMainComment),
-    path('post/<str:pk>/comments/page=<str:page>/', views.getMainComments),
+    path('post/<str:pk>/comments/page=<str:page>/', views.getMainComments),#
 
     path('qnas/', views.getQnas),
     path('qnas/page=<str:page>/', views.getQnasPage),
