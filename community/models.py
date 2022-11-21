@@ -15,7 +15,6 @@ class MainModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    uid = models.CharField(max_length=50, null=True, default='')
     title = models.CharField(max_length=30)
     body = models.TextField(null=False)
     imageurl = models.TextField(null=True, blank=True)
