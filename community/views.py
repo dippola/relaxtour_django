@@ -115,7 +115,6 @@ def createMain(request):
     user = UserModel.objects.filter(uid=data['uid']).first()
     main = MainModel.objects.create(
         parent_user = user,
-        uid = data['uid'],
         title = data['title'],
         body = data['body'],
         imageurl = data['imageurl'],
