@@ -42,7 +42,7 @@ def createUser(request):
 def updateUser(request, uid):
     data = request.data
     user = UserModel.objects.filter(uid=uid).first()
-    serializer = UserModel_serializer(user, data=data)
+    serializer = UserModel_serializer(user, data=data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
@@ -98,16 +98,6 @@ def getMain(request, pk):
     serializer = MainModel_serializer(post, many=False)
     return Response(serializer.data)
 
-# Main에 comments 가져오기(url)
-@api_view(['GET'])
-def getMainComments(request, pk, page):
-    main_comment = MainCommentModel.objects.filter(parent_id=pk)
-    page = request.GET.get('page', page)
-    paginator = Paginator(main_comment, 15)
-    page_obj = paginator.page(page)
-    serializer = MainCommentModel_serializer(page_obj, many=True)
-    return Response(serializer.data)
-
 # Main글쓰기
 @api_view(['POST'])
 def createMain(request, id):
@@ -120,6 +110,26 @@ def createMain(request, id):
         imageurl = data['imageurl'],
     )
     serializer = MainModel_serializer(main, many=False)
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+def updateMain(request, pk):
+    data = request.data
+    main = MainModel.objects.filter(id=pk).first()
+    serializer = MainModel_serializer(main, data=data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors)
+
+# Main에 comments 가져오기(url)
+@api_view(['GET'])
+def getMainComments(request, pk, page):
+    main_comment = MainCommentModel.objects.filter(parent_id=pk)
+    page = request.GET.get('page', page)
+    paginator = Paginator(main_comment, 15)
+    page_obj = paginator.page(page)
+    serializer = MainCommentModel_serializer(page_obj, many=True)
     return Response(serializer.data)
 
 # Main에 Comment 쓰기
@@ -137,16 +147,6 @@ def createMainComment(request, pk, id):
     serializer = MainCommentModel_serializer(comment, many=False)
     return Response(serializer.data)
 
-@api_view(['PUT'])
-def updateMain(request, pk):
-    data = request.data
-    main = MainModel.objects.filter(id=pk).first()
-    serializer = MainModel_serializer(main, data=data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors)
-
 @api_view(['DELETE'])
 def deleteMain(request, pk):
     board = MainModel.objects.get(id=pk)
@@ -160,7 +160,7 @@ def updateMainComment(request, id):
     if serializer.is_valid():
         serializer.save()
         return Response("update comment success")
-    return Response(serializer.data)
+    return Response(serializer.errors)
 
 @api_view(['DELETE'])
 def deleteMainComment(request, main_pk, comment_pk):
