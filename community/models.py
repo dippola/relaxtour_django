@@ -30,7 +30,6 @@ class MainCommentModel(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     parent_id = models.ForeignKey(MainModel, on_delete=models.CASCADE)
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    uid = models.CharField(max_length=50, null=True, default='')
     body = models.TextField(null=False)
     to = models.TextField(null=True, blank=True, default='')
     class Meta:

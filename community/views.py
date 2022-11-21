@@ -125,14 +125,13 @@ def createMain(request):
 
 # Main에 Comment 쓰기
 @api_view(['POST'])
-def createMainComment(request, pk, uid):
-    user = UserModel.objects.filter(uid=request.data['uid']).first()
+def createMainComment(request, pk, id):
+    user = UserModel.objects.get(id=id)
     main = MainModel.objects.get(id=pk)
     data = request.data
     comment = MainCommentModel.objects.create(
         parent_user = user,
         parent_id = main,
-        uid = uid,
         title = data['title'],
         body = data['body'],
         to = data['to']
