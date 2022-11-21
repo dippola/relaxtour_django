@@ -163,11 +163,10 @@ def updateMainComment(request, id):
     return Response(serializer.errors)
 
 @api_view(['DELETE'])
-def deleteMainComment(request, main_pk, comment_pk):
-    comments = MainCommentModel.objects.get(parent_id=main_pk).parent_id
-    comment = comments.get(id=comment_pk)
+def deleteMainComment(request, id):
+    comment = MainCommentModel.objects.filter(id=id).first()
     comment.delete()
-    return Response('board was deleted')
+    return Response('comment was deleted')
 
 
 

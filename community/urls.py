@@ -28,11 +28,11 @@ urlpatterns = [
     path('posts/page=<str:page>/', views.getMainsPage),#
     path('post/create=<str:id>/', views.createMain),#
     path('post/comment/update=<str:id>/', views.updateMainComment),
+    path('post/comment/delete=<str:id>/', views.deleteMainComment),
     path('post/<str:pk>/', views.getMain),#
     path('post/<str:pk>/update/', views.updateMain),#
     path('post/<str:pk>/delete/', views.deleteMain),#
     path('post/<str:pk>/comment/create=<str:id>/', views.createMainComment),#
-    path('post/<str:pk>/comment/delete/', views.deleteMainComment),
     path('post/<str:pk>/comments/page=<str:page>/', views.getMainComments),#
 
     path('qnas/', views.getQnas),
