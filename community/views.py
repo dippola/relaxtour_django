@@ -154,9 +154,8 @@ def deleteMain(request, pk):
     return Response('board was deleted')
 
 @api_view(['PUT'])
-def updateMainComment(request, main_pk, comment_pk):
-    comments = MainCommentModel.objects.get(parent_id=main_pk).parent_id
-    comment = comments.get(id=comment_pk)
+def updateMainComment(request, pk):
+    comment = MainCommentModel.objects.get(id=pk)
     serializer = MainCommentModel_serializer(comment, data=request.data)
     if serializer.is_valid():
         serializer.save()
