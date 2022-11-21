@@ -31,7 +31,7 @@ urlpatterns = [
     path('post/<str:pk>/update/', views.updateMain),#
     path('post/<str:pk>/delete/', views.deleteMain),#
     path('post/<str:pk>/comment/create=<str:id>/', views.createMainComment),#
-    path('post/comment/update=<str:pk>/', views.updateMainComment),
+    path('post/comment/update=<str:id>/', views.updateMainComment),
     path('post/<str:pk>/comment/delete/', views.deleteMainComment),
     path('post/<str:pk>/comments/page=<str:page>/', views.getMainComments),#
 
