@@ -110,9 +110,9 @@ def getMainComments(request, pk, page):
 
 # Main글쓰기
 @api_view(['POST'])
-def createMain(request):
+def createMain(request, id):
     data = request.data
-    user = UserModel.objects.filter(uid=data['uid']).first()
+    user = UserModel.objects.get(id=id)
     main = MainModel.objects.create(
         parent_user = user,
         title = data['title'],
