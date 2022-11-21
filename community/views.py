@@ -132,7 +132,6 @@ def createMainComment(request, pk, id):
     comment = MainCommentModel.objects.create(
         parent_user = user,
         parent_id = main,
-        title = data['title'],
         body = data['body'],
         to = data['to']
     )
