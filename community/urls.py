@@ -33,6 +33,7 @@ urlpatterns = [
     path('post/<str:pk>/update/', views.updateMain),#
     path('post/<str:pk>/delete/', views.deleteMain),#
     path('post/<str:pk>/comment/create=<str:id>/', views.createMainComment),#
+    path('post/<str:pk>/comments/', views.getMainAllComments),#
     path('post/<str:pk>/comments/page=<str:page>/', views.getMainComments),#
 
     path('qnas/', views.getQnas),

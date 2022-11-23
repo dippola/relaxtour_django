@@ -122,6 +122,12 @@ def updateMain(request, pk):
         return Response(serializer.data)
     return Response(serializer.errors)
 
+@api_view(['GET'])
+def getMainAllComments(request, pk):
+    comments = MainCommentModel.objects.filter(parent_id=pk)
+    serializer = MainCommentModel_serializer(comments, many=True)
+    return Response(serializer.data)
+
 # Main에 comments 가져오기(url)
 @api_view(['GET'])
 def getMainComments(request, pk, page):
