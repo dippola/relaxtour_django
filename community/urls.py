@@ -19,7 +19,7 @@ urlpatterns = [
     path('user/create/', views.createUser),#
     path('user/searchemail/<str:email>/', views.searchEmail),#
     path('user/searchnickname/<str:nickname>/', views.searchNickname),#
-    path('user/<str:uid>/', views.getUser),#
+    path('user/<str:id>/', views.getUser),#
     path('user/<str:uid>/update/', views.updateUser),#
     path('user/<str:uid>/delete/', views.deleteUser),#
 

@@ -18,8 +18,8 @@ def deleteAllUser(request):
     return Response('user was deleted')
 
 @api_view(['GET'])
-def getUser(request, uid):
-    user = UserModel.objects.filter(uid=uid)
+def getUser(request, id):
+    user = UserModel.objects.filter(id=id)
     serializer = UserModel_serializer(user, many=True)
     return Response(serializer.data)
 
