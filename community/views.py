@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
 from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel
-from .serializers import UserModel_serializer, UserModel_Notification_serializer, MainModel_serializer, QnaModel_serializer, MainCommentModel_serializer, QnaCommentModel_serializer
+from .serializers import UserModel_serializer, MainModel_serializer, QnaModel_serializer, MainCommentModel_serializer, QnaCommentModel_serializer
 from django.core.paginator import Paginator
 
 from rest_framework.response import Response
