@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
 from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel
-from .serializers import UserModel_serializer, MainModel_serializer, QnaModel_serializer, MainCommentModel_serializer, QnaCommentModel_serializer
+from .serializers import UserModel_serializer, UserModel_Notification_serializer, MainModel_serializer, QnaModel_serializer, MainCommentModel_serializer, QnaCommentModel_serializer
 from django.core.paginator import Paginator
 
 from rest_framework.response import Response
@@ -58,6 +58,12 @@ def searchEmail(request, email):
 def searchNickname(request, nickname):
     user = UserModel.objects.filter(nickname=nickname)
     serializer = UserModel_serializer(user, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getUserNotification(request, id):
+    user = UserModel.objects.get(id=id).notification
+    serializer = UserModel_Notification_serializer(user, many=False)
     return Response(serializer.data)
 
 @api_view(['DELETE'])

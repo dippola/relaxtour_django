@@ -8,6 +8,7 @@ class UserModel(models.Model):
     imageurl = models.TextField(null=True, default='', blank=True)
     provider = models.CharField(max_length=20, null=True, default='')
     token = models.TextField(null=True, default='', blank=True)
+    notification = models.BooleanField(default=True)
     class Meta:
         ordering = ['-id']
 
