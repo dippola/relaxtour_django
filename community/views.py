@@ -52,7 +52,7 @@ def updateUser(request, uid):
 def updateUserNotification(request, id):
     data = request.data
     user = UserModel.objects.filter(id=id).first()
-    serializer = UserModel_serializer(user, data=data, parser=True)
+    serializer = UserModel_serializer(user, data=data, partial=True)
     if (serializer.is_valid()):
         serializer.save()
         return Response(serializer.data)
