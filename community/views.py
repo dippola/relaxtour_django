@@ -48,6 +48,16 @@ def updateUser(request, uid):
         return Response(serializer.data)
     return Response(serializer.errors)
 
+@api_view(['PUT'])
+def updateUserNotification(request, id):
+    data = request.data
+    user = UserModel.objects.filter(id=id).first()
+    serializer = UserModel_serializer(user, data=data, parser=True)
+    if (serializer.is_valid()):
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors)
+
 @api_view(['GET'])
 def searchEmail(request, email):
     user = UserModel.objects.filter(email=email)
