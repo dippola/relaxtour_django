@@ -62,8 +62,8 @@ def searchNickname(request, nickname):
 
 @api_view(['GET'])
 def getUserNotification(request, id):
-    user = UserModel.objects.get(id=id)
-    serializer = UserModel_Notification_serializer(user, many=False)
+    user = UserModel.objects.filter(id=id)
+    serializer = UserModel_serializer(user, many=False)
     return Response(serializer.data.notification)
 
 @api_view(['DELETE'])
