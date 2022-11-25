@@ -22,7 +22,7 @@ urlpatterns = [
     path('user/<str:id>/', views.getUser),#
     path('user/<str:uid>/update/', views.updateUser),#
     path('user/<str:uid>/delete/', views.deleteUser),#
-    path('user/<str:id>/updatenotification', views.updateUserNotification),#
+    path('user/<str:id>/updatenotification/', views.updateUserNotification),#
 
     path('posts/', views.getMains),#
     path('posts/delete/', views.deleteAllMain),#will delete
