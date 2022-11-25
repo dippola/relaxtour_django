@@ -7,11 +7,6 @@ class UserModel_serializer(serializers.ModelSerializer):
         model = UserModel
         fields = '__all__'
 
-class UserModel_Notification_serializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserModel
-        fields = ('notification')
-
 class MainModel_serializer(serializers.ModelSerializer):
     class Meta:
         model = MainModel
