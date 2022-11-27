@@ -17,7 +17,7 @@ class MainModelView(models.Model):
     date = models.TextField()
     title = models.TextField()
     imageurl = models.TextField()
-    count = models.IntegerField()
+    commentcount = models.IntegerField()
     like = models.IntegerField()
 
 class MainModel(models.Model):
@@ -27,7 +27,7 @@ class MainModel(models.Model):
     title = models.CharField(max_length=30)
     body = models.TextField(null=False)
     imageurl = models.TextField(null=True, blank=True)
-    count = models.PositiveIntegerField(default=0)
+    view = models.PositiveIntegerField(default=0)
     like = models.PositiveIntegerField(default=0)
     list = models.TextField(null=True, default='')
     class Meta:
