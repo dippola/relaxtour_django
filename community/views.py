@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
 from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel, MainModelView
-from .serializers import UserModel_serializer, MainModel_serializer, QnaModel_serializer, MainCommentModel_serializer, QnaCommentModel_serializer
+from .serializers import UserModel_serializer, MainModel_serializer, QnaModel_serializer, MainCommentModel_serializer, QnaCommentModel_serializer, MainModelView_serializer
 from django.core.paginator import Paginator
 
 from rest_framework.response import Response
@@ -118,7 +118,7 @@ def getMainsPage(request, page):
             like=i.like
         )
         postview.append(model)
-    serializer = MainModel_serializer(postview, many=True)
+    serializer = MainModelView_serializer(postview, many=True)
     return Response(serializer.data)
 
 # Main 하나 가져오기(url)
