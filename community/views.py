@@ -107,7 +107,7 @@ def getMainsPage(request, page):
     page = request.GET.get('page', page)
     paginator =Paginator(posts, 15)
     page_obj = paginator.page(page)
-    postview = {}
+    postview = []
     for i in page_obj:
         model = MainModelView(
             parent_user=i.data['parent_user'],
