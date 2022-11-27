@@ -12,6 +12,14 @@ class UserModel(models.Model):
     class Meta:
         ordering = ['-id']
 
+class MainModelView(models.Model):
+    parent_user = models.IntegerField()
+    date = models.TextField()
+    title = models.TextField()
+    imageurl = models.TextField()
+    count = models.IntegerField()
+    like = models.IntegerField()
+
 class MainModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)

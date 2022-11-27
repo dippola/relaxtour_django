@@ -1,5 +1,5 @@
 from rest_framework.decorators import api_view
-from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel
+from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel, MainModelView
 from .serializers import UserModel_serializer, MainModel_serializer, QnaModel_serializer, MainCommentModel_serializer, QnaCommentModel_serializer
 from django.core.paginator import Paginator
 
@@ -92,12 +92,31 @@ def deleteAllMain(request):
     return Response("deleted all main")
 
 # Main paginator(url)
+# @api_view(['GET'])
+# def getMainsPage(request, page):
+#     posts = MainModel.objects.all()
+#     page = request.GET.get('page', page)
+#     paginator =Paginator(posts, 15)
+#     page_obj = paginator.page(page)
+#     serializer = MainModel_serializer(page_obj, many=True)
+#     return Response(serializer.data)
+
 @api_view(['GET'])
 def getMainsPage(request, page):
     posts = MainModel.objects.all()
     page = request.GET.get('page', page)
     paginator =Paginator(posts, 15)
     page_obj = paginator.page(page)
+    postview = MainModelView.objects
+    for i in page_obj:
+        postview.add(
+            parent_user = i.data['parent_user'],
+            date = i.data['date'],
+            title = i.data['title'],
+            imageurl = i.data['imageurl'],
+            count = MainCommentModel.objects.filter(parent_id=i.data['parent_id']),
+            like = i.data['like']
+        )
     serializer = MainModel_serializer(page_obj, many=True)
     return Response(serializer.data)
 
