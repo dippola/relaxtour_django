@@ -107,16 +107,17 @@ def getMainsPage(request, page):
     page = request.GET.get('page', page)
     paginator =Paginator(posts, 15)
     page_obj = paginator.page(page)
-    postview = MainModelView.objects
+    postview = {}
     for i in page_obj:
-        postview.add(
-            parent_user = i.data['parent_user'],
-            date = i.data['date'],
-            title = i.data['title'],
-            imageurl = i.data['imageurl'],
-            count = MainCommentModel.objects.filter(parent_id=i.data['parent_id']),
-            like = i.data['like']
+        model = MainModelView(
+            parent_user=i.data['parent_user'],
+            date=i.data['date'],
+            title=i.data['title'],
+            imageurl=i.data['imageurl'],
+            count=MainCommentModel.objects.filter(parent_id=i.data['parent_id']),
+            like=i.data['like']
         )
+        postview.append(model)
     serializer = MainModel_serializer(postview, many=True)
     return Response(serializer.data)
 
