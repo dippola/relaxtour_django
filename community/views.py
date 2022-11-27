@@ -110,7 +110,7 @@ def getMainsPage(request, page):
     postview = []
     for i in page_obj:
         print("check1: " + str(i.id))
-        print("check2: " + str(int(i.parent_user)))
+        print("check2: " + str(int(i.parent_user.id)))
         print("check3: " + str(i.date))
         print("check4: " + i.title)
         print("check5: " + i.imageurl)
@@ -118,7 +118,7 @@ def getMainsPage(request, page):
         print("check7: " + str(i.like))
         model = MainModelView(
             parent_id=i.id,
-            parent_user=i.parent_user,
+            parent_user=i.parent_user.id,
             date=i.date,
             title=i.title,
             imageurl=i.imageurl,
