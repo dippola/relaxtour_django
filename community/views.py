@@ -111,7 +111,7 @@ def getMainsPage(request, page):
     for i in page_obj:
         model = MainModelView(
             parent_id=i.id,
-            parent_user=i.parent_user,
+            parent_user=int(i.parent_user),
             date=i.date,
             title=i.title,
             imageurl=i.imageurl,
