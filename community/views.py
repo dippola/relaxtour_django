@@ -110,12 +110,12 @@ def getMainsPage(request, page):
     postview = []
     for i in page_obj:
         model = MainModelView(
-            parent_user=page_obj[i].data['parent_user'],
-            date=page_obj[i].data['date'],
-            title=page_obj[i].data['title'],
-            imageurl=page_obj[i].data['imageurl'],
+            parent_user=page_obj.parent_user,
+            date=page_obj.date,
+            title=page_obj.title,
+            imageurl=i.data['imageurl'],
             count=MainCommentModel.objects.filter(parent_id=i.data['parent_id']),
-            like=page_obj[i].data['like']
+            like=page_obj.like
         )
         postview.append(model)
     serializer = MainModel_serializer(postview, many=True)
