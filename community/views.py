@@ -111,6 +111,7 @@ def getMainsPage(request, page):
     for i in page_obj:
         print("check1: " + str(i.id))
         print("check2: " + str(int(i.parent_user.id)))
+        print("check2_1: " + i.parent_user.nickname)
         print("check3: " + str(i.date))
         print("check4: " + i.title)
         print("check5: " + i.imageurl)
@@ -119,6 +120,7 @@ def getMainsPage(request, page):
         model = MainModelView(
             parent_id=i.id,
             parent_user=i.parent_user.id,
+            nickname=i.parent_user.nickname,
             date=i.date,
             title=i.title,
             imageurl=i.imageurl,

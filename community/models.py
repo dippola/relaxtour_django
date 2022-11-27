@@ -15,6 +15,7 @@ class UserModel(models.Model):
 class MainModelView(models.Model):
     parent_id = models.IntegerField(null=True)
     parent_user = models.IntegerField()
+    nickname = models.TextField()
     date = models.TextField()
     title = models.TextField()
     imageurl = models.TextField()
