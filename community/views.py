@@ -117,7 +117,7 @@ def getMainsPage(request, page):
             count = MainCommentModel.objects.filter(parent_id=i.data['parent_id']),
             like = i.data['like']
         )
-    serializer = MainModel_serializer(page_obj, many=True)
+    serializer = MainModel_serializer(postview, many=True)
     return Response(serializer.data)
 
 # Main 하나 가져오기(url)
