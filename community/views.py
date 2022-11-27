@@ -109,8 +109,13 @@ def getMainsPage(request, page):
     page_obj = paginator.page(page)
     postview = []
     for i in page_obj:
-        print("check1: " + i.date)
-        print(MainCommentModel.objects.filter(parent_id=i.id).first().count())
+        print("check1: " + i.id)
+        print("check2: " + i.parent_user)
+        print("check3: " + i.date)
+        print("check4: " + i.title)
+        print("check5: " + i.imageurl)
+        print("check6: " + i.MainCommentModel.objects.filter(parent_id=i.id).first().count())
+        print("check7: " + i.like)
         model = MainModelView(
             parent_id=i.id,
             parent_user=i.parent_user,
