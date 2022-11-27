@@ -13,7 +13,7 @@ class UserModel(models.Model):
         ordering = ['-id']
 
 class MainModelView(models.Model):
-    pid = models.IntegerField()
+    id = models.IntegerField(null=True, default='')
     parent_user = models.IntegerField()
     date = models.TextField()
     title = models.TextField()

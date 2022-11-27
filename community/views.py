@@ -110,12 +110,12 @@ def getMainsPage(request, page):
     postview = []
     for i in page_obj:
         model = MainModelView(
-            pid=i.id,
+            id=i.id,
             parent_user=i.parent_user,
             date=i.date,
             title=i.title,
             imageurl=i.imageurl,
-            commentcount=MainCommentModel.objects.filter(pid=i.parent_id).count(),
+            commentcount=MainCommentModel.objects.filter(parent_id=i.id).count(),
             like=i.like
         )
         postview.append(model)
