@@ -110,7 +110,7 @@ def getMainsPage(request, page):
     postview = []
     for i in page_obj:
         print("check1: " + str(i.id))
-        print("check2: " + str(i.parent_user))
+        print("check2: " + str(int(i.parent_user)))
         print("check3: " + str(i.date))
         print("check4: " + i.title)
         print("check5: " + i.imageurl)
