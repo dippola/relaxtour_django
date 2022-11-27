@@ -110,7 +110,7 @@ def getMainsPage(request, page):
     postview = []
     for i in page_obj:
         model = MainModelView(
-            id=i.id,
+            parent_id=i.id,
             parent_user=i.parent_user,
             date=i.date,
             title=i.title,
