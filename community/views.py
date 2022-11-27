@@ -115,7 +115,7 @@ def getMainsPage(request, page):
             date=i.date,
             title=i.title,
             imageurl=i.imageurl,
-            commentcount=MainCommentModel.objects.filter(parent_id=i.id).count(),
+            commentcount=MainCommentModel.objects.filter(parent_id=i.id).first().count(),
             like=i.like
         )
         postview.append(model)
