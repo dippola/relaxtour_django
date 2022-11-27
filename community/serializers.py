@@ -10,7 +10,7 @@ class UserModel_serializer(serializers.ModelSerializer):
 class MainModelView_serializer(serializers.ModelSerializer):
     class Meta:
         model = MainModelView
-        field = '__all__'
+        fields = '__all__'
 
 class MainModel_serializer(serializers.ModelSerializer):
     class Meta:
