@@ -108,14 +108,14 @@ def getMainsPage(request, page):
     paginator =Paginator(posts, 15)
     page_obj = paginator.page(page)
     postview = []
-    for i in page_obj:
+    for i in page_obj.count():
         model = MainModelView(
-            parent_user=i['parent_user'],
-            date=i['date'],
-            title=i['title'],
-            imageurl=i['imageurl'],
+            parent_user=page_obj(i)['parent_user'],
+            date=page_obj(i)['date'],
+            title=page_obj(i)['title'],
+            imageurl=page_obj(i)['imageurl'],
             count=MainCommentModel.objects.filter(parent_id=i.data['parent_id']),
-            like=i['like']
+            like=page_obj(i)['like']
         )
         postview.append(model)
     serializer = MainModel_serializer(postview, many=True)
