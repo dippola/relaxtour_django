@@ -114,7 +114,7 @@ def getMainsPage(request, page):
         print("check3: " + str(i.date))
         print("check4: " + i.title)
         print("check5: " + i.imageurl)
-        print("check6: " + str(i.MainCommentModel.objects.filter(parent_id=i.id).first().count()))
+        print("check6: " + str(MainCommentModel.objects.filter(parent_id=i.id).count()))
         print("check7: " + str(i.like))
         model = MainModelView(
             parent_id=i.id,
@@ -122,7 +122,7 @@ def getMainsPage(request, page):
             date=i.date,
             title=i.title,
             imageurl=i.imageurl,
-            commentcount=MainCommentModel.objects.filter(parent_id=i.id).first().count(),
+            commentcount=MainCommentModel.objects.filter(parent_id=i.id).count(),
             like=i.like
         )
         postview.append(model)
