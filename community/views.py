@@ -117,7 +117,7 @@ def getMainsPage(request, page):
 # Main 하나 가져오기(url)
 @api_view(['GET'])
 def getMainDetail(request, pk):
-    post = MainModel.objects.get(id=pk)
+    post = MainModel.objects.filter(id=pk).first()
     postDetail = []
     model = MainModelDetail(
         parent_id = post.id,
@@ -131,7 +131,7 @@ def getMainDetail(request, pk):
         view=post.view,
         like=post.like,
         list=post.list,
-        comment=MainCommentModel.objects.filter(parent_id=int(post.id))
+        comment=MainCommentModel.objects.filter(parent_id=post.id)
     )
     postDetail.append(model)
     serializer = MainModelDetail_serializer(postDetail, many=True)
