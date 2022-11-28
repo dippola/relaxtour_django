@@ -119,6 +119,16 @@ def getMainsPage(request, page):
 def getMainDetail(request, pk):
     post = MainModel.objects.filter(id=pk).first()
     postDetail = []
+    commentModel = []
+    for i in MainCommentModel.objects.filter(parent_id=post.id):
+        cm = MainCommentModel(
+            id=i.id,
+            date=i.date,
+            parent_id=i.parent_id,
+            parent_user=i.parent_user,
+            body=i.body,
+            to=i.to
+        )
     model = MainModelDetail(
         parent_id = post.id,
         parent_user=post.parent_user.id,
@@ -131,7 +141,8 @@ def getMainDetail(request, pk):
         view=post.view,
         like=post.like,
         list=post.list,
-        comment=MainCommentModel.objects.filter(parent_id=post.id)
+        comment=commentModel
+        # comment=MainCommentModel.objects.filter(parent_id=post.id)
     )
     postDetail.append(model)
     serializer = MainModelDetail_serializer(postDetail, many=True)
