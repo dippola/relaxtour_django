@@ -20,7 +20,7 @@ class MainModelView(models.Model):#no save data
     title = models.TextField()
     imageurl = models.TextField()
     commentcount = models.IntegerField()#make view
-    view = models.IntegerField()
+    view = models.IntegerField(default=0)
     like = models.IntegerField()
 
 # class MainModelDetail(models.Model):
