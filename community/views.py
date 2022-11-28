@@ -144,7 +144,7 @@ def getMainDetail(request, pk):
         like=post.like,
         list=post.list,
         # comment=cm
-        # comment=MainCommentModel.objects.filter(parent_id=post.id)
+        comment=MainCommentModel.objects.filter(parent_id=post.id)
     )
     postDetail.append(model)
     serializer = MainModelDetail_serializer(postDetail, many=True)
