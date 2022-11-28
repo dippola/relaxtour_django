@@ -131,7 +131,7 @@ def getMainDetail(request, pk):
         view=post.view,
         like=post.like,
         list=post.list,
-        comment=MainCommentModel.objects.filter(parent_id=post.id)['id']
+        comment=MainCommentModel.objects.filter(parent_id=post.id)
     )
     postDetail.append(model)
     serializer = MainModelDetail_serializer(postDetail, many=True)
