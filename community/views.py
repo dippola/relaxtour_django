@@ -120,9 +120,8 @@ def getMainDetail(request, pk):
     post = MainModel.objects.filter(id=pk).first()
     postDetail = []
     cm = []
-    for i in MainCommentModel.objects.filter(parent_id=post.id).iterator():
-        # cm.add(i)
-        cm = MainCommentModel(
+    for i in MainCommentModel.objects.filter(parent_id=post.id):
+        cm1 = MainCommentModel(
             id=i.id,
             date=i.date,
             parent_id=i.parent_id,
@@ -130,6 +129,7 @@ def getMainDetail(request, pk):
             body=i.body,
             to=i.to
         )
+        cm.append(cm1)
     model = MainModelDetail(
         parent_id = post.id,
         parent_user=post.parent_user.id,
