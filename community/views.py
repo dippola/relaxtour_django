@@ -103,6 +103,7 @@ def getMainsPage(request, page):
             parent_id=i.id,
             parent_user=i.parent_user.id,
             nickname=i.parent_user.nickname,
+            user_image=i.parent_user.imageurl,
             date=i.date,
             title=i.title,
             imageurl=i.imageurl,

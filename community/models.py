@@ -16,6 +16,7 @@ class MainModelView(models.Model):#only get
     parent_id = models.IntegerField(null=True)
     parent_user = models.IntegerField()
     nickname = models.TextField(null=True, default='')
+    user_image = models.TextField()
     date = models.TextField()
     title = models.TextField()
     imageurl = models.TextField()
