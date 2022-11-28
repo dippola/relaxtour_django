@@ -119,7 +119,7 @@ def getMainsPage(request, page):
 def getMainDetail(request, pk):
     post = MainModel.objects.filter(id=pk).first()
     postDetail = []
-    commentModel = []
+    cm = []
     for i in MainCommentModel.objects.filter(parent_id=post.id):
         cm = MainCommentModel(
             id=i.id,
@@ -129,7 +129,6 @@ def getMainDetail(request, pk):
             body=i.body,
             to=i.to
         )
-    commentModel.append(cm)
     model = MainModelDetail(
         parent_id = post.id,
         parent_user=post.parent_user.id,
@@ -142,7 +141,7 @@ def getMainDetail(request, pk):
         view=post.view,
         like=post.like,
         list=post.list,
-        comment=commentModel
+        comment=cm
         # comment=MainCommentModel.objects.filter(parent_id=post.id)
     )
     postDetail.append(model)
