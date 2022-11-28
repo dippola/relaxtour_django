@@ -91,16 +91,6 @@ def deleteAllMain(request):
     posts.delete()
     return Response("deleted all main")
 
-# Main paginator(url)
-# @api_view(['GET'])
-# def getMainsPage(request, page):
-#     posts = MainModel.objects.all()
-#     page = request.GET.get('page', page)
-#     paginator =Paginator(posts, 15)
-#     page_obj = paginator.page(page)
-#     serializer = MainModel_serializer(page_obj, many=True)
-#     return Response(serializer.data)
-
 @api_view(['GET'])
 def getMainsPage(request, page):
     posts = MainModel.objects.all()
@@ -109,14 +99,6 @@ def getMainsPage(request, page):
     page_obj = paginator.page(page)
     postview = []
     for i in page_obj:
-        print("check1: " + str(i.id))
-        print("check2: " + str(int(i.parent_user.id)))
-        print("check2_1: " + i.parent_user.nickname)
-        print("check3: " + str(i.date))
-        print("check4: " + i.title)
-        print("check5: " + i.imageurl)
-        print("check6: " + str(MainCommentModel.objects.filter(parent_id=i.id).count()))
-        print("check7: " + str(i.like))
         model = MainModelView(
             parent_id=i.id,
             parent_user=i.parent_user.id,

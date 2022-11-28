@@ -12,15 +12,26 @@ class UserModel(models.Model):
     class Meta:
         ordering = ['-id']
 
-class MainModelView(models.Model):
+class MainModelView(models.Model):#no save data
     parent_id = models.IntegerField(null=True)
     parent_user = models.IntegerField()
     nickname = models.TextField(null=True, default='')
     date = models.TextField()
     title = models.TextField()
     imageurl = models.TextField()
-    commentcount = models.IntegerField()
+    commentcount = models.IntegerField()#make view
+    view = models.IntegerField()
     like = models.IntegerField()
+
+# class MainModelDetail(models.Model):
+#     parent_id = models.IntegerField(null=True)
+#     parent_user = models.IntegerField()
+#     nickname = models.TextField(null=True, default='')
+#     user_url = models.TextField(null=True, default='')
+#     date = models.TextField()
+#     title = models.TextField()
+#     imageurl = models.TextField()
+#     view = models.
 
 class MainModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
