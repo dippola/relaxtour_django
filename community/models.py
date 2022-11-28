@@ -12,26 +12,29 @@ class UserModel(models.Model):
     class Meta:
         ordering = ['-id']
 
-class MainModelView(models.Model):#no save data
+class MainModelView(models.Model):#only get
     parent_id = models.IntegerField(null=True)
     parent_user = models.IntegerField()
     nickname = models.TextField(null=True, default='')
     date = models.TextField()
     title = models.TextField()
     imageurl = models.TextField()
-    commentcount = models.IntegerField()#make view
+    commentcount = models.IntegerField()
     view = models.IntegerField(default=0)
     like = models.IntegerField()
 
-# class MainModelDetail(models.Model):
-#     parent_id = models.IntegerField(null=True)
-#     parent_user = models.IntegerField()
-#     nickname = models.TextField(null=True, default='')
-#     user_url = models.TextField(null=True, default='')
-#     date = models.TextField()
-#     title = models.TextField()
-#     imageurl = models.TextField()
-#     view = models.
+class MainModelDetail(models.Model):#only get
+    parent_id = models.IntegerField(null=True)
+    parent_user = models.IntegerField()
+    nickname = models.TextField(null=True, default='')
+    user_url = models.TextField(null=True, default='')
+    date = models.TextField()
+    title = models.TextField()
+    body = models.TextField()
+    imageurl = models.TextField()
+    view = models.IntegerField(default=0)
+    like = models.IntegerField()
+    list = models.TextField()
 
 class MainModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
@@ -44,7 +47,7 @@ class MainModel(models.Model):
     like = models.PositiveIntegerField(default=0)
     list = models.TextField(null=True, default='')
     class Meta:
-        ordering = ['-date']
+        ordering = ['date']
 
 class MainCommentModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
