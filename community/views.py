@@ -130,7 +130,7 @@ def getMainDetail(request, pk):
             to=i.to
         )
         cm.append(cm1)
-    print("check size: " + cm.count())
+    print("check size: " + cm[0].body)
     model = MainModelDetail(
         parent_id = post.id,
         parent_user=post.parent_user.id,
