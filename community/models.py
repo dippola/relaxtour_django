@@ -59,7 +59,7 @@ class MainModelDetail(models.Model):#only get
     view = models.IntegerField(default=0)
     like = models.IntegerField()
     list = models.TextField()
-    comment = models.ForeignKey(MainCommentModel, on_delete=models.CASCADE)
+    comment = models.ForeignKey(MainCommentModel, on_delete=models.CASCADE, default='')
 
 class QnaModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
