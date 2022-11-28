@@ -119,17 +119,17 @@ def getMainsPage(request, page):
 def getMainDetail(request, pk):
     post = MainModel.objects.filter(id=pk).first()
     postDetail = []
-    cm = []
-    for i in MainCommentModel.objects.filter(parent_id=post.id):
-        cm1 = MainCommentModel(
-            id=i.id,
-            date=i.date,
-            parent_id=i.parent_id,
-            parent_user=i.parent_user,
-            body=i.body,
-            to=i.to
-        )
-        cm.append(cm1)
+    # cm = []
+    # for i in MainCommentModel.objects.filter(parent_id=post.id):
+    #     cm1 = MainCommentModel(
+    #         id=i.id,
+    #         date=i.date,
+    #         parent_id=i.parent_id,
+    #         parent_user=i.parent_user,
+    #         body=i.body,
+    #         to=i.to
+    #     )
+    #     cm.append(cm1)
     print("check size: " + cm[0].body)
     model = MainModelDetail(
         parent_id = post.id,
@@ -143,7 +143,7 @@ def getMainDetail(request, pk):
         view=post.view,
         like=post.like,
         list=post.list,
-        comment={cm}
+        # comment=cm
         # comment=MainCommentModel.objects.filter(parent_id=post.id)
     )
     postDetail.append(model)

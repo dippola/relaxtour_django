@@ -60,7 +60,8 @@ class MainModelDetail(models.Model):#only get
     like = models.IntegerField()
     list = models.TextField()
     # comment = models.ForeignKey(MainCommentModel, on_delete=models.CASCADE, default='')
-    comment = models.ManyToManyField(MainCommentModel)
+    # comment = models.ManyToManyField(MainCommentModel)
+    comment = models.ManyToManyField(MainCommentModel.objedts.filter(parent_id=parent_id))
 
 class QnaModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
