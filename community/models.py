@@ -24,20 +24,6 @@ class MainModelView(models.Model):#only get
     view = models.IntegerField(default=0)
     like = models.IntegerField()
 
-class MainModelDetail(models.Model):#only get
-    parent_id = models.IntegerField(null=True)
-    parent_user = models.IntegerField()
-    nickname = models.TextField(null=True, default='')
-    user_url = models.TextField(null=True, default='')
-    date = models.TextField()
-    title = models.TextField()
-    body = models.TextField()
-    imageurl = models.TextField()
-    view = models.IntegerField(default=0)
-    like = models.IntegerField()
-    list = models.TextField()
-    comment = models.ForeignKey()
-
 class MainModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
@@ -59,7 +45,7 @@ class MainCommentModel(models.Model):
     body = models.TextField(null=False)
     to = models.TextField(null=True, blank=True, default='')
     class Meta:
-        ordering = ['-date']
+        ordering = ['date']
 
 class MainModelDetail(models.Model):#only get
     parent_id = models.IntegerField(null=True)
