@@ -43,7 +43,6 @@ class MainCommentModel(models.Model):
     parent_id = models.ForeignKey(MainModel, on_delete=models.CASCADE)
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     body = models.TextField(null=False)
-    to = models.TextField(null=True, blank=True, default='')
     class Meta:
         ordering = ['date']
 
