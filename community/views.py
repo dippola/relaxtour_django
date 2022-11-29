@@ -119,6 +119,7 @@ def getMainsPage(request, page):
 def getMainDetail(request, pk):
     post = MainModel.objects.filter(id=pk).first()
     # comments = MainCommentModel.objects.filter(parent_id=pk)
+
     detail = MainModelDetail(
         parent_id=post.id,
         parent_user=post.parent_user,
