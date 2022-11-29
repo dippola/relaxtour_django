@@ -118,25 +118,23 @@ def getMainsPage(request, page):
 @api_view(['GET'])
 def getMainDetail(request, pk):
     post = MainModel.objects.filter(id=pk).first()
-    # comments = MainCommentModel.objects.filter(parent_id=pk)
-
-    detail = MainModelDetail(
-        parent_id=post.id,
-        parent_user=post.parent_user,
-        nickname=UserModel.objects.get(id=post.parent_user.id).nickname,
-        user_url=UserModel.objects.get(id=post.parent_user.id).imageurl,
-        date=post.date,
-        title=post.title,
-        body=post.body,
-        imageurl=post.imageurl,
-        view=post.view,
-        like=post.like,
-        list=post.list,
-        comment=MainCommentModel.objects.filter(parent_id=post.id)
-        # comment=comments
-    )
-    # detail.comment.set(comments)
-    serializer=MainModelDetail_serializer(detail, many=True)
+    comments = MainCommentModel.objects.filter(parent_id=pk)
+    # detail = MainModel(
+    #     parent_id=post.id,
+    #     parent_user=post.parent_user,
+    #     nickname=UserModel.objects.get(id=post.parent_user.id).nickname,
+    #     user_url=UserModel.objects.get(id=post.parent_user.id).imageurl,
+    #     date=post.date,
+    #     title=post.title,
+    #     body=post.body,
+    #     imageurl=post.imageurl,
+    #     view=post.view,
+    #     like=post.like,
+    #     list=post.list,
+    #     # comment=MainCommentModel.objects.filter(parent_id=post.id)
+    # )
+    post.comment.set(comments)
+    serializer=MainModel_serializer(post, many=True)
     return Response(serializer.data)
 
 # Main 하나 가져오기(url)
