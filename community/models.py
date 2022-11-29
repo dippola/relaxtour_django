@@ -48,7 +48,6 @@ class MainCommentModel(models.Model):
         ordering = ['date']
 
 class MainModelDetail(models.Model):#only get
-    id = models.AutoField(primary_key=True)
     parent_id = models.IntegerField(null=True)
     parent_user = models.IntegerField()
     nickname = models.TextField(null=True, default='')
@@ -61,7 +60,7 @@ class MainModelDetail(models.Model):#only get
     like = models.IntegerField()
     list = models.TextField()
     # comment = models.ForeignKey(MainCommentModel, on_delete=models.CASCADE, default='')
-    comment = models.ManyToManyField(MainCommentModel)
+    comment = MainCommentModel
     # comment = models.ManyToManyField(MainCommentModel.objects.filter(parent_id=parent_id))
 
 class QnaModel(models.Model):
