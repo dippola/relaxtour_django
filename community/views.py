@@ -131,7 +131,7 @@ def getMainDetail(request, pk):
         like=post.like,
         list=post.list
     )
-    serializer = MainModelDetail_serializer(model, many=True)
+    serializer = MainModelDetail_serializer(model)
     return Response(serializer.data)
 
 # Main 하나 가져오기(url)
