@@ -22,7 +22,7 @@ class MainCommentModel_serializer(serializers.ModelSerializer):
         model = MainCommentModel
         fields = '__all__'
 class MainModel_serializer(serializers.ModelSerializer):
-    comment = MainCommentModel_serializer(allow_null=True, many=True)
+    comment = MainCommentModel_serializer(many=True)
     class Meta:
         model = MainModel
         fields = '__all__'
