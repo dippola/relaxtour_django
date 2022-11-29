@@ -118,25 +118,11 @@ def getMainsPage(request, page):
 @api_view(['GET'])
 def getMainDetail(request, pk):
     post = MainModel.objects.filter(id=pk).first()
-    # postDetail = []
-    # cm = []
-    # for i in MainCommentModel.objects.filter(parent_id=post.id):
-    #     cm1 = MainCommentModel(
-    #         id=i.id,
-    #         date=i.date,
-    #         parent_id=i.parent_id,
-    #         parent_user=i.parent_user,
-    #         body=i.body,
-    #         to=i.to
-    #     )
-    #     cm.append(cm1)
-    # print("check size: " + cm[0].body)
-    comments = MainCommentModel.objects.filter(parent_id=post.id)
-    model = MainModelDetail(
-        parent_id = post.id,
-        parent_user=post.parent_user.id,
-        nickname=post.parent_user.nickname,
-        user_url=post.parent_user.imageurl,
+    detail = MainModelDetail(
+        parent_id=post.id,
+        parent_user=post.parent_user,
+        nickname=UserModel.objects.filter(id=post.parent_user).nickname,
+        user_url=UserModel.objects.filter(id=post.parent_user).imageurl,
         date=post.date,
         title=post.title,
         body=post.body,
@@ -144,11 +130,9 @@ def getMainDetail(request, pk):
         view=post.view,
         like=post.like,
         list=post.list,
-        # comment=cm
+        comment=MainCommentModel.objects.filter(parent_id=post.id)
     )
-    model.comment.add(comments)
-    # postDetail.append(model)
-    serializer = MainModelDetail_serializer(model, many=True)
+    serializer=MainModelDetail_serializer(detail, many=True)
     return Response(serializer.data)
 
 # Main 하나 가져오기(url)
