@@ -118,7 +118,9 @@ def getMainsPage(request, page):
 @api_view(['GET'])
 def getMainDetail(request, pk):
     post = MainModel.objects.filter(id=pk).first()
+    print(">>>title: " + str(post.title))
     comments = MainCommentModel.objects.filter(parent_id=post.id)
+    print(">>>comment: " + comments[0].body)
     # detail = MainModel(
     #     parent_id=post.id,
     #     parent_user=post.parent_user,
