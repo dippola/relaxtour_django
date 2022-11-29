@@ -196,7 +196,6 @@ def createMainComment(request, pk, id):
         parent_user = user,
         parent_id = main,
         body = data['body'],
-        to = data['to']
     )
     serializer = MainCommentModel_serializer(comment, many=False)
     return Response(serializer.data)
