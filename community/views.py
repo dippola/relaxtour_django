@@ -139,7 +139,7 @@ def getMainDetail(request, pk):
     #     post.comment.add(i.id)
     #     print(">>>check: " + i.body)
     # post.comment.add(comments)
-    post.comment.append(comments)
+    post.comment = comments
     serializer=MainModel_serializer(post, many=True)
     return Response(serializer.data)
 
