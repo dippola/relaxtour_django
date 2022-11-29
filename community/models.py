@@ -48,7 +48,7 @@ class MainCommentModel(models.Model):
         ordering = ['date']
 
 class MainModelDetail(models.Model):#only get
-    parent_id = models.IntegerField(primary_key=True)
+    parent_id = models.IntegerField(primary_key=True, null=True)
     parent_user = models.IntegerField()
     nickname = models.TextField(null=True, default='')
     user_url = models.TextField(null=True, default='')
