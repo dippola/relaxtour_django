@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
-from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel, MainModelView, MainModelDetail
-from .serializers import UserModel_serializer, MainModel_serializer, QnaModel_serializer, MainCommentModel_serializer, QnaCommentModel_serializer, MainModelView_serializer, MainModelDetail_serializer
+from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel, MainModelView
+from .serializers import UserModel_serializer, MainModel_serializer, QnaModel_serializer, MainCommentModel_serializer, QnaCommentModel_serializer, MainModelView_serializer
 from django.core.paginator import Paginator
 
 from rest_framework.response import Response
@@ -115,10 +115,30 @@ def getMainsPage(request, page):
     return Response(serializer.data)
 
 # Main 하나 가져오기(url)
+# @api_view(['GET'])
+# def getMainDetail(request, pk):
+#     post = MainModel.objects.filter(id=pk).first()
+#     model = MainModelDetail(
+#         parent_id=post.id,
+#         parent_user=post.parent_user.id,
+#         nickname=post.parent_user.nickname,
+#         user_url=post.parent_user.imageurl,
+#         date=post.date,
+#         title=post.title,
+#         body=post.body,
+#         imageurl=post.imageurl,
+#         view=post.view,
+#         like=post.like,
+#         list=post.list
+#     )
+#     serializer = MainModelDetail_serializer(model)
+#     return Response(serializer.data)
+
 @api_view(['GET'])
 def getMainDetail(request, pk):
     post = MainModel.objects.filter(id=pk).first()
-    model = MainModelDetail(
+    comments = MainCommentModel.objects.filter(parent_id=post.id)
+    model = MainModel(
         parent_id=post.id,
         parent_user=post.parent_user.id,
         nickname=post.parent_user.nickname,
@@ -131,7 +151,9 @@ def getMainDetail(request, pk):
         like=post.like,
         list=post.list
     )
-    serializer = MainModelDetail_serializer(model)
+    for i in comments:
+        post.comment.add(i)
+    serializer = MainModel_serializer(model)
     return Response(serializer.data)
 
 # Main 하나 가져오기(url)
