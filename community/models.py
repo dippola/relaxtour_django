@@ -48,6 +48,7 @@ class MainCommentModel(models.Model):
         ordering = ['date']
 
 class MainModelDetail(models.Model):#only get
+    id = models.AutoField(primany_key=True)
     parent_id = models.IntegerField(null=True)
     parent_user = models.IntegerField()
     nickname = models.TextField(null=True, default='')
