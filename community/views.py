@@ -136,7 +136,7 @@ def getMainDetail(request, pk):
     #     # comment=MainCommentModel.objects.filter(parent_id=post.id)
     # )
     for i in comments:
-        post.comment.add(i.id)
+        post.comment.add([i.id])
         print(">>>check: " + i.body)
     # post.comment.add(comments)
     # post.comment = comments
