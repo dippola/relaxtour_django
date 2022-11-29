@@ -36,7 +36,7 @@ class MainModel(models.Model):
     view = models.PositiveIntegerField(default=0)
     like = models.PositiveIntegerField(default=0)
     list = models.TextField(null=True, default='')
-    comment = models.ManyToManyField('MainCommentModel', through='MainCommentModel')
+    comment = models.ManyToManyField('MainCommentModel')
     class Meta:
         ordering = ['date']
 
