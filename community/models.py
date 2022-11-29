@@ -49,22 +49,6 @@ class MainCommentModel(models.Model):
     class Meta:
         ordering = ['date']
 
-class MainModelDetail(models.Model):#only get
-    parent_id = models.IntegerField(null=True)
-    parent_user = models.IntegerField()
-    nickname = models.TextField(null=True, default='')
-    user_url = models.TextField(null=True, default='')
-    date = models.TextField()
-    title = models.TextField()
-    body = models.TextField()
-    imageurl = models.TextField()
-    view = models.IntegerField(default=0)
-    like = models.IntegerField()
-    list = models.TextField()
-    # comment = models.ForeignKey(MainCommentModel, on_delete=models.CASCADE, default='')
-    comment = models.ManyToManyField(MainCommentModel)
-    # comment = models.ManyToManyField(MainCommentModel.objects.filter(parent_id=parent_id))
-
 class QnaModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)

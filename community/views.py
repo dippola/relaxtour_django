@@ -1,5 +1,5 @@
 from rest_framework.decorators import api_view
-from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel, MainModelView, MainModelDetail
+from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel, MainModelView
 from .serializers import UserModel_serializer, MainModel_serializer, QnaModel_serializer, MainCommentModel_serializer, QnaCommentModel_serializer, MainModelView_serializer, MainModelDetail_serializer
 from django.core.paginator import Paginator
 
