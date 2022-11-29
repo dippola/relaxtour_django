@@ -12,18 +12,19 @@ class MainModelView_serializer(serializers.ModelSerializer):
         model = MainModelView
         fields = '__all__'
 
-class MainCommentModel_serializer(serializers.ModelSerializer):
-    # comments = Comment_model_serializer(many=True)
-    class Meta:
-        model = MainCommentModel
-        fields = '__all__'
-
 class MainModel_serializer(serializers.ModelSerializer):
-    comment = MainCommentModel_serializer(many=True, allow_null=True, read_only=True)
+    # comment = MainCommentModel_serializer(many=True, allow_null=True, read_only=True)
     class Meta:
         model = MainModel
         fields = '__all__'
-        # fields = ('uid', 'nickname', 'body')
+        extra_kwarhs = {'comments': {'required': False}}
+
+class MainCommentModel_serializer(serializers.ModelSerializer):
+    main_model = MainModel_serializer(many=True, read_only=True)
+    class Meta:
+        model = MainCommentModel
+        fields = '__all__'
+        extra_kwarhs = {'mainModel': {'required': False}}
 
 class QnaModel_serializer(serializers.ModelSerializer):
     # comments = Comment_model_serializer(many=True)
