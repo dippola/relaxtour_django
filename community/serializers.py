@@ -12,12 +12,6 @@ class MainModelView_serializer(serializers.ModelSerializer):
         model = MainModelView
         fields = '__all__'
 
-# class MainModelDetail_serializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = MainModelDetail
-#         fields = '__all__'
-
-
 
 class MainCommentModel_serializer(serializers.ModelSerializer):
     class Meta:

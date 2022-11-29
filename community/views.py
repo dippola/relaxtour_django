@@ -114,26 +114,6 @@ def getMainsPage(request, page):
     serializer = MainModelView_serializer(postview, many=True)
     return Response(serializer.data)
 
-# Main 하나 가져오기(url)
-# @api_view(['GET'])
-# def getMainDetail(request, pk):
-#     post = MainModel.objects.filter(id=pk).first()
-#     model = MainModelDetail(
-#         parent_id=post.id,
-#         parent_user=post.parent_user.id,
-#         nickname=post.parent_user.nickname,
-#         user_url=post.parent_user.imageurl,
-#         date=post.date,
-#         title=post.title,
-#         body=post.body,
-#         imageurl=post.imageurl,
-#         view=post.view,
-#         like=post.like,
-#         list=post.list
-#     )
-#     serializer = MainModelDetail_serializer(model)
-#     return Response(serializer.data)
-
 @api_view(['GET'])
 def getMainDetail(request, pk):
     post = MainModel.objects.filter(id=pk).first()

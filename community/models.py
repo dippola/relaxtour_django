@@ -12,7 +12,7 @@ class UserModel(models.Model):
     class Meta:
         ordering = ['-id']
 
-class MainModelView(models.Model):#only get
+class MainModelView(models.Model):#only GET
     parent_id = models.IntegerField(null=True)
     parent_user = models.IntegerField()
     nickname = models.TextField(null=True, default='')
@@ -24,7 +24,7 @@ class MainModelView(models.Model):#only get
     view = models.IntegerField(default=0)
     like = models.IntegerField()
 
-class MainModel(models.Model):
+class MainModel(models.Model):#only GET
     id = models.AutoField(primary_key=True, null=False, blank=False)
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     nickname = models.TextField(null=True, default='')
@@ -39,19 +39,6 @@ class MainModel(models.Model):
     comment = models.ManyToManyField('MainCommentModel')
     class Meta:
         ordering = ['date']
-
-# class MainModelDetail(models.Model):
-#     parent_id = models.IntegerField(null=True)
-#     parent_user = models.IntegerField()
-#     nickname = models.TextField(null=True, default='')
-#     user_url = models.TextField(null=True, default='')
-#     date = models.TextField()
-#     title = models.TextField()
-#     body = models.TextField()
-#     imageurl = models.TextField()
-#     view = models.IntegerField(default=0)
-#     like = models.IntegerField()
-#     list = models.TextField()
 
 class MainCommentModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
