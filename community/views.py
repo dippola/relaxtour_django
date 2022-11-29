@@ -121,8 +121,8 @@ def getMainDetail(request, pk):
     detail = MainModelDetail(
         parent_id=post.id,
         parent_user=post.parent_user,
-        nickname=UserModel.objects.filter(id=post.parent_user).nickname,
-        user_url=UserModel.objects.filter(id=post.parent_user).imageurl,
+        nickname=UserModel.objects.filter(id=post.parent_user.id).nickname,
+        user_url=UserModel.objects.filter(id=post.parent_user.id).imageurl,
         date=post.date,
         title=post.title,
         body=post.body,
