@@ -118,6 +118,7 @@ def getMainsPage(request, page):
 @api_view(['GET'])
 def getMainDetail(request, pk):
     post = MainModel.objects.filter(id=pk).first()
+    comments = MainCommentModel.objects.filter(parent_id=pk)
     detail = MainModelDetail(
         parent_id=post.id,
         parent_user=post.parent_user,
@@ -130,7 +131,8 @@ def getMainDetail(request, pk):
         view=post.view,
         like=post.like,
         list=post.list,
-        comment=MainCommentModel.objects.filter(parent_id=post.id)
+        # comment=MainCommentModel.objects.filter(parent_id=post.id)
+        comment=comments
     )
     serializer=MainModelDetail_serializer(detail, many=True)
     return Response(serializer.data)
