@@ -140,7 +140,7 @@ def getMainDetail(request, pk):
     comments = MainCommentModel.objects.filter(parent_id=post.id)
     model = MainModel(
         id=post.id,
-        parent_user=post.parent_user.id,
+        parent_user=post.parent_user,
         nickname=post.parent_user.nickname,
         user_url=post.parent_user.imageurl,
         date=post.date,
