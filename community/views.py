@@ -131,7 +131,7 @@ def getMainDetail(request, pk):
     #     )
     #     cm.append(cm1)
     # print("check size: " + cm[0].body)
-    comments = MainCommentModel.objects.filter(parent_id=post.id).comment
+    comments = MainCommentModel.objects.filter(parent_id=post.id)
     model = MainModelDetail(
         parent_id = post.id,
         parent_user=post.parent_user.id,
@@ -145,7 +145,7 @@ def getMainDetail(request, pk):
         like=post.like,
         list=post.list,
         # comment=cm
-        comment=MainModelDetail.comment.add(comments)
+        comment=comments.all()
     )
     # postDetail.append(model)
     serializer = MainModelDetail_serializer(model, many=True)
