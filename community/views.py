@@ -131,7 +131,7 @@ def getMainDetail(request, pk):
     #     )
     #     cm.append(cm1)
     # print("check size: " + cm[0].body)
-    comments = MainCommentModel.objects.filter(parent_id=post.id)
+    comments = MainCommentModel.objects.filter(parent_id=post.id).comment
     model = MainModelDetail(
         parent_id = post.id,
         parent_user=post.parent_user.id,
