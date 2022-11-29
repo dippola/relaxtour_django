@@ -135,9 +135,10 @@ def getMainDetail(request, pk):
     #     list=post.list,
     #     # comment=MainCommentModel.objects.filter(parent_id=post.id)
     # )
-    for i in comments:
-        post.comment.add(i)
-        print(">>>check: " + i.body)
+    # for i in comments:
+    #     post.comment.add(i)
+    #     print(">>>check: " + i.body)
+    post.comment.add(comments)
     # post.comment.add(comments)
     # post.comment = comments
     serializer = MainModel_serializer(post, many=True)
