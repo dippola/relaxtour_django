@@ -140,7 +140,7 @@ def getMainDetail(request, pk):
         print(">>>check: " + i.body)
     # post.comment.add(comments)
     # post.comment = comments
-    serializer=MainModel_serializer(post, many=True)
+    serializer = MainModel_serializer(post, many=True)
     return Response(serializer.data)
 
 # Main 하나 가져오기(url)
