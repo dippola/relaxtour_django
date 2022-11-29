@@ -16,8 +16,13 @@ class MainModelDetail_serializer(serializers.ModelSerializer):
     class Meta:
         model = MainModelDetail
         fields = '__all__'
-
+class MainCommentModel_serializer(serializers.ModelSerializer):
+    # comments = Comment_model_serializer(many=True)
+    class Meta:
+        model = MainCommentModel
+        fields = '__all__'
 class MainModel_serializer(serializers.ModelSerializer):
+    comment = MainCommentModel_serializer(many=True)
     class Meta:
         model = MainModel
         fields = '__all__'
@@ -29,11 +34,7 @@ class QnaModel_serializer(serializers.ModelSerializer):
         model = QnaModel
         fields = '__all__'
 
-class MainCommentModel_serializer(serializers.ModelSerializer):
-    # comments = Comment_model_serializer(many=True)
-    class Meta:
-        model = MainCommentModel
-        fields = '__all__'
+
 
 class QnaCommentModel_serializer(serializers.ModelSerializer):
     # comments = Comment_model_serializer(many=True)
