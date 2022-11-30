@@ -153,6 +153,7 @@ def createMain(request, id):
         title = data['title'],
         body = data['body'],
         imageurl = data['imageurl'],
+        list=data['list']
     )
     serializer = MainModel_serializer(main, many=False)
     return Response(serializer.data)
