@@ -32,7 +32,7 @@ class MainModel(models.Model):#only GET
     date = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=30)
     body = models.TextField(null=False)
-    imageurl = models.TextField(null=True, blank=True)
+    imageurl = models.TextField(null=True, default='')
     view = models.PositiveIntegerField(default=0)
     like = models.PositiveIntegerField(default=0)
     list = models.TextField(null=True, default='')
