@@ -38,7 +38,7 @@ class MainModel(models.Model):#only GET
     list = models.TextField(null=True, default='')
     comment = models.ManyToManyField('MainCommentModel')
     class Meta:
-        ordering = ['date']
+        ordering = ['-date']
 
 class MainCommentModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
