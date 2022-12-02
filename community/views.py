@@ -194,6 +194,8 @@ def createMainComment(request, pk, id):
         parent_user = user,
         parent_id = main,
         body = data['body'],
+        nickname = user.nickname,
+        user_url = user.imageurl
     )
     serializer = MainCommentModel_serializer(comment, many=False)
     return Response(serializer.data)
