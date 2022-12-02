@@ -50,7 +50,7 @@ class MainCommentModel(models.Model):
         ordering = ['date']
 
 class MainCommentModelDetail(models.Model):#only get
-    commentid = models.IntegerField()
+    commentid = models.IntegerField(null=True)
     date = models.TextField()
     parent_id = models.IntegerField()
     parent_user = models.IntegerField()
