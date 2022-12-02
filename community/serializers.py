@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel, MainModelView
+from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel, MainModelView, MainCommentModelDetail
 
 class UserModel_serializer(serializers.ModelSerializer):
     # comments = Comment_model_serializer(many=True)
@@ -18,8 +18,13 @@ class MainCommentModel_serializer(serializers.ModelSerializer):
         model = MainCommentModel
         fields = '__all__'
 
+class MainCommentModelDetail_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = MainCommentModelDetail
+        fields = '__all__'
+
 class MainModel_serializer(serializers.ModelSerializer):
-    comment = MainCommentModel_serializer(many=True, allow_null=True, read_only=True)
+    comment = MainCommentModelDetail_serializer(many=True, allow_null=True, read_only=True)
     class Meta:
         model = MainModel
         fields = '__all__'
