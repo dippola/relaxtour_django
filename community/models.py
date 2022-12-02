@@ -46,19 +46,10 @@ class MainCommentModel(models.Model):
     parent_id = models.ForeignKey(MainModel, on_delete=models.CASCADE)
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     body = models.TextField(null=False)
+    nickname = models.TextField(default='')
+    user_url = models.TextField(default='')
     class Meta:
         ordering = ['date']
-
-class MainCommentModelDetail(models.Model):#only get
-    commentid = models.IntegerField(null=True)
-    date = models.TextField()
-    parent_id = models.IntegerField()
-    parent_user = models.IntegerField()
-    body = models.TextField()
-    user_url = models.TextField()
-    nickname = models.TextField()
-    class Meta:
-        ordering = ['-commentid']
 
 class QnaModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)

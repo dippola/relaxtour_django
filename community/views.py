@@ -1,5 +1,5 @@
 from rest_framework.decorators import api_view
-from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel, MainModelView, MainCommentModelDetail
+from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel, MainModelView
 from .serializers import UserModel_serializer, MainModel_serializer, QnaModel_serializer, MainCommentModel_serializer, QnaCommentModel_serializer, MainModelView_serializer
 from django.core.paginator import Paginator
 
@@ -132,15 +132,6 @@ def getMainDetail(request, pk):
         list=post.list
     )
     for i in comments:
-        commentsdetail = MainCommentModelDetail(
-            commentid=comments.id,
-            date=comments.date,
-            parent_id=comments.parent_id.id,
-            parent_user=comments.parent_user.id,
-            body=comments.body,
-            user_url=UserModel.objects.filter(id=comments.parent_user.id).first().imageurl,
-            nickname=UserModel.objects.filter(id=comments.parent_user.id).first().nickname
-        )
         post.comment.add(i)
     serializer = MainModel_serializer(model)
     return Response(serializer.data)
