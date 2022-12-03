@@ -199,8 +199,9 @@ def createMainComment(request, pk, id):
     )
     if data['to_id'] is not None:
         if UserModel.objects.get(id=data['to_id']) is not None:
-            comment.to_id = UserModel.objects.get(id=data['to_id']).id
-            comment.to_nickname = comment.to_id.nickname
+            touser = UserModel.objects.get(id=data['to_id'])
+            comment.to_id = touser.id
+            comment.to_nickname = touser.nickname
     serializer = MainCommentModel_serializer(comment, many=False)
     return Response(serializer.data)
 
