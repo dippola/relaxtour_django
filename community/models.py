@@ -54,7 +54,7 @@ class MainCommentModel(models.Model):
         ordering = ['date']
 
 class MainCommentModelView(models.Model):
-    id = models.IntegerField()
+    comment_id = models.IntegerField()
     date = models.TextField()
     parent_id = models.IntegerField()
     parent_user = models.IntegerField()
