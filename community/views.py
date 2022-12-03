@@ -133,7 +133,8 @@ def getMainDetail(request, pk):
         imageurl=post.imageurl,
         view=post.view,
         like=post.like,
-        list=post.list
+        list=post.list,
+        comment=page_obj
     )
     # for i in page_obj:
     #     post.comment.add(i)
