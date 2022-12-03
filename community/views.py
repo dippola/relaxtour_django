@@ -197,12 +197,6 @@ def createMainComment(request, pk, id):
         nickname = user.nickname,
         user_url = user.imageurl,
     )
-    if data['to_id'] is not None:
-        comment.to_id = UserModel.objects.get(id=data['to_id'])
-        comment.to_nickname = UserModel.objects.get(id=data['to_id']).nickname
-    else:
-        comment.to_id = user,
-        comment.to_nickname = user.nickname
     serializer = MainCommentModel_serializer(comment, many=False)
     return Response(serializer.data)
 
