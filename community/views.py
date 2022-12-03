@@ -118,7 +118,7 @@ def getMainsPage(request, page):
 def getMainDetail(request, pk):
     post = MainModel.objects.filter(id=pk).first()
     comments = MainCommentModel.objects.filter(parent_id=post.id)
-    comments_page = request.GET.get('page', comments)
+    comments_page = request.GET.get('page', 1)
     paginator = Paginator(comments, 3)
     page_obj = paginator.page(comments_page)
     model = MainModel(
