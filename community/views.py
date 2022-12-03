@@ -111,7 +111,7 @@ def getMainsPage(request, page):
             like=i.like
         )
         postview.append(model)
-        if postview.count() == 3:
+        if len(postview) == 3:
             break
     serializer = MainModelView_serializer(postview, many=True)
     return Response(serializer.data)
