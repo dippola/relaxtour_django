@@ -189,19 +189,23 @@ def getMainComments(request, pk, page):
 def createMainComment(request, pk, id):
     user = UserModel.objects.get(id=id)
     main = MainModel.objects.get(id=pk)
+    to_id=0
+    to_nickname=''
     data = request.data
+    if data['to_id'] is not None:
+        if UserModel.objects.get(id=data['to_id']) is not None:
+            touser = UserModel.objects.get(id=data['to_id'])
+            to_id = touser.id
+            to_nickname = touser.nickname
     comment = MainCommentModel.objects.create(
         parent_user = user,
         parent_id = main,
         body = data['body'],
         nickname = user.nickname,
-        user_url = user.imageurl
+        user_url = user.imageurl,
+        to_id = to_id,
+        to_nickname=to_nickname
     )
-    if data['to_id'] is not None:
-        if UserModel.objects.get(id=data['to_id']) is not None:
-            touser = UserModel.objects.get(id=data['to_id'])
-            comment.to_id = touser.id
-            comment.to_nickname = touser.nickname
     serializer = MainCommentModel_serializer(comment, many=False)
     return Response(serializer.data)
 
