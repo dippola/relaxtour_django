@@ -36,7 +36,7 @@ class MainModel(models.Model):#only GET
     view = models.PositiveIntegerField(default=0)
     like = models.PositiveIntegerField(default=0)
     list = models.TextField(null=True, default='')
-    comment = models.ManyToManyField('MainCommentModelView')
+    comment = models.ManyToManyField('MainCommentModel')
     class Meta:
         ordering = ['-date']
 
@@ -52,16 +52,6 @@ class MainCommentModel(models.Model):
     to_nickname = models.TextField(default='')
     class Meta:
         ordering = ['date']
-
-class MainCommentModelView(models.Model):
-    date = models.TextField()
-    parent_id = models.IntegerField()
-    parent_user = models.IntegerField()
-    body = models.TextField()
-    nickname = models.TextField()
-    user_url = models.TextField()
-    to_id = models.IntegerField()
-    to_nickname = models.TextField()
 
 class QnaModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
