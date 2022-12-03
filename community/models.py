@@ -53,17 +53,6 @@ class MainCommentModel(models.Model):
     class Meta:
         ordering = ['date']
 
-class MainCommentModelView(models.Model):
-    comment_id = models.IntegerField()
-    date = models.TextField()
-    parent_id = models.IntegerField()
-    parent_user = models.IntegerField()
-    body = models.TextField()
-    nickname = models.TextField(default='')
-    user_url = models.TextField(default='')
-    to_id = models.IntegerField(default=0)
-    to_nickname = models.TextField(default='')
-
 class QnaModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
