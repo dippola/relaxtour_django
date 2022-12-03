@@ -133,9 +133,9 @@ def getMainDetail(request, pk):
         imageurl=post.imageurl,
         view=post.view,
         like=post.like,
-        list=post.list,
-        comment=page_obj
+        list=post.list
     )
+    model.comment.append(page_obj)
     # for i in page_obj:
     #     post.comment.add(i)
     serializer = MainModel_serializer(model)
