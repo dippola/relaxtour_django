@@ -203,7 +203,7 @@ def createMainComment(request, pk, id):
     else:
         comment.to_id = user,
         comment.to_nickname = user.nickname
-        serializer = MainCommentModel_serializer(comment, many=False)
+    serializer = MainCommentModel_serializer(comment, many=False)
     return Response(serializer.data)
 
 @api_view(['DELETE'])
