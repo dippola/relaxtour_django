@@ -111,8 +111,6 @@ def getMainsPage(request, page):
             like=i.like
         )
         postview.append(model)
-        if len(postview) == 3:
-            break
     serializer = MainModelView_serializer(postview, many=True)
     return Response(serializer.data)
 
@@ -135,6 +133,8 @@ def getMainDetail(request, pk):
     )
     for i in comments:
         post.comment.add(i)
+        if len(post) == 3:
+            break
     serializer = MainModel_serializer(model)
     return Response(serializer.data)
 
