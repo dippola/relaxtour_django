@@ -176,7 +176,7 @@ def getMainAllComments(request, pk):
 def getMainComments(request, pk, page):
     main_comment = MainCommentModel.objects.filter(parent_id=pk)
     page = request.GET.get('page', page)
-    paginator = Paginator(main_comment, 15)
+    paginator = Paginator(main_comment, 3)
     page_obj = paginator.page(page)
     serializer = MainCommentModel_serializer(page_obj, many=True)
     return Response(serializer.data)
