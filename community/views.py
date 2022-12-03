@@ -195,8 +195,10 @@ def createMainComment(request, pk, id):
         parent_id = main,
         body = data['body'],
         nickname = user.nickname,
-        user_url = user.imageurl
+        user_url = user.imageurl,
     )
+    if data['to_id'] is not None:
+        comment.to_id = UserModel.objects.get(id=data['to_id'])
     serializer = MainCommentModel_serializer(comment, many=False)
     return Response(serializer.data)
 
