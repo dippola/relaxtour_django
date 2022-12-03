@@ -199,7 +199,11 @@ def createMainComment(request, pk, id):
     )
     if data['to_id'] is not None:
         comment.to_id = UserModel.objects.get(id=data['to_id'])
-    serializer = MainCommentModel_serializer(comment, many=False)
+        comment.to_nickname = UserModel.objects.get(id=data['to_id']).nickname
+    else:
+        comment.to_id = user,
+        comment.to_nickname = user.nickname
+        serializer = MainCommentModel_serializer(comment, many=False)
     return Response(serializer.data)
 
 @api_view(['DELETE'])
