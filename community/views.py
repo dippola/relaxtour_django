@@ -121,6 +121,7 @@ def getMainDetail(request, pk):
     comments_page = request.GET.get('page', 1)
     paginator = Paginator(comments, 3)
     page_obj = paginator.page(comments_page)
+    print(">>>" + str([len(page_obj)]))
     model = MainModel(
         id=post.id,
         parent_user=post.parent_user,
