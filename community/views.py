@@ -137,6 +137,7 @@ def getMainDetail(request, pk):
         print(">>>" + str(pos))
         post.comment.add(i)
         if pos == 3:
+            print(">>>pos=3")
             break
     serializer = MainModel_serializer(model)
     return Response(serializer.data)
