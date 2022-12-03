@@ -48,6 +48,8 @@ class MainCommentModel(models.Model):
     body = models.TextField(null=False)
     nickname = models.TextField(default='')
     user_url = models.TextField(default='')
+    to_id = models.ForeignKey(UserModel, on_delete=models.SET_DEFAULT, default=parent_user, related_name='to_id')
+    to_nickname = models.TextField(default='')
     class Meta:
         ordering = ['date']
 
