@@ -190,22 +190,17 @@ def createMainComment(request, pk, id):
     user = UserModel.objects.get(id=id)
     main = MainModel.objects.get(id=pk)
     data = request.data
-    if data['to_id'] is not None:
-        to_id = data['to_id']
-        to_nickname = UserModel.objects.get(id=to_id).nickname
-    else:
-        to_id = user
-        to_nickname = user.nickname
-    print(">>>" + str(to_nickname))
     comment = MainCommentModel.objects.create(
         parent_user = user,
         parent_id = main,
         body = data['body'],
         nickname = user.nickname,
-        user_url = user.imageurl,
-        to_id=to_id,
-        to_nickname=to_nickname
+        user_url = user.imageurl
     )
+    if data['to_id'] is not None:
+        if UserModel.objects.get(id=data['to_id']) is not None:
+            comment.to_id = UserModel.objects.get(id=data['to_id'])
+            comment.to_nickname = comment.to_id.nickname
     serializer = MainCommentModel_serializer(comment, many=False)
     return Response(serializer.data)
 
