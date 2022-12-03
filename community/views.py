@@ -1,5 +1,5 @@
 from rest_framework.decorators import api_view
-from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel, MainModelView
+from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel, MainModelView, MainCommentModelView
 from .serializers import UserModel_serializer, MainModel_serializer, QnaModel_serializer, MainCommentModel_serializer, QnaCommentModel_serializer, MainModelView_serializer
 from django.core.paginator import Paginator
 
@@ -117,7 +117,7 @@ def getMainsPage(request, page):
 @api_view(['GET'])
 def getMainDetail(request, pk):
     post = MainModel.objects.filter(id=pk).first()
-    comments = MainCommentModel.objects.filter(parent_id=post.id)
+    comments = MainCommentModelView.objects.filter(parent_id=post.id)
     comments_page = request.GET.get('page', 1)
     paginator = Paginator(comments, 3)
     page_obj = paginator.page(comments_page)
