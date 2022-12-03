@@ -117,11 +117,6 @@ def getMainsPage(request, page):
 @api_view(['GET'])
 def getMainDetail(request, pk):
     post = MainModel.objects.filter(id=pk).first()
-    comments = MainCommentModel.objects.filter(parent_id=post.id)
-    comments_page = request.GET.get('page', 1)
-    paginator = Paginator(comments, 3)
-    page_obj = paginator.page(comments_page)
-    print(">>>" + str([len(page_obj)]))
     model = MainModel(
         id=post.id,
         parent_user=post.parent_user,
@@ -135,8 +130,6 @@ def getMainDetail(request, pk):
         like=post.like,
         list=post.list
     )
-    for i in page_obj:
-        model.comment.add(i)
     serializer = MainModel_serializer(model)
     return Response(serializer.data)
 
