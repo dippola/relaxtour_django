@@ -131,9 +131,11 @@ def getMainDetail(request, pk):
         like=post.like,
         list=post.list
     )
+    pos = 0
     for i in comments:
+        pos += 1
         post.comment.add(i)
-        if len(post) == 3:
+        if pos == 3:
             break
     serializer = MainModel_serializer(model)
     return Response(serializer.data)
