@@ -191,8 +191,8 @@ def createMainComment(request, pk, id):
     main = MainModel.objects.get(id=pk)
     data = request.data
     if data['to_id'] is not None:
-        to_id = UserModel.objects.get(id=data['to_id'])
-        to_nickname = to_id.nickname
+        to_id = data['to_id']
+        to_nickname = UserModel.objects.get(id=to_id).nickname
     else:
         to_id = user
         to_nickname = user.nickname
