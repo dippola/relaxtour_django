@@ -128,7 +128,8 @@ def getMainDetail(request, pk):
         imageurl=post.imageurl,
         view=post.view,
         like=post.like,
-        list=post.list
+        list=post.list,
+        commentcount = MainCommentModel.objects.filter(parent_id=post.id).count()
     )
     serializer = MainModel_serializer(model)
     return Response(serializer.data)
