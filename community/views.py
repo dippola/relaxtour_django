@@ -99,13 +99,16 @@ def getMainsPage(request, page):
     page_obj = paginator.page(page)
     postview = []
     for i in page_obj:
-        imgcount = i.imageurl.split("●")
+        if i.imageurl != "":
+            imgcount = len(i.imageurl.split("●"))
+        else:
+            imgcount = 0
         model = MainModelView(
             parent_id=i.id,
             parent_user=i.parent_user.id,
             nickname=i.parent_user.nickname,
             user_image=i.parent_user.imageurl,
-            imageurlcount=len(imgcount),
+            imageurlcount=imgcount,
             date=i.date,
             title=i.title,
             imageurl=i.imageurl,
@@ -119,7 +122,10 @@ def getMainsPage(request, page):
 @api_view(['GET'])
 def getMainDetail(request, pk):
     post = MainModel.objects.filter(id=pk).first()
-    imgcount = post.imageurl.split("●")
+    if post.imageurl != "":
+        imgcount = len(post.imageurl.split("●"))
+    else:
+        imgcount = 0
     model = MainModel(
         id=post.id,
         parent_user=post.parent_user,
@@ -129,7 +135,7 @@ def getMainDetail(request, pk):
         title=post.title,
         body=post.body,
         imageurl=post.imageurl,
-        imageurlcount=len(imgcount),
+        imageurlcount=imgcount,
         view=post.view,
         like=post.like,
         list=post.list,
