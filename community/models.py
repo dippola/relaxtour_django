@@ -31,7 +31,7 @@ class MainModel(models.Model):
     nickname = models.TextField(null=True, default='')
     user_url = models.TextField(null=True, default='')
     date = models.DateTimeField(auto_now_add=True)
-    title = models.CharField(max_length=30)
+    title = models.CharField(max_length=60)
     body = models.TextField(null=False)
     imageurl = models.TextField(null=True, default='')
     view = models.PositiveIntegerField(default=0)
