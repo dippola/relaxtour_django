@@ -190,7 +190,7 @@ def getMainComments(request, pk, page):
 @api_view(['GET'])
 def getMainCommentsMore(request, pk):
     main_comment = MainCommentModel.objects.filter(parent_id=pk)
-    start_position = list(main_comment.id).index(request.data['id'])
+    start_position = list(main_comment).index(request.data)
     result_list = []
     for i in main_comment[range(start_position + 1, start_position + 4)]:
         if i is not None:
