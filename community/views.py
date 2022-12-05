@@ -212,10 +212,13 @@ def getMainCommentsMore(request, pk):
     print(">>>3 " + str(len(main_comment)))
     start_position = list(main_comment).index(convert_request)
     result_list = []
-    position_list = [start_position + 1, start_position + 2, start_position + 3]
-    for i, ii in main_comment(position_list):
+    count = 0
+    for i, ii in enumerate(main_comment, start=start_position + 1):
+        count += 1
         if ii is not None:
             result_list.add(ii)
+            if count == 3:
+                break
         else:
             break
     serializer = MainCommentModel_serializer(result_list, many=True)
