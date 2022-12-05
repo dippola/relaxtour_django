@@ -211,7 +211,7 @@ def getMainCommentsMore(request, pk):
     print(">>>2 " + str(type(convert_request)))
     start_position = list(main_comment).index(convert_request)
     result_list = []
-    for i in main_comment[range(start_position + 1, start_position + 4)]:
+    for i in main_comment(range(start_position + 1, start_position + 4)):
         if i is not None:
             result_list.add(i)
         else:
