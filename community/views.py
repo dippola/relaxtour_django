@@ -99,11 +99,13 @@ def getMainsPage(request, page):
     page_obj = paginator.page(page)
     postview = []
     for i in page_obj:
+        imgcount = i.imageurl.split("●")
         model = MainModelView(
             parent_id=i.id,
             parent_user=i.parent_user.id,
             nickname=i.parent_user.nickname,
             user_image=i.parent_user.imageurl,
+            imageurlcount=len(imgcount),
             date=i.date,
             title=i.title,
             imageurl=i.imageurl,
