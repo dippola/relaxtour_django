@@ -24,7 +24,7 @@ class MainModelView(models.Model):#only GET
     view = models.IntegerField(default=0)
     like = models.IntegerField()
 
-class MainModel(models.Model):#only GET
+class MainModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     nickname = models.TextField(null=True, default='')
@@ -33,6 +33,7 @@ class MainModel(models.Model):#only GET
     title = models.CharField(max_length=30)
     body = models.TextField(null=False)
     imageurl = models.TextField(null=True, default='')
+    imageurlcount = models.IntegerField(default=0)
     view = models.PositiveIntegerField(default=0)
     like = models.PositiveIntegerField(default=0)
     list = models.TextField(null=True, default='')
