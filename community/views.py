@@ -187,6 +187,20 @@ def getMainComments(request, pk, page):
     serializer = MainCommentModel_serializer(page_obj, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def getMainCommentsMore(request, pk):
+    main_comment = MainCommentModel.objects.filter(parent_id=pk)
+    start_position = main_comment.index(request.data)
+    result_list = []
+    for i in main_comment[range(start_position + 1, start_position + 4)]:
+        if i is not None:
+            result_list.add(i)
+        else:
+            break
+    serializer = MainCommentModel_serializer(result_list, many=True)
+    return Response(serializer.data)
+
+
 # Main에 Comment 쓰기
 @api_view(['POST'])
 def createMainComment(request, pk, id):
