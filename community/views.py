@@ -194,7 +194,17 @@ def getMainCommentsMore(request, pk):
     main_comment = MainCommentModel.objects.filter(parent_id=pk)
     print(">>>1 " + str(type(main_comment)))
     print(">>>2 " + str(type(request.data)))
-    convert_request = json.dumps(request.data)
+    convert_request = MainCommentModel(
+        id = request.data['id'],
+        date = request.data['date'],
+        parent_id = request.data['parent_id'],
+        parent_user = request.data['parent_user'],
+        body = request.data['body'],
+        nickname = request.data['nickname'],
+        user_url = request.data['user_url'],
+        to_id = request.data['to_id'],
+        to_nickname = request.data['to_nickname'],
+    )
     start_position = list(main_comment).index(convert_request)
     result_list = []
     for i in main_comment[range(start_position + 1, start_position + 4)]:
