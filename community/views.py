@@ -194,13 +194,14 @@ def getMainCommentsMore(request, pk):
     main_comment = MainCommentModel.objects.filter(parent_id=pk)
     print(">>>1 " + str(type(main_comment)))
     print(">>>2 " + str(type(request.data)))
-    request_comment_id = MainCommentModel.objects.get(id=request.data['id']).id
-    request_mainmodel_id = MainModel.objects.get(id=request.data['parent_id']).id
+    request_comment = MainCommentModel.objects.get(id=request.data['id']).id
+    request_mainmodel = MainModel.objects.get(id=request.data['parent_id']).id
+    request_parentuser = UserModel.objects.get(id=request.data['parent_user']).id
     convert_request = MainCommentModel(
-        id = request_comment_id,
+        id = request_comment,
         date = request.data['date'],
-        parent_id = request_mainmodel_id,
-        parent_user = request.data['parent_user'],
+        parent_id = request_mainmodel,
+        parent_user = request_parentuser,
         body = request.data['body'],
         nickname = request.data['nickname'],
         user_url = request.data['user_url'],
