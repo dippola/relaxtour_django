@@ -216,7 +216,7 @@ def getMainCommentsMore(request, pk):
     for i, ii in enumerate(main_comment, start=start_position + 1):
         count += 1
         if ii is not None:
-            result_list.add(ii)
+            result_list.append(ii)
             if count == 3:
                 break
         else:
