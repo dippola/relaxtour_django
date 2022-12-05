@@ -217,6 +217,7 @@ def getMainCommentsMore(request, pk):
     for i, ii in enumerate(main_comment, start=start_position + 1):
         count += 1
         print(">>>5 " + str(i))
+        print(">>>6 " + str(ii.id))
         if ii is not None:
             result_list.append(ii)
             if count == 3:
