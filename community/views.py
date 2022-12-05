@@ -1,3 +1,5 @@
+import json
+
 from rest_framework.decorators import api_view
 from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel, MainModelView
 from .serializers import UserModel_serializer, MainModel_serializer, QnaModel_serializer, MainCommentModel_serializer, QnaCommentModel_serializer, MainModelView_serializer
@@ -190,7 +192,8 @@ def getMainComments(request, pk, page):
 @api_view(['GET'])
 def getMainCommentsMore(request, pk):
     main_comment = MainCommentModel.objects.filter(parent_id=pk)
-    start_position = list(main_comment).index(request.data)
+    convert_request = json.loads(request.data, object=MainCommentModel)
+    start_position = list(main_comment).index(convert_request)
     result_list = []
     for i in main_comment[range(start_position + 1, start_position + 4)]:
         if i is not None:
