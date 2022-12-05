@@ -122,10 +122,6 @@ def getMainsPage(request, page):
 @api_view(['GET'])
 def getMainDetail(request, pk):
     post = MainModel.objects.filter(id=pk).first()
-    if post.imageurl != "":
-        imgcount = len(post.imageurl.split("●"))
-    else:
-        imgcount = 0
     model = MainModel(
         id=post.id,
         parent_user=post.parent_user,
@@ -135,7 +131,6 @@ def getMainDetail(request, pk):
         title=post.title,
         body=post.body,
         imageurl=post.imageurl,
-        imageurlcount=imgcount,
         view=post.view,
         like=post.like,
         list=post.list,
