@@ -195,10 +195,11 @@ def getMainCommentsMore(request, pk):
     print(">>>1 " + str(type(main_comment)))
     print(">>>2 " + str(type(request.data)))
     request_comment_id = MainCommentModel.objects.get(id=request.data['id']).id
+    request_mainmodel_id = MainModel.objects.get(id=request.data['parent_id']).id
     convert_request = MainCommentModel(
         id = request_comment_id,
         date = request.data['date'],
-        parent_id = request.data['parent_id'],
+        parent_id = request_mainmodel_id,
         parent_user = request.data['parent_user'],
         body = request.data['body'],
         nickname = request.data['nickname'],
