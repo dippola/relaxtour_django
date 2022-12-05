@@ -211,19 +211,12 @@ def getMainCommentsMore(request, pk):
     print(">>>2 " + str(type(convert_request)))
     print(">>>3 " + str(len(main_comment)))
     start_position = list(main_comment).index(convert_request)
-    print(">>>3 " + str(start_position))
+    print(">>>4 " + str(start_position))
     result_list = []
     count = 0
-    # for i, ii in enumerate(main_comment, start=start_position + 1):
-    #     count += 1
-    #     if ii is not None:
-    #         result_list.append(ii)
-    #         if count == 3:
-    #             break
-    #     else:
-    #         break
-    for i, ii in main_comment(start_position + 1, start_position + 4):
+    for i, ii in enumerate(main_comment, start=start_position + 1):
         count += 1
+        print(">>>5 " + str(i))
         if ii is not None:
             result_list.append(ii)
             if count == 3:
