@@ -209,11 +209,13 @@ def getMainCommentsMore(request, pk):
     convert_request = MainCommentModel.objects.get(id=request.data['id'])
     print(">>>1 " + str(type(main_comment)))
     print(">>>2 " + str(type(convert_request)))
+    print(">>>3 " + str(len(main_comment)))
     start_position = list(main_comment).index(convert_request)
     result_list = []
-    for i in main_comment(range(start_position + 1, start_position + 4)):
-        if i is not None:
-            result_list.add(i)
+    position_list = [start_position + 1, start_position + 2, start_position + 3]
+    for i, ii in main_comment(position_list):
+        if ii is not None:
+            result_list.add(ii)
         else:
             break
     serializer = MainCommentModel_serializer(result_list, many=True)
