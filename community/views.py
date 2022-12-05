@@ -211,6 +211,7 @@ def getMainCommentsMore(request, pk):
     print(">>>2 " + str(type(convert_request)))
     print(">>>3 " + str(len(main_comment)))
     start_position = list(main_comment).index(convert_request)
+    print(">>>3 " + str(start_position))
     result_list = []
     count = 0
     for i, ii in enumerate(main_comment, start=start_position + 1):
