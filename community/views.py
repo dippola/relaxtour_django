@@ -192,20 +192,21 @@ def getMainComments(request, pk, page):
 @api_view(['GET'])
 def getMainCommentsMore(request, pk):
     main_comment = MainCommentModel.objects.filter(parent_id=pk)
-    request_comment = MainCommentModel.objects.get(id=request.data['id'])
-    request_mainmodel = MainModel.objects.get(id=request.data['parent_id'])
-    request_parentuser = UserModel.objects.get(id=request.data['parent_user'])
-    convert_request = MainCommentModel(
-        id = request_comment,
-        date = request.data['date'],
-        parent_id = request_mainmodel,
-        parent_user = request_parentuser,
-        body = request.data['body'],
-        nickname = request.data['nickname'],
-        user_url = request.data['user_url'],
-        to_id = request.data['to_id'],
-        to_nickname = request.data['to_nickname'],
-    )
+    # request_comment = MainCommentModel.objects.get(id=request.data['id'])
+    # request_mainmodel = MainModel.objects.get(id=request.data['parent_id'])
+    # request_parentuser = UserModel.objects.get(id=request.data['parent_user'])
+    # convert_request = MainCommentModel(
+    #     id = request_comment,
+    #     date = request.data['date'],
+    #     parent_id = request_mainmodel,
+    #     parent_user = request_parentuser,
+    #     body = request.data['body'],
+    #     nickname = request.data['nickname'],
+    #     user_url = request.data['user_url'],
+    #     to_id = request.data['to_id'],
+    #     to_nickname = request.data['to_nickname'],
+    # )
+    convert_request = MainCommentModel.objects.get(id=request.data['id'])
     print(">>>1 " + str(type(main_comment)))
     print(">>>2 " + str(type(convert_request)))
     start_position = list(main_comment).index(convert_request)
