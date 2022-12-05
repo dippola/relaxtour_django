@@ -192,7 +192,7 @@ def getMainComments(request, pk, page):
 @api_view(['GET'])
 def getMainCommentsMore(request, pk):
     main_comment = MainCommentModel.objects.filter(parent_id=pk)
-    convert_request = json.dumps(str(request.data))
+    convert_request = json.dumps(request.data)
     start_position = list(main_comment).index(convert_request)
     result_list = []
     for i in main_comment[range(start_position + 1, start_position + 4)]:
