@@ -214,7 +214,15 @@ def getMainCommentsMore(request, pk):
     print(">>>3 " + str(start_position))
     result_list = []
     count = 0
-    for i, ii in enumerate(main_comment, start=start_position + 1):
+    # for i, ii in enumerate(main_comment, start=start_position + 1):
+    #     count += 1
+    #     if ii is not None:
+    #         result_list.append(ii)
+    #         if count == 3:
+    #             break
+    #     else:
+    #         break
+    for i, ii in main_comment(start_position + 1, start_position + 4):
         count += 1
         if ii is not None:
             result_list.append(ii)
