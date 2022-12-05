@@ -192,8 +192,6 @@ def getMainComments(request, pk, page):
 @api_view(['GET'])
 def getMainCommentsMore(request, pk):
     main_comment = MainCommentModel.objects.filter(parent_id=pk)
-    print(">>>1 " + str(type(main_comment)))
-    print(">>>2 " + str(type(request.data)))
     request_comment = MainCommentModel.objects.get(id=request.data['id'])
     request_mainmodel = MainModel.objects.get(id=request.data['parent_id'])
     request_parentuser = UserModel.objects.get(id=request.data['parent_user'])
@@ -208,6 +206,8 @@ def getMainCommentsMore(request, pk):
         to_id = request.data['to_id'],
         to_nickname = request.data['to_nickname'],
     )
+    print(">>>1 " + str(type(main_comment)))
+    print(">>>2 " + str(type(convert_request)))
     start_position = list(main_comment).index(convert_request)
     result_list = []
     for i in main_comment[range(start_position + 1, start_position + 4)]:
