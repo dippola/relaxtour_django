@@ -207,21 +207,18 @@ def getMainCommentsMore(request, pk):
     #     to_nickname = request.data['to_nickname'],
     # )
     convert_request = MainCommentModel.objects.get(id=request.data['id'])
-    print(">>>3 " + str(len(main_comment)))
     start_position = list(main_comment).index(convert_request)
-    print(">>>4 " + str(start_position))
     result_list = []
     count = 0
-    for i, ii in enumerate(main_comment, start=start_position + 2):
-        # count += 1
-        print(">>>5 " + str(i))
-        print(">>>6 " + str(ii.id))
-        if ii is not None:
-            result_list.append(ii)
-            if count == 3:
+    for i, ii in enumerate(main_comment):
+        count += 1
+        if i  > start_position:
+            if ii is not None:
+                result_list.append(ii)
+                if count == 3:
+                    break
+            else:
                 break
-        else:
-            break
     serializer = MainCommentModel_serializer(result_list, many=True)
     return Response(serializer.data)
 
