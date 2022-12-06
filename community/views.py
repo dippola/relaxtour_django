@@ -207,14 +207,12 @@ def getMainCommentsMore(request, pk):
     #     to_nickname = request.data['to_nickname'],
     # )
     convert_request = MainCommentModel.objects.get(id=request.data['id'])
-    print(">>>1 " + str(type(main_comment)))
-    print(">>>2 " + str(type(convert_request)))
     print(">>>3 " + str(len(main_comment)))
     start_position = list(main_comment).index(convert_request)
     print(">>>4 " + str(start_position))
     result_list = []
     count = 0
-    for i, ii in enumerate(main_comment):
+    for i, ii in enumerate(main_comment, start=start_position + 2):
         # count += 1
         print(">>>5 " + str(i))
         print(">>>6 " + str(ii.id))
