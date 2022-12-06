@@ -181,9 +181,9 @@ def getMainAllComments(request, pk):
 
 # Main에 comments 가져오기(url)
 @api_view(['GET'])
-def getMainComments(request, pk, page):
+def getMainComments(request, pk, lastindex):
     main_comment = MainCommentModel.objects.filter(parent_id=pk)
-    page = request.GET.get('page', page)
+    page = request.GET.get('page', lastindex)
     paginator = Paginator(main_comment, 3)
     page_obj = paginator.page(page)
     serializer = MainCommentModel_serializer(page_obj, many=True)
@@ -192,20 +192,6 @@ def getMainComments(request, pk, page):
 @api_view(['GET'])
 def getMainCommentsMore(request, pk):
     main_comment = MainCommentModel.objects.filter(parent_id=pk)
-    # request_comment = MainCommentModel.objects.get(id=request.data['id'])
-    # request_mainmodel = MainModel.objects.get(id=request.data['parent_id'])
-    # request_parentuser = UserModel.objects.get(id=request.data['parent_user'])
-    # convert_request = MainCommentModel(
-    #     id = request_comment,
-    #     date = request.data['date'],
-    #     parent_id = request_mainmodel,
-    #     parent_user = request_parentuser,
-    #     body = request.data['body'],
-    #     nickname = request.data['nickname'],
-    #     user_url = request.data['user_url'],
-    #     to_id = request.data['to_id'],
-    #     to_nickname = request.data['to_nickname'],
-    # )
     convert_request = MainCommentModel.objects.get(id=request.data['id'])
     start_position = list(main_comment).index(convert_request)
     result_list = []

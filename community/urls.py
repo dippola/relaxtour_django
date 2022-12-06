@@ -36,7 +36,7 @@ urlpatterns = [
     path('post/<str:pk>/comment/create=<str:id>/', views.createMainComment),#
     path('post/<str:pk>/comments/', views.getMainAllComments),#
     path('post/<str:pk>/comments/page=<str:page>/', views.getMainComments),#
-    path('post/<str:pk>/comments/more/', views.getMainCommentsMore),
+    path('post/<str:pk>/comments/more=<str:lastindex>/', views.getMainCommentsMore),
 
     path('qnas/', views.getQnas),
     path('qnas/page=<str:page>/', views.getQnasPage),
