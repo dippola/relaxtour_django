@@ -15,6 +15,7 @@ urlpatterns = [
     # path('comments', views.getAllComments)
 
     path('users/', views.getUsers),#
+    path('user/test/delete/', views.testDeleteStorage),
     path('users/delete/', views.deleteAllUser),#will delete
     path('user/create/', views.createUser),#
     path('user/searchemail/<str:email>/', views.searchEmail),#

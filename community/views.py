@@ -7,6 +7,25 @@ from django.core.paginator import Paginator
 
 from rest_framework.response import Response
 
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import storage
+
+import mykeys
+
+cred = credentials.Certificate('./relax-tour-de785-firebase-adminsdk-j86xu-68f3337ce7.json')
+firebase_admin.initialize_app(cred,{
+    'storageBucket' : mykeys.storageBucket
+})
+
+@api_view(['GET'])
+def testDeleteStorage(reauest):
+    bucket = storage.bucket()
+    path = bucket.blob('userimages/2.png')
+    path.delete()
+    return Response("delete success")
+
+
 @api_view(['GET'])
 def getUsers(request):
     users = UserModel.objects.all()
