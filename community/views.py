@@ -218,10 +218,11 @@ def createMainComment(request, pk, id):
     to_nickname=''
     data = request.data
     if data['to_id'] is not None:
-        if UserModel.objects.get(id=data['to_id']) is not None:
-            touser = UserModel.objects.get(id=data['to_id'])
-            to_id = touser.id
-            to_nickname = touser.nickname
+        if data['to_id'] is not 0:
+            if UserModel.objects.get(id=data['to_id']) is not None:
+                touser = UserModel.objects.get(id=data['to_id'])
+                to_id = touser.id
+                to_nickname = touser.nickname
     comment = MainCommentModel.objects.create(
         parent_user = user,
         parent_id = main,
