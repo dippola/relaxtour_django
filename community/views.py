@@ -218,7 +218,7 @@ def createMainComment(request, pk, id):
     to_nickname=''
     data = request.data
     if data['to_id'] is not None:
-        if data['to_id'] is not 0:
+        if data['to_id'] != 0:
             if UserModel.objects.get(id=data['to_id']) is not None:
                 touser = UserModel.objects.get(id=data['to_id'])
                 to_id = touser.id
