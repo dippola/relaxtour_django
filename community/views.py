@@ -18,13 +18,22 @@ firebase_admin.initialize_app(cred,{
     'storageBucket' : mykeys.storageBucket
 })
 
+
+
+
+
 @api_view(['GET'])
 def testDeleteStorage(reauest):
+    # bucket = storage.bucket()
+    # path = bucket.blob('userimages/test@gmail.com/2.png')
+    # path.delete()
     bucket = storage.bucket()
-    path = bucket.blob('userimages/2.png')
-    path.delete()
-    return Response("delete success")
-
+    filenames = bucket.list_blobs(prefix='userimages/test@gmail.coma/')
+    if filenames is not None:
+        for name in filenames:
+            path = bucket.blob(str(name.name))
+            path.delete()
+    return Response("Success")
 
 @api_view(['GET'])
 def getUsers(request):
@@ -94,6 +103,12 @@ def searchNickname(request, nickname):
 @api_view(['DELETE'])
 def deleteUser(request, uid):
     user = UserModel.objects.filter(uid=uid)
+    bucket = storage.bucket()
+    filenames = bucket.list_blobs(prefix='userimages/' + str(user.id) + "/")
+    if filenames is not None:
+        for name in filenames:
+            path = bucket.blob(str(name.name))
+            path.delete()
     user.delete()
     return Response('user was deleted')
 
@@ -257,6 +272,14 @@ def createMainComment(request, pk, id):
 @api_view(['DELETE'])
 def deleteMain(request, pk):
     board = MainModel.objects.get(id=pk)
+    bucket = storage.bucket()
+    if board.imageurl != '':
+        rd = board.imageurl.split("●")[1]
+        filenames = bucket.list_blobs(prefix='community/' + rd + "/")
+        if filenames is not None:
+            for name in filenames:
+                path = bucket.blob(str(name.name))
+                path.delete()
     board.delete()
     return Response('board was deleted')
 
