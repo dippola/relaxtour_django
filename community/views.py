@@ -1,8 +1,8 @@
 import json
 
 from rest_framework.decorators import api_view
-from .models import UserModel, MainModel, QnaModel, MainCommentModel, QnaCommentModel, MainModelView
-from .serializers import UserModel_serializer, MainModel_serializer, QnaModel_serializer, MainCommentModel_serializer, QnaCommentModel_serializer, MainModelView_serializer
+from .models import UserModel, PostModel, PostCommentModel, PostModelView
+from .serializers import UserModel_serializer, PostModel_serializer, PostCommentModel_serializer, PostModelView_serializer
 from django.core.paginator import Paginator
 
 from rest_framework.response import Response
@@ -114,22 +114,9 @@ def deleteUser(request, uid):
 
 
 
-# get all Main(url)
 @api_view(['GET'])
-def getMains(request):
-    posts = MainModel.objects.all()
-    serializer = MainModel_serializer(posts, many=True)
-    return Response(serializer.data)
-
-@api_view(['DELETE'])
-def deleteAllMain(request):
-    posts = MainModel.objects.all()
-    posts.delete()
-    return Response("deleted all main")
-
-@api_view(['GET'])
-def getMainsPage(request, page):
-    posts = MainModel.objects.all()
+def getPostsPage(request, category, page):
+    posts = PostModel.objects.filter(category=category)
     page = request.GET.get('page', page)
     paginator =Paginator(posts, 15)
     page_obj = paginator.page(page)
@@ -139,30 +126,32 @@ def getMainsPage(request, page):
             imgcount = len(i.imageurl.split("●"))
         else:
             imgcount = 0
-        model = MainModelView(
+        model = PostModelView(
             parent_id=i.id,
             parent_user=i.parent_user.id,
             nickname=i.parent_user.nickname,
             user_image=i.parent_user.imageurl,
+            category=i.category,
             imageurlcount=imgcount,
             date=i.date,
             title=i.title,
             imageurl=i.imageurl,
-            commentcount=MainCommentModel.objects.filter(parent_id=i.id).count(),
+            commentcount=PostCommentModel.objects.filter(parent_id=i.id).count(),
             like=i.like
         )
         postview.append(model)
-    serializer = MainModelView_serializer(postview, many=True)
+    serializer = PostModelView_serializer(postview, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
-def getMainDetail(request, pk):
-    post = MainModel.objects.filter(id=pk).first()
-    model = MainModel(
+def getPostDetail(request, pk):
+    post = PostModel.objects.filter(id=pk).first()
+    model = PostModel(
         id=post.id,
         parent_user=post.parent_user,
         nickname=post.parent_user.nickname,
         user_url=post.parent_user.imageurl,
+        category=post.category,
         date=post.date,
         title=post.title,
         body=post.body,
@@ -170,63 +159,64 @@ def getMainDetail(request, pk):
         view=post.view,
         like=post.like,
         list=post.list,
-        commentcount = MainCommentModel.objects.filter(parent_id=post.id).count()
+        commentcount = PostCommentModel.objects.filter(parent_id=post.id).count()
     )
-    serializer = MainModel_serializer(model)
+    serializer = PostModel_serializer(model)
     return Response(serializer.data)
 
-# Main 하나 가져오기(url)
-# @api_view(['GET'])
-# def getMain(request, pk):
-#     post = MainModel.objects.get(id=pk)
-#     serializer = MainModel_serializer(post, many=False)
-#     return Response(serializer.data)
-
-# Main글쓰기
 @api_view(['POST'])
-def createMain(request, id):
+def createPost(request, id):
     data = request.data
     user = UserModel.objects.get(id=id)
-    main = MainModel.objects.create(
+    main = PostModel.objects.create(
         parent_user = user,
+        category = data['category'],
         title = data['title'],
         body = data['body'],
         imageurl = data['imageurl'],
         list=data['list']
     )
-    serializer = MainModel_serializer(main, many=False)
+    serializer = PostModel_serializer(main, many=False)
     return Response(serializer.data)
 
 @api_view(['PUT'])
-def updateMain(request, pk):
+def updatePost(request, pk):
     data = request.data
-    main = MainModel.objects.filter(id=pk).first()
-    serializer = MainModel_serializer(main, data=data, partial=True)
+    main = PostModel.objects.filter(id=pk).first()
+    serializer = PostModel_serializer(main, data=data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors)
 
-@api_view(['GET'])
-def getMainAllComments(request, pk):
-    comments = MainCommentModel.objects.filter(parent_id=pk)
-    serializer = MainCommentModel_serializer(comments, many=True)
-    return Response(serializer.data)
+@api_view(['DELETE'])
+def deletePost(request, pk):
+    board = PostModel.objects.get(id=pk)
+    bucket = storage.bucket()
+    if board.imageurl != '':
+        rd = board.imageurl.split("●")[1]
+        filenames = bucket.list_blobs(prefix='community/main/' + rd + "/")
+        if filenames is not None:
+            for name in filenames:
+                path = bucket.blob(str(name.name))
+                path.delete()
+    board.delete()
+    return Response('board was deleted')
 
-# Main에 comments 가져오기(url)
+
 @api_view(['GET'])
-def getMainComments(request, pk, page):
-    main_comment = MainCommentModel.objects.filter(parent_id=pk)
+def getPostComments(request, pk, page):
+    main_comment = PostCommentModel.objects.filter(parent_id=pk)
     page = request.GET.get('page', page)
     paginator = Paginator(main_comment, 3)
     page_obj = paginator.page(page)
-    serializer = MainCommentModel_serializer(page_obj, many=True)
+    serializer = PostCommentModel_serializer(page_obj, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
-def getMainCommentsMore(request, pk, lastid):
-    main_comment = MainCommentModel.objects.filter(parent_id=pk)
-    convert_request = MainCommentModel.objects.get(id=lastid)
+def getPostCommentsMore(request, pk, lastid):
+    main_comment = PostCommentModel.objects.filter(parent_id=pk)
+    convert_request = PostCommentModel.objects.get(id=lastid)
     start_position = list(main_comment).index(convert_request)
     result_list = []
     count = 0
@@ -239,15 +229,14 @@ def getMainCommentsMore(request, pk, lastid):
                     break
             else:
                 break
-    serializer = MainCommentModel_serializer(result_list, many=True)
+    serializer = PostCommentModel_serializer(result_list, many=True)
     return Response(serializer.data)
-
 
 # Main에 Comment 쓰기
 @api_view(['POST'])
-def createMainComment(request, pk, id):
+def createPostComment(request, pk, id):
     user = UserModel.objects.get(id=id)
-    main = MainModel.objects.get(id=pk)
+    main = PostModel.objects.get(id=pk)
     to_id=0
     to_nickname=''
     data = request.data
@@ -257,7 +246,7 @@ def createMainComment(request, pk, id):
                 touser = UserModel.objects.get(id=data['to_id'])
                 to_id = touser.id
                 to_nickname = touser.nickname
-    comment = MainCommentModel.objects.create(
+    comment = PostCommentModel.objects.create(
         parent_user = user,
         parent_id = main,
         body = data['body'],
@@ -266,136 +255,72 @@ def createMainComment(request, pk, id):
         to_id = to_id,
         to_nickname=to_nickname
     )
-    serializer = MainCommentModel_serializer(comment, many=False)
+    serializer = PostCommentModel_serializer(comment, many=False)
     return Response(serializer.data)
 
-@api_view(['DELETE'])
-def deleteMain(request, pk):
-    board = MainModel.objects.get(id=pk)
-    bucket = storage.bucket()
-    if board.imageurl != '':
-        rd = board.imageurl.split("●")[1]
-        filenames = bucket.list_blobs(prefix='community/' + rd + "/")
-        if filenames is not None:
-            for name in filenames:
-                path = bucket.blob(str(name.name))
-                path.delete()
-    board.delete()
-    return Response('board was deleted')
-
 @api_view(['PUT'])
-def updateMainComment(request, id):
-    comment = MainCommentModel.objects.filter(id=id).first()
-    serializer = MainCommentModel_serializer(comment, data=request.data, partial=True)
+def updatePostComment(request, id):
+    comment = PostCommentModel.objects.filter(id=id).first()
+    serializer = PostCommentModel_serializer(comment, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors)
 
 @api_view(['DELETE'])
-def deleteMainComment(request, id):
-    comment = MainCommentModel.objects.filter(id=id).first()
+def deletePostComment(request, id):
+    comment = PostCommentModel.objects.filter(id=id).first()
     comment.delete()
     return Response('comment was deleted')
 
 
+# get all Main(url)
+# @api_view(['GET'])
+# def getMains(request):
+#     posts = MainModel.objects.all()
+#     serializer = MainModel_serializer(posts, many=True)
+#     return Response(serializer.data)
+#
+# @api_view(['DELETE'])
+# def deleteAllMain(request):
+#     posts = MainModel.objects.all()
+#     posts.delete()
+#     return Response("deleted all main")
 
 
 
-# get all Qna(url)
+# Main 하나 가져오기(url)
+# @api_view(['GET'])
+# def getMain(request, pk):
+#     post = MainModel.objects.get(id=pk)
+#     serializer = MainModel_serializer(post, many=False)
+#     return Response(serializer.data)
+
+# Main글쓰기
+
+
+
+
 @api_view(['GET'])
-def getQnas(request):
-    qnas = QnaModel.objects.all()
-    serializer = QnaModel_serializer(qnas, many=True)
+def getMainAllComments(request, pk):
+    comments = PostCommentModel.objects.filter(parent_id=pk)
+    serializer = PostCommentModel_serializer(comments, many=True)
     return Response(serializer.data)
 
-# Qna paginator(url)
-@api_view(['GET'])
-def getQnasPage(request, page):
-    qnas = QnaModel.objects.all()
-    page = request.GET.get('page', page)
-    paginator =Paginator(qnas, 15)
-    page_obj = paginator.page(page)
-    serializer = QnaModel_serializer(page_obj, many=True)
-    return Response(serializer.data)
+# Main에 comments 가져오기(url)
 
-# Qna 하나 가져오기(url)
-@api_view(['GET'])
-def getQna(request, uid):
-    qna = QnaModel.objects.filter(uid=uid)
-    serializer = QnaModel_serializer(qna, many=False)
-    return Response(serializer.data)
 
-# Qna에 comments 가져오기(url)
-@api_view(['GET'])
-def getQnaComments(request, page):
-    qna_comments = QnaCommentModel.objects.all()
-    page = request.GET.get('page', page)
-    paginator = Paginator(qna_comments, 15)
-    page_obj = paginator.page(page)
-    serializer = QnaCommentModel_serializer(page_obj, many=True)
-    return Response(serializer.data)
 
-# Qna글쓰기
-@api_view(['POST'])
-def createQna(request, uid):
-    user = UserModel.objects.filter(uid=uid)
-    data = request.data
-    qna = QnaModel.objects.create(
-        parent_user = user,
-        uid = user['uid'],
-        title = data['title'],
-        body = data['body'],
-        imageurl = data['imageurl'],
-    )
-    serializer = QnaModel_serializer(qna, many=False)
-    return Response(serializer.data)
 
-# Qna에 Comment 쓰기
-@api_view(['POST'])
-def createQnaComment(request, pk, uid):
-    user = UserModel.objects.filter(uid=uid)
-    qna = QnaModel.objects.get(id=pk)
-    data = request.data
-    comment = QnaCommentModel.objects.create(
-        parent_user = user,
-        parent_id = qna,
-        uid = uid,
-        title = data['title'],
-        body = data['body'],
-        to = data['to']
-    )
-    serializer = QnaCommentModel_serializer(comment, many=False)
-    return Response(serializer.data)
 
-@api_view(['PUT'])
-def updateQna(request, pk):
-    data = request.data
-    qna = QnaModel.objects.get(id=pk)
-    serializer = QnaModel_serializer(qna, data=data)
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
 
-@api_view(['DELETE'])
-def deleteQna(request, pk):
-    qna = QnaModel.objects.get(id=pk)
-    qna.delete()
-    return Response('board was deleted')
 
-@api_view(['PUT'])
-def updateQnaComment(request, main_pk, comment_pk):
-    comments = QnaCommentModel.objects.get(parent_id=main_pk).parent_id
-    comment = comments.get(id=comment_pk)
-    serializer = QnaCommentModel_serializer(comment, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response("update comment success")
-    return Response(serializer.data)
 
-@api_view(['DELETE'])
-def deleteQnaComment(request, main_pk, comment_pk):
-    comments = QnaCommentModel.objects.get(parent_id=main_pk).parent_id
-    comment = comments.get(id=comment_pk)
-    comment.delete()
-    return Response('board was deleted')
+
+
+
+
+
+
+
+

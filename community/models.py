@@ -12,11 +12,16 @@ class UserModel(models.Model):
     class Meta:
         ordering = ['-id']
 
-class MainModelView(models.Model):#only GET
+class PostModelView(models.Model):#only GET
+    CATEGORY = (
+        ("FREE", "free"),
+        ('QNA', 'qna')
+    )
     parent_id = models.IntegerField(null=True)
     parent_user = models.IntegerField()
     nickname = models.TextField(null=True, default='')
     user_image = models.TextField(default='')
+    category = models.CharField(choices=CATEGORY)
     date = models.TextField()
     title = models.TextField()
     imageurl = models.TextField()
@@ -25,11 +30,16 @@ class MainModelView(models.Model):#only GET
     view = models.IntegerField(default=0)
     like = models.IntegerField()
 
-class MainModel(models.Model):
+class PostModel(models.Model):
+    CATEGORY = (
+        ("FREE", "free"),
+        ('QNA', 'qna')
+    )
     id = models.AutoField(primary_key=True, null=False, blank=False)
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     nickname = models.TextField(null=True, default='')
     user_url = models.TextField(null=True, default='')
+    category = models.CharField(max_length=20, choices=CATEGORY)
     date = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=60)
     body = models.TextField(null=False)
@@ -41,10 +51,10 @@ class MainModel(models.Model):
     class Meta:
         ordering = ['-date']
 
-class MainCommentModel(models.Model):
+class PostCommentModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
     date = models.DateTimeField(auto_now_add=True)
-    parent_id = models.ForeignKey(MainModel, on_delete=models.CASCADE)
+    parent_id = models.ForeignKey(PostModel, on_delete=models.CASCADE)
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     body = models.TextField(null=False)
     nickname = models.TextField(default='')
@@ -53,27 +63,3 @@ class MainCommentModel(models.Model):
     to_nickname = models.TextField(default='')
     class Meta:
         ordering = ['date']
-
-class QnaModel(models.Model):
-    id = models.AutoField(primary_key=True, null=False, blank=False)
-    parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
-    uid = models.CharField(max_length=50, null=True, default='')
-    title = models.CharField(max_length=30)
-    body = models.TextField(null=False)
-    imageurl = models.TextField(null=True, blank=True)
-    count = models.PositiveIntegerField(default=0)
-    like = models.PositiveIntegerField(default=0)
-    class Meta:
-        ordering = ['-date']
-
-class QnaCommentModel(models.Model):
-    id = models.AutoField(primary_key=True, null=False, blank=False)
-    date = models.DateTimeField(auto_now_add=True)
-    parent_id = models.ForeignKey(QnaModel, on_delete=models.CASCADE)
-    parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    uid = models.CharField(max_length=50, null=True, default='')
-    body = models.TextField(null=False)
-    to = models.TextField(null=True, blank=True)
-    class Meta:
-        ordering = ['-date']
