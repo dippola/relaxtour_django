@@ -21,7 +21,7 @@ class PostModelView(models.Model):#only GET
     parent_user = models.IntegerField()
     nickname = models.TextField(null=True, default='')
     user_image = models.TextField(default='')
-    category = models.CharField(choices=CATEGORY)
+    category = models.CharField(max_length=20, choices=CATEGORY)
     date = models.TextField()
     title = models.TextField()
     imageurl = models.TextField()
