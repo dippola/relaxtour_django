@@ -12,6 +12,22 @@ class UserModel(models.Model):
     class Meta:
         ordering = ['-id']
 
+class PostModelViewWithPage(models.Model):
+    posts = (
+        'parent_id',
+        'parent_user',
+        'nickname',
+        'user_image',
+        'category',
+        'date',
+        'title',
+        'imageurl',
+        'imageurlcount',
+        'view',
+        'like'
+    )
+    pages = models.IntegerField()
+
 class PostModelView(models.Model):#only GET
     CATEGORY = (
         ("FREE", "free"),
