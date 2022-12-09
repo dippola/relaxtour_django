@@ -24,7 +24,8 @@ urlpatterns = [
     path('user/<str:uid>/delete/', views.deleteUser),#
     path('user/<str:id>/updatenotification/', views.updateUserNotification),#
 
-    path('posts/category=<str:category>/page=<str:page>/', views.getPostsPage),
+    path('posts/page=<str:page>/', views.getPostsPageAll),
+    path('posts/category=<str:category>/page=<str:page>/', views.getPostsPageWithCategory),
     path('post/create=<str:id>/', views.createPost),
     path('post/<str:pk>/', views.getPostDetail),
     path('post/<str:pk>/update/', views.updatePost),
