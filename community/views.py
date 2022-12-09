@@ -142,7 +142,7 @@ def getPostsPageAll(request, page):
         postview.append(model)
     serializer = PostModelView_serializer(postview, many=True)
     getPages(paginator)
-    return Response(serializer.data, paginator.num_pages)
+    return Response(serializer.data, status=paginator.num_pages)
 
 def getPages(paginator):
     pages = PagesModel(
