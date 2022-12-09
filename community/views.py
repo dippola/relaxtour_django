@@ -118,6 +118,9 @@ def getPostsPageAll(request, page):
     page = request.GET.get('page', page)
     paginator =Paginator(posts, 15)
     page_obj = paginator.page(page)
+    postModelViewWithPage = PostModelViewWithPage(
+        pages=paginator.num_pages,
+    )
     postview = []
     for i in page_obj:
         if i.imageurl != "":
@@ -137,11 +140,8 @@ def getPostsPageAll(request, page):
             commentcount=PostCommentModel.objects.filter(parent_id=i.id).count(),
             like=i.like
         )
-        postview.append(model)
-    postModelViewWithPage = PostModelViewWithPage(
-        pages=paginator.num_pages,
-    )
-    postModelViewWithPage.posts.append(postview)
+        # postview.append(model)
+        postModelViewWithPage.posts.add(model)
     serializer = PostModelViewWithPage_serializer(postModelViewWithPage, many=True)
     return Response(serializer.data)
 
