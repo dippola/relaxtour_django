@@ -142,14 +142,14 @@ def getPostsPageAll(request, page):
         postview.append(model)
     serializer = PostModelView_serializer(postview, many=True)
     getPages(paginator)
-    return Response(serializer.data, f"{paginator.num_pages}")
+    return Response(serializer.data)
 
 def getPages(paginator):
     pages = PagesModel(
         pages = paginator.num_pages
     )
     serializer = Pages_serializer(pages, many=False)
-    return Response(serializer.data)
+    return Response(paginator.num_pages)
 
 @api_view(['GET'])
 def getPostsPageWithCategory(request, category, page):
