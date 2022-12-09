@@ -33,7 +33,7 @@ class PostModelView(models.Model):#only GET
     view = models.IntegerField(default=0)
     like = models.IntegerField()
 
-class PostModelViewWithPage(models.Model):
+class PostModelViewWithPage(models.Field):
     posts = ArrayField(PostModelView)
     pages = models.IntegerField
 
