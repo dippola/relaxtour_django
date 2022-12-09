@@ -7,6 +7,8 @@ from django.core.paginator import Paginator
 
 from rest_framework.response import Response
 
+from django.http  import JsonResponse, HttpResponse
+
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import storage
@@ -113,7 +115,6 @@ def deleteUser(request, uid):
     return Response('user was deleted')
 
 
-
 @api_view(['GET'])
 def getPostsPageAll(request, page):
     posts = PostModel.objects.all()
@@ -142,7 +143,37 @@ def getPostsPageAll(request, page):
         postview.append(model)
     serializer = PostModelView_serializer(postview, many=True)
     print(">>> " + str(paginator.num_pages))
-    return Response(serializer.data)
+    return HttpResponse(json.dump({'pages': paginator, 'posts': serializer.data}))
+
+# @api_view(['GET'])
+# def getPostsPageAll(request, page):
+#     posts = PostModel.objects.all()
+#     page = request.GET.get('page', page)
+#     paginator =Paginator(posts, 15)
+#     page_obj = paginator.page(page)
+#     postview = []
+#     for i in page_obj:
+#         if i.imageurl != "":
+#             imgcount = len(i.imageurl.split("●"))
+#         else:
+#             imgcount = 0
+#         model = PostModelView(
+#             parent_id=i.id,
+#             parent_user=i.parent_user.id,
+#             nickname=i.parent_user.nickname,
+#             user_image=i.parent_user.imageurl,
+#             category=i.category,
+#             imageurlcount=imgcount,
+#             date=i.date,
+#             title=i.title,
+#             imageurl=i.imageurl,
+#             commentcount=PostCommentModel.objects.filter(parent_id=i.id).count(),
+#             like=i.like
+#         )
+#         postview.append(model)
+#     serializer = PostModelView_serializer(postview, many=True)
+#     print(">>> " + str(paginator.num_pages))
+#     return Response(serializer.data)
 
 @api_view(['GET'])
 def getPostsPageWithCategory(request, category, page):
