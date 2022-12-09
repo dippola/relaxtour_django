@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 class UserModel(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
@@ -31,6 +32,10 @@ class PostModelView(models.Model):#only GET
     commentcount = models.IntegerField()
     view = models.IntegerField(default=0)
     like = models.IntegerField()
+
+class PostModelViewWithPage(models.Model):
+    posts = ArrayField(PostModelView)
+    pages = models.IntegerField
 
 
 class PostModel(models.Model):
