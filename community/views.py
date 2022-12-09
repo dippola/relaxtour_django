@@ -139,9 +139,9 @@ def getPostsPageAll(request, page):
         )
         postview.append(model)
     postModelViewWithPage = PostModelViewWithPage(
-        pages=paginator.num_pages,
         posts=postview
     )
+    postModelViewWithPage.pages.append(postview)
     serializer = PostModelViewWithPage_serializer(postModelViewWithPage, many=True)
     return Response(serializer.data)
 
