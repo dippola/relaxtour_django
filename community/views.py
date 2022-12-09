@@ -1,8 +1,8 @@
 import json
 
 from rest_framework.decorators import api_view
-from .models import UserModel, PostModel, PostCommentModel, PostModelView, PagesModel
-from .serializers import UserModel_serializer, PostModel_serializer, PostCommentModel_serializer, PostModelView_serializer, Pages_serializer
+from .models import UserModel, PostModel, PostCommentModel, PostModelView
+from .serializers import UserModel_serializer, PostModel_serializer, PostCommentModel_serializer, PostModelView_serializer
 from django.core.paginator import Paginator
 
 from rest_framework.response import Response
@@ -141,15 +141,8 @@ def getPostsPageAll(request, page):
         )
         postview.append(model)
     serializer = PostModelView_serializer(postview, many=True)
-    getPages(paginator)
+    print(">>> " + str(paginator.num_pages))
     return Response(serializer.data)
-
-def getPages(paginator):
-    pages = PagesModel(
-        pages = paginator.num_pages
-    )
-    serializer = Pages_serializer(pages, many=False)
-    return Response(paginator.num_pages)
 
 @api_view(['GET'])
 def getPostsPageWithCategory(request, category, page):
