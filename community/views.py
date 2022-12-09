@@ -141,7 +141,7 @@ def getPostsPageAll(request, page):
             like=i.like
         )
         # postview.append(model)
-        postModelViewWithPage.posts.add(model)
+        postModelViewWithPage.posts.append(model)
     serializer = PostModelViewWithPage_serializer(postModelViewWithPage, many=True)
     return Response(serializer.data)
 
