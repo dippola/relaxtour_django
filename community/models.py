@@ -12,21 +12,7 @@ class UserModel(models.Model):
     class Meta:
         ordering = ['-id']
 
-class PostModelViewWithPage(models.Model):
-    posts = (
-        'parent_id',
-        'parent_user',
-        'nickname',
-        'user_image',
-        'category',
-        'date',
-        'title',
-        'imageurl',
-        'imageurlcount',
-        'view',
-        'like'
-    )
-    pages = models.IntegerField()
+
 
 class PostModelView(models.Model):#only GET
     CATEGORY = (
@@ -45,6 +31,10 @@ class PostModelView(models.Model):#only GET
     commentcount = models.IntegerField()
     view = models.IntegerField(default=0)
     like = models.IntegerField()
+
+class PostModelViewWithPage(models.Model):
+    posts = PostModelView()
+    pages = models.IntegerField()
 
 class PostModel(models.Model):
     CATEGORY = (
