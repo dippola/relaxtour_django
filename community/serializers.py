@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import UserModel, PostModel, PostCommentModel, PostModelView, PostModelViewWithPage
+from .models import UserModel, PostModel, PostCommentModel, PostModelView
 
 class UserModel_serializer(serializers.ModelSerializer):
     # comments = Comment_model_serializer(many=True)
@@ -24,7 +24,3 @@ class PostModel_serializer(serializers.ModelSerializer):
         model = PostModel
         fields = '__all__'
 
-class PostModelViewWithPage_serializer(serializers.ModelSerializer):
-    class Meta:
-        model = PostModelViewWithPage
-        fields = '__all__'
