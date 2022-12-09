@@ -12,6 +12,10 @@ class UserModel(models.Model):
     class Meta:
         ordering = ['-id']
 
+class PostModelViewWithPage(models.Model):#only GET
+    pages = models.IntegerField()
+    posts = models.ManyToManyField('PostModelView')
+
 class PostModelView(models.Model):#only GET
     CATEGORY = (
         ("FREE", "free"),

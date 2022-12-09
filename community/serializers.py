@@ -23,3 +23,9 @@ class PostModel_serializer(serializers.ModelSerializer):
     class Meta:
         model = PostModel
         fields = '__all__'
+
+class PostModelViewWithPage_serializer(serializers.ModelSerializer):
+    posts = PostModelView_serializer(many=True)
+    class Meta:
+        model = PostModel
+        fields = '__all__'
