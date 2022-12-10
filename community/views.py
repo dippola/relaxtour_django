@@ -194,7 +194,7 @@ def getPostDetail(request, pk):
     post_serializer = PostModel_serializer(model)
     main_comment = PostCommentModel.objects.filter(parent_id=pk)
     page = request.GET.get('page', 1)
-    paginator = Paginator(main_comment, 3)
+    paginator = Paginator(main_comment, 8)
     page_obj = paginator.page(page)
     comments_serializer = PostCommentModel_serializer(page_obj, many=True)
     return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': comments_serializer.data}))
@@ -248,7 +248,7 @@ def getPostAllComments(request, pk):
 def getPostComments(request, pk, page):
     main_comment = PostCommentModel.objects.filter(parent_id=pk)
     page = request.GET.get('page', page)
-    paginator = Paginator(main_comment, 3)
+    paginator = Paginator(main_comment, 8)
     page_obj = paginator.page(page)
     serializer = PostCommentModel_serializer(page_obj, many=True)
     return Response(serializer.data)
@@ -265,7 +265,7 @@ def getPostCommentsMore(request, pk, lastid):
         if i  > start_position:
             if ii is not None:
                 result_list.append(ii)
-                if count == 3:
+                if count == 8:
                     break
             else:
                 break
