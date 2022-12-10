@@ -175,7 +175,7 @@ def getPostsPageWithCategory(request, category, page):
 
 @api_view(['GET'])
 def getPostDetail(request, pk):
-    print(">>>" + request.data['willAddHit'])
+    # print(">>>" + request.data['willAddHit'])
     post = PostModel.objects.filter(id=pk).first()
     model = PostModel(
         id=post.id,
