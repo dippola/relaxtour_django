@@ -142,38 +142,7 @@ def getPostsPageAll(request, page):
         )
         postview.append(model)
     serializer = PostModelView_serializer(postview, many=True)
-    print(">>> " + str(paginator.num_pages))
     return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': serializer.data}))
-
-# @api_view(['GET'])
-# def getPostsPageAll(request, page):
-#     posts = PostModel.objects.all()
-#     page = request.GET.get('page', page)
-#     paginator =Paginator(posts, 15)
-#     page_obj = paginator.page(page)
-#     postview = []
-#     for i in page_obj:
-#         if i.imageurl != "":
-#             imgcount = len(i.imageurl.split("●"))
-#         else:
-#             imgcount = 0
-#         model = PostModelView(
-#             parent_id=i.id,
-#             parent_user=i.parent_user.id,
-#             nickname=i.parent_user.nickname,
-#             user_image=i.parent_user.imageurl,
-#             category=i.category,
-#             imageurlcount=imgcount,
-#             date=i.date,
-#             title=i.title,
-#             imageurl=i.imageurl,
-#             commentcount=PostCommentModel.objects.filter(parent_id=i.id).count(),
-#             like=i.like
-#         )
-#         postview.append(model)
-#     serializer = PostModelView_serializer(postview, many=True)
-#     print(">>> " + str(paginator.num_pages))
-#     return Response(serializer.data)
 
 @api_view(['GET'])
 def getPostsPageWithCategory(request, category, page):
@@ -202,7 +171,7 @@ def getPostsPageWithCategory(request, category, page):
         )
         postview.append(model)
     serializer = PostModelView_serializer(postview, many=True)
-    return Response(serializer.data)
+    return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': serializer.data}))
 
 @api_view(['GET'])
 def getPostDetail(request, pk):
@@ -222,8 +191,13 @@ def getPostDetail(request, pk):
         list=post.list,
         commentcount = PostCommentModel.objects.filter(parent_id=post.id).count()
     )
-    serializer = PostModel_serializer(model)
-    return Response(serializer.data)
+    post_serializer = PostModel_serializer(model)
+    main_comment = PostCommentModel.objects.filter(parent_id=pk)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(main_comment, 3)
+    page_obj = paginator.page(page)
+    comments_serializer = PostCommentModel_serializer(page_obj, many=True)
+    return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': comments_serializer.data}))
 
 @api_view(['POST'])
 def createPost(request, id):
@@ -264,6 +238,11 @@ def deletePost(request, pk):
     board.delete()
     return Response('board was deleted')
 
+@api_view(['GET'])
+def getPostAllComments(request, pk):
+    comments = PostCommentModel.objects.filter(parent_id=pk)
+    serializer = PostCommentModel_serializer(comments, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getPostComments(request, pk, page):
