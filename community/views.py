@@ -192,9 +192,9 @@ def getPostDetail(request, pk):
         list=post.list,
         commentcount = PostCommentModel.objects.filter(parent_id=post.id).count()
     )
-    print(">>>1")
+    print(">>>1" + str(type(request.data)))
     if willAddHit == "True":
-        print(">>>2")
+        print(">>>2" + str(type(model)))
         model.view += 1
     post_serializer = PostModel_serializer(post, data=model, partial=True)
     if willAddHit == "True":
