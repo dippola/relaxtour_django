@@ -192,7 +192,7 @@ def setLike(request, pk, id):
         model.save()
         return Response("add")
     else:
-        like_model.remove()
+        like_model.delete()
         return Response("remove")
 
 @api_view(['PUT'])
