@@ -183,7 +183,7 @@ def getPostsPageWithCategory(request, category, page):
 def setLike(request, pk, id):
     post_model = PostModel.objects.get(id=pk)
     user_model = UserModel.objects.get(id=id)
-    like_model = LikeModel.objects.filter(parent_id=post_model.id, user_ids=user_model.id).first()
+    like_model = LikeModel.objects.get(parent_id=post_model.id, user_ids=user_model.id)
     if like_model.exists():
         like_model.remove()
         return Response("delete")
