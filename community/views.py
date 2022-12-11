@@ -140,6 +140,7 @@ def getPostsPageAll(request, page):
             title=i.title,
             imageurl=i.imageurl,
             commentcount=PostCommentModel.objects.filter(parent_id=i.id).count(),
+            view=i.view,
             like=i.like
         )
         postview.append(model)
@@ -169,6 +170,7 @@ def getPostsPageWithCategory(request, category, page):
             title=i.title,
             imageurl=i.imageurl,
             commentcount=PostCommentModel.objects.filter(parent_id=i.id).count(),
+            view=i.view,
             like=i.like
         )
         postview.append(model)
