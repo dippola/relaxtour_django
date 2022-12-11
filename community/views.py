@@ -175,8 +175,7 @@ def getPostsPageWithCategory(request, category, page):
 
 @api_view(['POST'])
 def getPostDetail(request, pk):
-    print(">>>" + str(request.data['willAddHit']))
-    print(request.GET.get)
+    willAddHit = request.data['willAddHit']
     post = PostModel.objects.filter(id=pk).first()
     model = PostModel(
         id=post.id,
@@ -193,7 +192,12 @@ def getPostDetail(request, pk):
         list=post.list,
         commentcount = PostCommentModel.objects.filter(parent_id=post.id).count()
     )
+    if willAddHit is True:
+        model.view += 1
     post_serializer = PostModel_serializer(model)
+    if willAddHit is True:
+        if post_serializer.is_valid():
+            post_serializer.save()
     main_comment = PostCommentModel.objects.filter(parent_id=pk)
     page = request.GET.get('page', 1)
     paginator = Paginator(main_comment, 8)
