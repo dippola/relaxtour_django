@@ -9,6 +9,8 @@ from rest_framework.response import Response
 
 from django.http  import JsonResponse, HttpResponse
 
+from django.forms import model_to_dict
+
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import storage
@@ -180,9 +182,10 @@ def getPostDetail(request, pk):
     if willAddHit == "True":
         print(">>>1")
         post.view += 1
-        update_serializer = PostModel_serializer(post, data=post)
+        mtd = model_to_dict(post)
+        update_serializer = PostModel_serializer(post, data=mtd)
         if update_serializer.is_valid():
-            print(">>>")
+            print(">>>2")
             update_serializer.save()
     model = PostModel(
         id=post.id,
