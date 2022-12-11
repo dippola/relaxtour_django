@@ -194,7 +194,7 @@ def getPostDetail(request, pk):
     )
     if willAddHit is True:
         model.view += 1
-    post_serializer = PostModel_serializer(post, data=model)
+    post_serializer = PostModel_serializer(model)
     if willAddHit is True:
         if post_serializer.is_valid():
             post_serializer.save()
@@ -203,10 +203,7 @@ def getPostDetail(request, pk):
     paginator = Paginator(main_comment, 8)
     page_obj = paginator.page(page)
     comments_serializer = PostCommentModel_serializer(page_obj, many=True)
-    if post_serializer.is_valid():
-        return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': comments_serializer.data}))
-    else:
-        return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': comments_serializer.data}))
+    return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': comments_serializer.data}))
 
 @api_view(['POST'])
 def createPost(request, id):
