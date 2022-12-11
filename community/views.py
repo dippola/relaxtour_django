@@ -129,7 +129,6 @@ def getPostsPageAll(request, page):
             imgcount = len(i.imageurl.split("●"))
         else:
             imgcount = 0
-        like_count = LikeModel.objects.filter(parent_id=i.id).count()
         model = PostModelView(
             parent_id=i.id,
             parent_user=i.parent_user.id,
@@ -142,7 +141,7 @@ def getPostsPageAll(request, page):
             imageurl=i.imageurl,
             commentcount=PostCommentModel.objects.filter(parent_id=i.id).count(),
             view=i.view,
-            like=like_count
+            like=LikeModel.objects.filter(parent_id=i.id).count()
         )
         postview.append(model)
     serializer = PostModelView_serializer(postview, many=True)
@@ -160,7 +159,6 @@ def getPostsPageWithCategory(request, category, page):
             imgcount = len(i.imageurl.split("●"))
         else:
             imgcount = 0
-        like_count = LikeModel.objects.filter(parent_id=i.id).count()
         model = PostModelView(
             parent_id=i.id,
             parent_user=i.parent_user.id,
@@ -173,7 +171,7 @@ def getPostsPageWithCategory(request, category, page):
             imageurl=i.imageurl,
             commentcount=PostCommentModel.objects.filter(parent_id=i.id).count(),
             view=i.view,
-            like=like_count
+            like=LikeModel.objects.filter(parent_id=i.id).count()
         )
         postview.append(model)
     serializer = PostModelView_serializer(postview, many=True)
@@ -218,7 +216,7 @@ def getPostDetail(request, pk):
         body=post.body,
         imageurl=post.imageurl,
         view=post.view,
-        like=post.like,
+        like=LikeModel.objects.filter(parent_id=post.id).count(),
         list=post.list,
         commentcount = PostCommentModel.objects.filter(parent_id=post.id).count()
     )
