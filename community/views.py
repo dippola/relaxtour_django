@@ -129,10 +129,9 @@ def getPostsPageAll(request, page):
             imgcount = len(i.imageurl.split("●"))
         else:
             imgcount = 0
-        # like_model = LikeModel.objects.filter(parent_id=i.id).first()
-        # lik_count = like_model.user_ids.all().count()
-        count = PostCommentModel.objects.filter(parent_id=1).count()
-        print(">>>: " + str(count))
+        like_model = LikeModel.objects.filter(parent_id=i.id).first()
+        lik_count = like_model.user_ids.all().count()
+        print(">>>: " + str(lik_count))
         model = PostModelView(
             parent_id=i.id,
             parent_user=i.parent_user.id,
