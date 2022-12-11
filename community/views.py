@@ -180,19 +180,13 @@ def getPostDetail(request, pk):
     willAddHit = request.data['willAddHit']
     post = PostModel.objects.filter(id=pk).first()
     if willAddHit == "True":
-        print(">>>1")
         post.view += 1
-        # mtd = model_to_dict(post)
         mtd = {
             "view": post.view,
         }
-        print(">>>1-1 " + str(type(mtd)))
         update_serializer = PostModel_serializer(post, data=mtd, partial=True)
         if update_serializer.is_valid():
-            print(">>>2")
             update_serializer.save()
-        else:
-            print(update_serializer.errors)
     model = PostModel(
         id=post.id,
         parent_user=post.parent_user,
@@ -208,16 +202,7 @@ def getPostDetail(request, pk):
         list=post.list,
         commentcount = PostCommentModel.objects.filter(parent_id=post.id).count()
     )
-    # print(">>>1" + str(type(request.data)))
-    # if willAddHit == "True":
-    #     print(">>>2" + str(type(model)))
-    #     model.view += 1
     post_serializer = PostModel_serializer(model)
-    # if willAddHit == "True":
-    #     print(">>>3")
-    #     if post_serializer.is_valid():
-    #         print(">>>4")
-    #         post_serializer.save()
     main_comment = PostCommentModel.objects.filter(parent_id=pk)
     page = request.GET.get('page', 1)
     paginator = Paginator(main_comment, 8)
