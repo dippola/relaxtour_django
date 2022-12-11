@@ -69,12 +69,3 @@ class PostCommentModel(models.Model):
     class Meta:
         ordering = ['date']
 
-class LikeModel(models.Model):
-    id = models.AutoField(primary_key=True, null=False, blank=False)
-    parent_id = models.ForeignKey(PostModel, on_delete=models.CASCADE)
-    user_ids = models.ManyToManyField('LikeUserModel')
-
-class LikeUserModel(models.Model):
-    id = models.AutoField(primary_key=True, null=False, blank=False)
-    parent_id = models.ForeignKey(LikeModel, on_delete=models.CASCADE)
-    user_ids = models.ForeignKey(UserModel, on_delete=models.PROTECT)
