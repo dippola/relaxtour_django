@@ -196,12 +196,12 @@ def getPostDetail(request, pk):
     if willAddHit == "True":
         print(">>>2" + str(type(model)))
         model.view += 1
-    post_serializer = PostModel_serializer(post, data=model, partial=True)
-    if willAddHit == "True":
-        print(">>>3")
-        if post_serializer.is_valid():
-            print(">>>4")
-            post_serializer.save()
+    post_serializer = PostModel_serializer(model)
+    # if willAddHit == "True":
+    #     print(">>>3")
+    #     if post_serializer.is_valid():
+    #         print(">>>4")
+    #         post_serializer.save()
     main_comment = PostCommentModel.objects.filter(parent_id=pk)
     page = request.GET.get('page', 1)
     paginator = Paginator(main_comment, 8)
