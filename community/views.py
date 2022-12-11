@@ -181,8 +181,8 @@ def getPostsPageWithCategory(request, category, page):
 
 @api_view(['POST'])
 def setLike(request, pk, id):
-    post_model = PostModel.objects.get(id=pk)
-    user_model = UserModel.objects.get(id=id)
+    post_model = PostModel.objects.get(id=pk).id
+    user_model = UserModel.objects.get(id=id).id
     try:
         like_model = LikeModel.objects.get(parent_id=post_model, user_ids=user_model)
         like_model.remove()
