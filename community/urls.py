@@ -30,7 +30,7 @@ urlpatterns = [
     path('post/<str:pk>/', views.getPostDetail),
     path('post/<str:pk>/update/', views.updatePost),
     path('post/<str:pk>/delete/', views.deletePost),
-    path('post/<str:pk>/like/add=<str:id>', views.),
+    path('post/<str:pk>/like/add=<str:id>', views.setLike),
     path('post/<str:pk>/comments/', views.getPostAllComments),
     path('post/<str:pk>/comments/page=<str:page>/', views.getPostComments),
     path('post/<str:pk>/comments/more=<str:lastid>/', views.getPostCommentsMore),
