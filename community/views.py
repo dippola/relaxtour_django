@@ -181,13 +181,18 @@ def getPostsPageWithCategory(request, category, page):
 
 @api_view(['POST'])
 def setLike(request, pk, id):
-    like_model = LikeModel.objects.get(parent_id=pk, user_ids=id)
-    if like_model.exists():
+    try:
+        like_model = LikeModel.objects.get(parent_id=pk, user_ids=id)
         like_model.remove()
         return Response("delete")
-    else:
-        like_model(parent_id=1, user_ids=19)
+    except:
+        like_model = LikeModel(
+            parent_id=pk,
+            user_ids=id
+        )
+        like_model.save()
         return Response("add")
+
 
 @api_view(['PUT'])
 def getPostDetail(request, pk):
