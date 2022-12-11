@@ -1,7 +1,7 @@
 import json
 
 from rest_framework.decorators import api_view
-from .models import UserModel, PostModel, PostCommentModel, PostModelView, LikeModel
+from .models import UserModel, PostModel, PostCommentModel, PostModelView
 from .serializers import UserModel_serializer, PostModel_serializer, PostCommentModel_serializer, PostModelView_serializer
 from django.core.paginator import Paginator
 
