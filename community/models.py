@@ -31,7 +31,7 @@ class PostModelView(models.Model):#only GET
     imageurlcount = models.IntegerField(default=0)
     commentcount = models.IntegerField()
     view = models.IntegerField(default=0)
-    like = models.IntegerField()
+    like = models.IntegerField(default=0)
 
 
 
