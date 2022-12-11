@@ -1,7 +1,7 @@
 import json
 
 from rest_framework.decorators import api_view
-from .models import UserModel, PostModel, PostCommentModel, PostModelView
+from .models import UserModel, PostModel, PostCommentModel, PostModelView, LikeModel
 from .serializers import UserModel_serializer, PostModel_serializer, PostCommentModel_serializer, PostModelView_serializer
 from django.core.paginator import Paginator
 
@@ -129,6 +129,8 @@ def getPostsPageAll(request, page):
             imgcount = len(i.imageurl.split("●"))
         else:
             imgcount = 0
+        like_count = LikeModel.objects.filter(parent_id=i.id).count()
+        print(">>>: " + str(like_count))
         model = PostModelView(
             parent_id=i.id,
             parent_user=i.parent_user.id,
