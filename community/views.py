@@ -130,7 +130,6 @@ def getPostsPageAll(request, page):
         else:
             imgcount = 0
         like_count = LikeModel.objects.filter(parent_id=i.id).count()
-        print(">>>: " + str(like_count))
         model = PostModelView(
             parent_id=i.id,
             parent_user=i.parent_user.id,
@@ -143,7 +142,7 @@ def getPostsPageAll(request, page):
             imageurl=i.imageurl,
             commentcount=PostCommentModel.objects.filter(parent_id=i.id).count(),
             view=i.view,
-            like=i.like
+            like=like_count
         )
         postview.append(model)
     serializer = PostModelView_serializer(postview, many=True)
@@ -161,6 +160,7 @@ def getPostsPageWithCategory(request, category, page):
             imgcount = len(i.imageurl.split("●"))
         else:
             imgcount = 0
+        like_count = LikeModel.objects.filter(parent_id=i.id).count()
         model = PostModelView(
             parent_id=i.id,
             parent_user=i.parent_user.id,
@@ -173,11 +173,21 @@ def getPostsPageWithCategory(request, category, page):
             imageurl=i.imageurl,
             commentcount=PostCommentModel.objects.filter(parent_id=i.id).count(),
             view=i.view,
-            like=i.like
+            like=like_count
         )
         postview.append(model)
     serializer = PostModelView_serializer(postview, many=True)
     return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': serializer.data}))
+
+@api_view(['POST'])
+def setLike(request, pk, id):
+    like_model = LikeModel.objects.filter(parent_id=pk, user_ids=id).first()
+    if like_model.exists():
+        like_model.remove()
+        return Response("delete")
+    else:
+        like_model(parent_id=1, user_ids=19)
+        return Response("add")
 
 @api_view(['PUT'])
 def getPostDetail(request, pk):
