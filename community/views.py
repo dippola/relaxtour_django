@@ -196,6 +196,8 @@ def getPostDetail(request, pk):
     if willAddHit is True:
         model.view += 1
     post_serializer = PostModel_serializer(model)
+    if willAddHit is True:
+        post_serializer.save()
     main_comment = PostCommentModel.objects.filter(parent_id=pk)
     page = request.GET.get('page', 1)
     paginator = Paginator(main_comment, 8)
