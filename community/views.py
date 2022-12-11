@@ -1,7 +1,7 @@
 import json
 
 from rest_framework.decorators import api_view
-from .models import UserModel, PostModel, PostCommentModel, PostModelView
+from .models import UserModel, PostModel, PostCommentModel, PostModelView, LikeModel
 from .serializers import UserModel_serializer, PostModel_serializer, PostCommentModel_serializer, PostModelView_serializer
 from django.core.paginator import Paginator
 
@@ -141,7 +141,7 @@ def getPostsPageAll(request, page):
             imageurl=i.imageurl,
             commentcount=PostCommentModel.objects.filter(parent_id=i.id).count(),
             view=i.view,
-            like=i.like
+            like=LikeModel.objects.get(parent_id=i.id).count()
         )
         postview.append(model)
     serializer = PostModelView_serializer(postview, many=True)
@@ -181,7 +181,6 @@ def getPostsPageWithCategory(request, category, page):
 def getPostDetail(request, pk):
     willAddHit = request.data['willAddHit']
     post = PostModel.objects.filter(id=pk).first()
-    print(">>>: " + str(type(willAddHit)))
     if willAddHit == True:
         post.view += 1
         mtd = {

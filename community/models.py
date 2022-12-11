@@ -68,3 +68,10 @@ class PostCommentModel(models.Model):
     to_nickname = models.TextField(default='')
     class Meta:
         ordering = ['date']
+
+class LikeModel(models.Model):
+    parent_id = models.ForeignKey(PostModel, on_delete=models.CASCADE)
+    user_ids = models.ManyToManyField('LikeUserModel')
+
+class LikeUserModel(models.Model):
+    user_ids = models.ForeignKey(UserModel, on_delete=models.PROTECT)
