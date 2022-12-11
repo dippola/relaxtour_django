@@ -173,9 +173,10 @@ def getPostsPageWithCategory(request, category, page):
     serializer = PostModelView_serializer(postview, many=True)
     return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': serializer.data}))
 
-@api_view(['GET'])
+@api_view(['POST'])
 def getPostDetail(request, pk):
     print(">>>" + request.data['willAddHit'])
+    print(request.GET.get)
     post = PostModel.objects.filter(id=pk).first()
     model = PostModel(
         id=post.id,
