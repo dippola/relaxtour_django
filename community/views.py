@@ -129,8 +129,10 @@ def getPostsPageAll(request, page):
             imgcount = len(i.imageurl.split("●"))
         else:
             imgcount = 0
-        like_model = LikeModel.objects.filter(parent_id=i.id).first()
-        lik_count = like_model.user_ids.all().count()
+        # like_model = LikeModel.objects.filter(parent_id=i.id).first()
+        # lik_count = like_model.user_ids.all().count()
+        count = PostCommentModel.objects.filter(parent_id=1).count()
+        print(">>>: " + str(count))
         model = PostModelView(
             parent_id=i.id,
             parent_user=i.parent_user.id,
@@ -143,7 +145,7 @@ def getPostsPageAll(request, page):
             imageurl=i.imageurl,
             commentcount=PostCommentModel.objects.filter(parent_id=i.id).count(),
             view=i.view,
-            like=lik_count
+            like=i.like
         )
         postview.append(model)
     serializer = PostModelView_serializer(postview, many=True)
