@@ -196,7 +196,7 @@ def getPostDetail(request, pk):
     if willAddHit == "True":
         print(">>>2")
         model.view += 1
-    post_serializer = PostModel_serializer(post, data=model)
+    post_serializer = PostModel_serializer(model, data=model)
     if willAddHit == "True":
         print(">>>3")
         if post_serializer.is_valid():
