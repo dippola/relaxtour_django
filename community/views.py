@@ -2,7 +2,7 @@ import json
 
 from rest_framework.decorators import api_view
 from .models import UserModel, PostModel, PostCommentModel, PostModelView, LikeModel
-from .serializers import UserModel_serializer, PostModel_serializer, PostCommentModel_serializer, PostModelView_serializer
+from .serializers import UserModel_serializer, PostModel_serializer, PostCommentModel_serializer, PostModelView_serializer, LikeModel_serializer
 from django.core.paginator import Paginator
 
 from rest_framework.response import Response
@@ -205,6 +205,7 @@ def getPostDetail(request, pk):
         update_serializer = PostModel_serializer(post, data=mtd, partial=True)
         if update_serializer.is_valid():
             update_serializer.save()
+    like_user_list = LikeModel.objects.filter(parent_id=post.id)
     model = PostModel(
         id=post.id,
         parent_user=post.parent_user,
@@ -216,7 +217,7 @@ def getPostDetail(request, pk):
         body=post.body,
         imageurl=post.imageurl,
         view=post.view,
-        like=LikeModel.objects.filter(parent_id=post.id).count(),
+        like=like_user_list.count(),
         list=post.list,
         commentcount = PostCommentModel.objects.filter(parent_id=post.id).count()
     )
@@ -226,7 +227,8 @@ def getPostDetail(request, pk):
     paginator = Paginator(main_comment, 8)
     page_obj = paginator.page(page)
     comments_serializer = PostCommentModel_serializer(page_obj, many=True)
-    return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': comments_serializer.data}))
+    like_user_list_serializer = LikeModel_serializer(like_user_list, many=True)
+    return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': comments_serializer.data, 'likeuserlist': like_user_list_serializer.data}))
 
 @api_view(['POST'])
 def createPost(request, id):
