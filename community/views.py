@@ -184,7 +184,7 @@ def setLike(request, pk, id):
     post_model = PostModel.objects.get(id=pk)
     user_model = UserModel.objects.get(id=id)
     try:
-        like_model = LikeModel.objects.get(parent_id=post_model.id, user_ids=user_model.id)
+        like_model = LikeModel.objects.get(parent_id=post_model, user_ids=user_model)
         like_model.remove()
         return Response("delete")
     except:
