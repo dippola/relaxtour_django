@@ -181,6 +181,7 @@ def getPostsPageWithCategory(request, category, page):
 def getPostDetail(request, pk):
     willAddHit = request.data['willAddHit']
     post = PostModel.objects.filter(id=pk).first()
+    print(">>>: " + type(willAddHit))
     if willAddHit == "True":
         post.view += 1
         mtd = {
