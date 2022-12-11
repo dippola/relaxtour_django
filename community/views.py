@@ -183,6 +183,7 @@ def getPostDetail(request, pk):
         print(">>>1")
         post.view += 1
         mtd = model_to_dict(post)
+        print(">>>1-1 " + str(type(mtd)))
         update_serializer = PostModel_serializer(post, data=mtd)
         if update_serializer.is_valid():
             print(">>>2")
