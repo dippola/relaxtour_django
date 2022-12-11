@@ -182,7 +182,22 @@ def getPostDetail(request, pk):
     if willAddHit == "True":
         print(">>>1")
         post.view += 1
-        mtd = model_to_dict(post)
+        # mtd = model_to_dict(post)
+        mtd = {
+            "id": post.id,
+            "parent_user": post.parent_user,
+            "nickname": post.parent_user.nickname,
+            "user_url": post.parent_user.imageurl,
+            "category": post.category,
+            "date": post.date,
+            "title": post.title,
+            "body": post.body,
+            "imageurl": post.imageurl,
+            "view": post.view,
+            "like": post.like,
+            "list": post.list,
+            "commentcount": PostCommentModel.objects.filter(parent_id=post.id).count()
+        }
         print(">>>1-1 " + str(type(mtd)))
         update_serializer = PostModel_serializer(post, data=mtd)
         if update_serializer.is_valid():
