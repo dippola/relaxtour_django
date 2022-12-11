@@ -198,7 +198,9 @@ def getPostDetail(request, pk):
         model.view += 1
     post_serializer = PostModel_serializer(model)
     if willAddHit == "True":
+        print(">>>3")
         if post_serializer.is_valid():
+            print(">>>4")
             post_serializer.save()
     main_comment = PostCommentModel.objects.filter(parent_id=pk)
     page = request.GET.get('page', 1)
