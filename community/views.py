@@ -177,6 +177,11 @@ def getPostsPageWithCategory(request, category, page):
 def getPostDetail(request, pk):
     willAddHit = request.data['willAddHit']
     post = PostModel.objects.filter(id=pk).first()
+    if willAddHit == "True":
+        post.view += 1
+        update_serializer = PostModel_serializer(data=post)
+        if update_serializer.is_valid():
+            update_serializer.save()
     model = PostModel(
         id=post.id,
         parent_user=post.parent_user,
@@ -192,16 +197,16 @@ def getPostDetail(request, pk):
         list=post.list,
         commentcount = PostCommentModel.objects.filter(parent_id=post.id).count()
     )
-    print(">>>1" + str(type(request.data)))
-    if willAddHit == "True":
-        print(">>>2" + str(type(model)))
-        model.view += 1
-    post_serializer = PostModel_serializer(data=model)
-    if willAddHit == "True":
-        print(">>>3")
-        if post_serializer.is_valid():
-            print(">>>4")
-            post_serializer.save()
+    # print(">>>1" + str(type(request.data)))
+    # if willAddHit == "True":
+    #     print(">>>2" + str(type(model)))
+    #     model.view += 1
+    post_serializer = PostModel_serializer(model)
+    # if willAddHit == "True":
+    #     print(">>>3")
+    #     if post_serializer.is_valid():
+    #         print(">>>4")
+    #         post_serializer.save()
     main_comment = PostCommentModel.objects.filter(parent_id=pk)
     page = request.GET.get('page', 1)
     paginator = Paginator(main_comment, 8)
