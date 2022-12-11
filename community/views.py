@@ -141,7 +141,7 @@ def getPostsPageAll(request, page):
             imageurl=i.imageurl,
             commentcount=PostCommentModel.objects.filter(parent_id=i.id).count(),
             view=i.view,
-            like=LikeModel.objects.get(parent_id=i.id).user_ids.count()
+            like=LikeModel.objects.get(parent_id=i.parent_user.id).user_ids.count()
         )
         postview.append(model)
     serializer = PostModelView_serializer(postview, many=True)
