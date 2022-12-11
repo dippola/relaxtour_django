@@ -188,6 +188,8 @@ def getPostDetail(request, pk):
         if update_serializer.is_valid():
             print(">>>2")
             update_serializer.save()
+        else:
+            print(update_serializer.errors)
     model = PostModel(
         id=post.id,
         parent_user=post.parent_user,
