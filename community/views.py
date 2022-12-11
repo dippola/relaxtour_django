@@ -182,7 +182,7 @@ def getPostDetail(request, pk):
     willAddHit = request.data['willAddHit']
     post = PostModel.objects.filter(id=pk).first()
     print(">>>: " + str(type(willAddHit)))
-    if willAddHit == "True":
+    if willAddHit == True:
         post.view += 1
         mtd = {
             "view": post.view,
