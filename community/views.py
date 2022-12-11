@@ -178,9 +178,11 @@ def getPostDetail(request, pk):
     willAddHit = request.data['willAddHit']
     post = PostModel.objects.filter(id=pk).first()
     if willAddHit == "True":
+        print(">>>1")
         post.view += 1
-        update_serializer = PostModel_serializer(data=post)
+        update_serializer = PostModel_serializer(post, data=post)
         if update_serializer.is_valid():
+            print(">>>")
             update_serializer.save()
     model = PostModel(
         id=post.id,
