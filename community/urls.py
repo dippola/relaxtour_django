@@ -23,6 +23,7 @@ urlpatterns = [
     path('user/<str:uid>/update/', views.updateUser),#
     path('user/<str:uid>/delete/', views.deleteUser),#
     path('user/<str:id>/updatenotification/', views.updateUserNotification),#
+    path('user/<str:id>/community/', views.getUserCommunity),#
 
     path('posts/page=<str:page>/', views.getPostsPageAll),
     path('posts/category=<str:category>/page=<str:page>/', views.getPostsPageWithCategory),
