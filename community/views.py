@@ -121,7 +121,8 @@ def getUserCommunity(request, id):
     posts = PostModel.objects.filter(parent_user=id).count()
     comments = PostCommentModel.objects.filter(parent_user=id).count()
     likes = LikeModel.objects.filter(parent_id=id).count()
-    return Response(json.dumps({'posts': posts, 'comments': comments, 'likes': likes}))
+    # return Response(json.dumps({'posts': posts, 'comments': comments, 'likes': likes}))
+    return Response(str(posts) + "/" + str(comments) + "/" + str(likes))
 
 
 
