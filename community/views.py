@@ -177,7 +177,7 @@ def getPostsPageWithCategory(request, category, page):
     serializer = PostModelView_serializer(postview, many=True)
     return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': serializer.data}))
 
-@api_view(['POST'])
+@api_view(['GET'])
 def setLike(request, pk, id):
     like_model = LikeModel.objects.filter(parent_id=pk, user_ids=id).first()
     if like_model is None:
