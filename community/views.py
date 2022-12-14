@@ -121,10 +121,37 @@ def getUserCommunity(request, id):
     posts = PostModel.objects.filter(parent_user=id).count()
     comments = PostCommentModel.objects.filter(parent_user=id).count()
     likes = LikeModel.objects.filter(user_ids=id).count()
-    # return Response(json.dumps({'posts': posts, 'comments': comments, 'likes': likes}))
     return Response(str(posts) + "/" + str(comments) + "/" + str(likes))
 
-
+@api_view(['GET'])
+def getUserCommunityPost(request, id, page):
+    posts = PostModel.objects.filter(parent_user=id)
+    page = request.GET.get('page', page)
+    paginator = Paginator(posts, 15)
+    page_obj = paginator.page(page)
+    postview = []
+    for i in page_obj:
+        if i.imageurl != "":
+            imgcount = len(i.imageurl.split("●"))
+        else:
+            imgcount = 0
+        model = PostModelView(
+            parent_id=i.id,
+            parent_user=i.parent_user.id,
+            nickname=i.parent_user.nickname,
+            user_image=i.parent_user.imageurl,
+            category=i.category,
+            imageurlcount=imgcount,
+            date=i.date,
+            title=i.title,
+            imageurl=i.imageurl,
+            commentcount=PostCommentModel.objects.filter(parent_id=i.id).count(),
+            view=i.view,
+            like=LikeModel.objects.filter(parent_id=i.id).count()
+        )
+        postview.append(model)
+    serializer = PostModelView_serializer(postview, many=True)
+    return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': serializer.data}))
 
 
 
