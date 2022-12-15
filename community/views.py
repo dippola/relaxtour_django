@@ -197,15 +197,15 @@ def getUserCommunityCategory(request, id, category, page):
 @api_view(['GET'])
 def getUsersCommentsAll(request, id, page):
     comments = PostCommentModel.objects.filter(parent_user=id)
-    print(">>>1: " + str(comments[0]))
-    print(">>>2: " + comments[0].parent_id.id)
+    # print(">>>1: " + str(comments[0]))
+    # print(">>>2: " + comments[0].parent_id_id)
     page = request.GET.get('page', page)
     paginator = Paginator(comments, 15)
     page_obj = paginator.page(page)
     result = []
     for i in page_obj:
         fori = {
-            'parent_id': i.parent_id.id,
+            'parent_id': i.parent_id_id,
             'body': i.body,
             'date': i.date
         }
