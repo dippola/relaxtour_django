@@ -27,6 +27,7 @@ urlpatterns = [
     path('user/<str:id>/community/posts/page=<str:page>/', views.getUserCommunityPost),#
     path('user/<str:id>/community/posts/category=<str:category>/page=<str:page>/', views.getUserCommunityCategory),#
     path('user/<str:id>/community/comments/page=<str:page>/', views.getUsersCommentsAll),#
+    path('user/<str:id>/community/likes/page=<str:page>/', views.getUsersLikeAll),#
 
 
     path('posts/page=<str:page>/', views.getPostsPageAll),
