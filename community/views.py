@@ -199,10 +199,9 @@ def getUsersCommentsAll(request, id, page):
     page_obj = paginator.page(page)
     result = []
     for i in page_obj:
-        towho = UserModel.objects.get(id=i.to).nickname
         fori = {
             'parent_id': i.parent_id_id,
-            'towho': towho,
+            'towho': i.to_nickname,
             'body': i.body,
             'date': str(i.date)
         }
