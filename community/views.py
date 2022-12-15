@@ -225,18 +225,6 @@ def getUsersCommentsAll(request, id, page):
         result.append(fori)
     return HttpResponse(json.dumps({'pages':paginator.num_pages, 'result': result}))
 
-@api_view(['GET'])
-def getUsersLikeAll(request, id, page):
-    my_like = LikeModel.objects.filter(user_ids=id)
-    my_like_post_list = []
-    for i in my_like:
-        post = PostModel.objects.get(id=i.parent_id.id)
-        my_like_post_list.append(post)
-    page = request.GET.get('page', page)
-    paginator = Paginator(my_like_post_list, 15)
-    page_obj = paginator.page(page)
-    serializer = PostModelView_serializer(page_obj, many=True)
-    return Response(serializer.data)
 
 
 @api_view(['GET'])
