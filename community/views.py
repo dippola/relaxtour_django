@@ -208,8 +208,7 @@ def getUsersCommentsAll(request, id, page):
             'date': i.date
         }
         result.append(fori)
-    print(">>>1: " + str(len(result)))
-    return HttpResponse(result)
+    return HttpResponse(json.dump(result))
 
 
 @api_view(['GET'])
