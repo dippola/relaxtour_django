@@ -205,7 +205,7 @@ def getUsersCommentsAll(request, id, page):
         fori = {
             'parent_id': i.parent_id_id,
             'body': i.body,
-            'date': i.date
+            'date': str(i.date)
         }
         result.append(fori)
     return HttpResponse(json.dumps(result))
