@@ -208,7 +208,7 @@ def getUsersCommentsAll(request, id, page):
             'date': str(i.date)
         }
         result.append(fori)
-    return HttpResponse(json.dumps(result))
+    return HttpResponse(json.dumps({'pages':paginator.num_pages, 'result': result}))
 
 
 @api_view(['GET'])
