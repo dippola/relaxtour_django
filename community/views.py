@@ -218,7 +218,7 @@ def getUsersCommentsAll(request, id, page):
     result = []
     for i in page_obj:
         fori = {
-            'parent_id': int(i.parent_id),
+            'parent_id': i.parent_id_id,
             'body': i.body,
             'date': str(i.date)
         }
