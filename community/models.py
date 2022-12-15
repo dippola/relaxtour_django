@@ -15,26 +15,6 @@ class UserModel(models.Model):
 
 
 
-class PostModelView(models.Model):#only GET
-    CATEGORY = (
-        ("FREE", "free"),
-        ('QNA', 'qna')
-    )
-    parent_id = models.IntegerField(null=True)
-    parent_user = models.IntegerField()
-    nickname = models.TextField(null=True, default='')
-    user_image = models.TextField(default='')
-    category = models.CharField(max_length=20, choices=CATEGORY)
-    date = models.TextField()
-    title = models.TextField()
-    imageurl = models.TextField()
-    imageurlcount = models.IntegerField(default=0)
-    commentcount = models.IntegerField()
-    view = models.IntegerField(default=0)
-    like = models.IntegerField(default=0)
-
-
-
 class PostModel(models.Model):
     CATEGORY = (
         ("FREE", "free"),

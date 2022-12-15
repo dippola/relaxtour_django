@@ -1,9 +1,8 @@
 import json
 
 from rest_framework.decorators import api_view
-from .models import UserModel, PostModel, PostCommentModel, PostModelView, LikeModel
-from .serializers import UserModel_serializer, PostModel_serializer, PostCommentModel_serializer, \
-    PostModelView_serializer, LikeModel_serializer
+from .models import UserModel, PostModel, PostCommentModel, LikeModel
+from .serializers import UserModel_serializer, PostModel_serializer, PostCommentModel_serializer, LikeModel_serializer
 from django.core.paginator import Paginator
 
 from rest_framework.response import Response
@@ -239,23 +238,22 @@ def getPostsPageAll(request, page):
             imgcount = len(i.imageurl.split("●"))
         else:
             imgcount = 0
-        model = PostModelView(
-            parent_id=i.id,
-            parent_user=i.parent_user.id,
-            nickname=i.parent_user.nickname,
-            user_image=i.parent_user.imageurl,
-            category=i.category,
-            imageurlcount=imgcount,
-            date=i.date,
-            title=i.title,
-            imageurl=i.imageurl,
-            commentcount=PostCommentModel.objects.filter(parent_id=i.id).count(),
-            view=i.view,
-            like=LikeModel.objects.filter(parent_id=i.id).count()
-        )
+        model = {
+            'parent_id': i.id,
+            'parent_user': i.parent_user.id,
+            'nickname': i.parent_user.nickname,
+            'user_image': i.parent_user.imageurl,
+            'category': i.category,
+            'imageurlcount': imgcount,
+            'date': i.date,
+            'title': i.title,
+            'imageurl': i.imageurl,
+            'commentcount': PostCommentModel.objects.filter(parent_id=i.id).count(),
+            'view': i.view,
+            'like': LikeModel.objects.filter(parent_id=i.id).count()
+        }
         postview.append(model)
-    serializer = PostModelView_serializer(postview, many=True)
-    return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': serializer.data}))
+    return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': postview}))
 
 
 @api_view(['GET'])
