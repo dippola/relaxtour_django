@@ -2,12 +2,13 @@ import json
 
 from rest_framework.decorators import api_view
 from .models import UserModel, PostModel, PostCommentModel, PostModelView, LikeModel
-from .serializers import UserModel_serializer, PostModel_serializer, PostCommentModel_serializer, PostModelView_serializer, LikeModel_serializer
+from .serializers import UserModel_serializer, PostModel_serializer, PostCommentModel_serializer, \
+    PostModelView_serializer, LikeModel_serializer
 from django.core.paginator import Paginator
 
 from rest_framework.response import Response
 
-from django.http  import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse
 
 from django.forms import model_to_dict
 
@@ -18,12 +19,9 @@ from firebase_admin import storage
 import mykeys
 
 cred = credentials.Certificate('./relax-tour-de785-firebase-adminsdk-j86xu-68f3337ce7.json')
-firebase_admin.initialize_app(cred,{
-    'storageBucket' : mykeys.storageBucket
+firebase_admin.initialize_app(cred, {
+    'storageBucket': mykeys.storageBucket
 })
-
-
-
 
 
 @api_view(['GET'])
@@ -39,11 +37,13 @@ def testDeleteStorage(reauest):
             path.delete()
     return Response("Success")
 
+
 @api_view(['GET'])
 def getUsers(request):
     users = UserModel.objects.all()
     serializer = UserModel_serializer(users, many=True)
     return Response(serializer.data)
+
 
 @api_view(['DELETE'])
 def deleteAllUser(request):
@@ -51,26 +51,29 @@ def deleteAllUser(request):
     users.delete()
     return Response('user was deleted')
 
+
 @api_view(['GET'])
 def getUser(request, id):
     user = UserModel.objects.filter(id=id)
     serializer = UserModel_serializer(user, many=True)
     return Response(serializer.data)
 
+
 # user생성
 @api_view(['POST'])
 def createUser(request):
     data = request.data
     main = UserModel.objects.create(
-        uid = data['uid'],
-        email = data['email'],
-        imageurl = data['imageurl'],
-        nickname = data['nickname'],
-        provider = data['provider'],
-        token = data['token'],
+        uid=data['uid'],
+        email=data['email'],
+        imageurl=data['imageurl'],
+        nickname=data['nickname'],
+        provider=data['provider'],
+        token=data['token'],
     )
     serializer = UserModel_serializer(main, many=False)
     return Response(serializer.data)
+
 
 @api_view(['PUT'])
 def updateUser(request, uid):
@@ -82,6 +85,7 @@ def updateUser(request, uid):
         return Response(serializer.data)
     return Response(serializer.errors)
 
+
 @api_view(['PUT'])
 def updateUserNotification(request, id):
     data = request.data
@@ -92,17 +96,20 @@ def updateUserNotification(request, id):
         return Response(serializer.data)
     return Response(serializer.errors)
 
+
 @api_view(['GET'])
 def searchEmail(request, email):
     user = UserModel.objects.filter(email=email)
     serializer = UserModel_serializer(user, many=True)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
 def searchNickname(request, nickname):
     user = UserModel.objects.filter(nickname=nickname)
     serializer = UserModel_serializer(user, many=True)
     return Response(serializer.data)
+
 
 @api_view(['DELETE'])
 def deleteUser(request, uid):
@@ -116,12 +123,14 @@ def deleteUser(request, uid):
     user.delete()
     return Response('user was deleted')
 
+
 @api_view(['GET'])
 def getUserCommunity(request, id):
     posts = PostModel.objects.filter(parent_user=id).count()
     comments = PostCommentModel.objects.filter(parent_user=id).count()
     likes = LikeModel.objects.filter(user_ids=id).count()
     return Response(str(posts) + "/" + str(comments) + "/" + str(likes))
+
 
 @api_view(['GET'])
 def getUserCommunityPost(request, id, page):
@@ -152,6 +161,8 @@ def getUserCommunityPost(request, id, page):
         postview.append(model)
     serializer = PostModelView_serializer(postview, many=True)
     return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': serializer.data}))
+
+
 @api_view(['GET'])
 def getUserCommunityCategory(request, id, category, page):
     posts = PostModel.objects.filter(parent_user=id, category=category)
@@ -189,7 +200,7 @@ def getUserCommunityCategory(request, id, category, page):
 def getPostsPageAll(request, page):
     posts = PostModel.objects.all()
     page = request.GET.get('page', page)
-    paginator =Paginator(posts, 15)
+    paginator = Paginator(posts, 15)
     page_obj = paginator.page(page)
     postview = []
     for i in page_obj:
@@ -215,11 +226,12 @@ def getPostsPageAll(request, page):
     serializer = PostModelView_serializer(postview, many=True)
     return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': serializer.data}))
 
+
 @api_view(['GET'])
 def getPostsPageWithCategory(request, category, page):
     posts = PostModel.objects.filter(category=category)
     page = request.GET.get('page', page)
-    paginator =Paginator(posts, 15)
+    paginator = Paginator(posts, 15)
     page_obj = paginator.page(page)
     postview = []
     for i in page_obj:
@@ -244,6 +256,7 @@ def getPostsPageWithCategory(request, category, page):
         postview.append(model)
     serializer = PostModelView_serializer(postview, many=True)
     return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': serializer.data}))
+
 
 @api_view(['PUT'])
 def setLike(request, pk, id):
@@ -260,6 +273,7 @@ def setLike(request, pk, id):
     else:
         like_model.delete()
         return Response("remove")
+
 
 @api_view(['PUT'])
 def getPostDetail(request, pk):
@@ -287,7 +301,7 @@ def getPostDetail(request, pk):
         view=post.view,
         like=like_user_list.count(),
         list=post.list,
-        commentcount = PostCommentModel.objects.filter(parent_id=post.id).count()
+        commentcount=PostCommentModel.objects.filter(parent_id=post.id).count()
     )
     post_serializer = PostModel_serializer(model)
     main_comment = PostCommentModel.objects.filter(parent_id=pk)
@@ -296,22 +310,25 @@ def getPostDetail(request, pk):
     page_obj = paginator.page(page)
     comments_serializer = PostCommentModel_serializer(page_obj, many=True)
     like_user_list_serializer = LikeModel_serializer(like_user_list, many=True)
-    return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': comments_serializer.data, 'likeuserlist': like_user_list_serializer.data}))
+    return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': comments_serializer.data,
+                                    'likeuserlist': like_user_list_serializer.data}))
+
 
 @api_view(['POST'])
 def createPost(request, id):
     data = request.data
     user = UserModel.objects.get(id=id)
     main = PostModel.objects.create(
-        parent_user = user,
-        category = data['category'],
-        title = data['title'],
-        body = data['body'],
-        imageurl = data['imageurl'],
+        parent_user=user,
+        category=data['category'],
+        title=data['title'],
+        body=data['body'],
+        imageurl=data['imageurl'],
         list=data['list']
     )
     serializer = PostModel_serializer(main, many=False)
     return Response(serializer.data)
+
 
 @api_view(['PUT'])
 def updatePost(request, pk):
@@ -322,6 +339,7 @@ def updatePost(request, pk):
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors)
+
 
 @api_view(['DELETE'])
 def deletePost(request, pk):
@@ -337,11 +355,13 @@ def deletePost(request, pk):
     board.delete()
     return Response('board was deleted')
 
+
 @api_view(['GET'])
 def getPostAllComments(request, pk):
     comments = PostCommentModel.objects.filter(parent_id=pk)
     serializer = PostCommentModel_serializer(comments, many=True)
     return Response(serializer.data)
+
 
 @api_view(['GET'])
 def getPostComments(request, pk, page):
@@ -352,6 +372,7 @@ def getPostComments(request, pk, page):
     serializer = PostCommentModel_serializer(page_obj, many=True)
     return Response(serializer.data)
 
+
 @api_view(['GET'])
 def getPostCommentsMore(request, pk, lastid):
     main_comment = PostCommentModel.objects.filter(parent_id=pk)
@@ -361,7 +382,7 @@ def getPostCommentsMore(request, pk, lastid):
     count = 0
     for i, ii in enumerate(main_comment):
         count += 1
-        if i  > start_position:
+        if i > start_position:
             if ii is not None:
                 result_list.append(ii)
                 if count == 8:
@@ -371,13 +392,14 @@ def getPostCommentsMore(request, pk, lastid):
     serializer = PostCommentModel_serializer(result_list, many=True)
     return Response(serializer.data)
 
+
 # Main에 Comment 쓰기
 @api_view(['POST'])
 def createPostComment(request, pk, id):
     user = UserModel.objects.get(id=id)
     main = PostModel.objects.get(id=pk)
-    to_id=0
-    to_nickname=''
+    to_id = 0
+    to_nickname = ''
     data = request.data
     if data['to_id'] is not None:
         if data['to_id'] != 0:
@@ -386,16 +408,17 @@ def createPostComment(request, pk, id):
                 to_id = touser.id
                 to_nickname = touser.nickname
     comment = PostCommentModel.objects.create(
-        parent_user = user,
-        parent_id = main,
-        body = data['body'],
-        nickname = user.nickname,
-        user_url = user.imageurl,
-        to_id = to_id,
+        parent_user=user,
+        parent_id=main,
+        body=data['body'],
+        nickname=user.nickname,
+        user_url=user.imageurl,
+        to_id=to_id,
         to_nickname=to_nickname
     )
     serializer = PostCommentModel_serializer(comment, many=False)
     return Response(serializer.data)
+
 
 @api_view(['PUT'])
 def updatePostComment(request, id):
@@ -405,6 +428,7 @@ def updatePostComment(request, id):
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors)
+
 
 @api_view(['DELETE'])
 def deletePostComment(request, id):
@@ -427,7 +451,6 @@ def deletePostComment(request, id):
 #     return Response("deleted all main")
 
 
-
 # Main 하나 가져오기(url)
 # @api_view(['GET'])
 # def getMain(request, pk):
@@ -438,8 +461,6 @@ def deletePostComment(request, id):
 # Main글쓰기
 
 
-
-
 @api_view(['GET'])
 def getMainAllComments(request, pk):
     comments = PostCommentModel.objects.filter(parent_id=pk)
@@ -447,19 +468,3 @@ def getMainAllComments(request, pk):
     return Response(serializer.data)
 
 # Main에 comments 가져오기(url)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
