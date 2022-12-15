@@ -236,7 +236,7 @@ def getUsersLikeAll(request, id, page):
     paginator = Paginator(my_like_post_list, 15)
     page_obj = paginator.page(page)
     serializer = PostModelView_serializer(page_obj, many=True)
-    return HttpResponse(serializer.data)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
