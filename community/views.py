@@ -209,6 +209,21 @@ def getUsersCommentsAll(request, id, page):
         }
         result.append(fori)
     return HttpResponse(json.dumps({'pages':paginator.num_pages, 'result': result}))
+@api_view(['GET'])
+def getUsersCommentsAll(request, id, page):
+    comments = PostCommentModel.objects.filter(parent_user=id)
+    page = request.GET.get('page', page)
+    paginator = Paginator(comments, 15)
+    page_obj = paginator.page(page)
+    result = []
+    for i in page_obj:
+        fori = {
+            'parent_id': int(i.parent_id),
+            'body': i.body,
+            'date': str(i.date)
+        }
+        result.append(fori)
+    return HttpResponse(json.dumps({'pages':paginator.num_pages, 'result': result}))
 
 
 @api_view(['GET'])
