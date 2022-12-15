@@ -208,7 +208,7 @@ def getUsersCommentsAll(request, id, page):
             'date': i.date
         }
         result.append(fori)
-    return HttpResponse(json.dump(result))
+    return HttpResponse(json.dumps(result))
 
 
 @api_view(['GET'])
