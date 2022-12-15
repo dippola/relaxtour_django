@@ -193,30 +193,22 @@ def getUserCommunityCategory(request, id, category, page):
     serializer = PostModelView_serializer(postview, many=True)
     return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': serializer.data}))
 
+
 @api_view(['GET'])
 def getUsersCommentsAll(request, id, page):
     comments = PostCommentModel.objects.filter(parent_user=id)
-    print(">>>1: "+str(comments.count()))
-    print(">>>2: "+str(comments[0].body))
     page = request.GET.get('page', page)
     paginator = Paginator(comments, 15)
     page_obj = paginator.page(page)
-    result = [{
-        'parent_id', 'body', 'date'
-    }]
+    result = []
     for i in page_obj:
-        fori = [
-            {
-                'parent_id': i.parent_id,
-                'body': i.body,
-                'date': i.date
-            }
-        ]
+        fori = {
+            'parent_id': i.parent_id,
+            'body': i.body,
+            'date': i.date
+        }
         result.append(fori)
-    return HttpResponse(result)
-
-
-
+    return HttpResponse(json.dumps(result))
 
 
 @api_view(['GET'])
