@@ -474,7 +474,6 @@ def createPostComment(request, pk, id):
         sendNotification(token=to_token, title="title", body="body")
     return Response(serializer.data)
 
-@api_view(['GET'])
 def sendNotification(token, title, body):
     message = messaging.Message(
         notification = messaging.Notification(
