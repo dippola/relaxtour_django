@@ -248,7 +248,7 @@ def getUsersLikeAll(request, id, page):
 def getPostsPageAll(request, page):
     posts = PostModel.objects.all()
     page = request.GET.get('page', page)
-    paginator = Paginator(posts, 15)
+    paginator = Paginator(posts, 10)
     page_obj = paginator.page(page)
     postview = []
     for i in page_obj:
@@ -278,7 +278,7 @@ def getPostsPageAll(request, page):
 def getPostsPageWithCategory(request, category, page):
     posts = PostModel.objects.filter(category=category)
     page = request.GET.get('page', page)
-    paginator = Paginator(posts, 15)
+    paginator = Paginator(posts, 10)
     page_obj = paginator.page(page)
     postview = []
     for i in page_obj:
@@ -413,7 +413,7 @@ def getPostAllComments(request, pk):
 def getPostComments(request, pk, page):
     main_comment = PostCommentModel.objects.filter(parent_id=pk)
     page = request.GET.get('page', page)
-    paginator = Paginator(main_comment, 8)
+    paginator = Paginator(main_comment, 6)
     page_obj = paginator.page(page)
     serializer = PostCommentModel_serializer(page_obj, many=True)
     return Response(serializer.data)
@@ -431,7 +431,7 @@ def getPostCommentsMore(request, pk, lastid):
         if i > start_position:
             if ii is not None:
                 result_list.append(ii)
-                if count == 8:
+                if count == 6:
                     break
             else:
                 break
