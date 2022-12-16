@@ -465,7 +465,7 @@ def createPostComment(request, pk, id):
         to_nickname=to_nickname
     )
     serializer = PostCommentModel_serializer(comment, many=False)
-    print(">>>1: " + str(main.parent_user))
+    print(">>>1: " + str(main.parent_user.id))
     print(">>>2: " + str(user.id))
     if main.parent_user != user.id:
         sendNotification(token=main.parent_user.token, title="title", body="body")
