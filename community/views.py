@@ -1,3 +1,4 @@
+import datetime
 import json
 
 from rest_framework.decorators import api_view
@@ -14,6 +15,7 @@ from django.forms import model_to_dict
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import storage
+from firebase_admin import messaging
 
 import mykeys
 
@@ -462,6 +464,32 @@ def createPostComment(request, pk, id):
     )
     serializer = PostCommentModel_serializer(comment, many=False)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def testNotification(request):
+    token = 'fhyd4O2XT6CjNV2WB2wApW:APA91bGiofHywDzBlbOSyHrnTzxUeF_0zqkS90GcS58eT8N-zPb6SUlM-YBch2_XAt4uWQLIiWTgS3oTBwH0rNPkqC7fjRtVQsfpqof8NnLdAEFv7nC0eSW49dibDp9TKNusUa8NvZnV'
+    message = messaging.Message(
+        notification = messaging.Notification(
+            title='test title',
+            body='test body',
+        ),
+        android = messaging.AndroidConfig(
+            ttl=datetime.timedelta(seconds=3600),
+            priority = 'nomal',
+            notification = messaging.AndroidNotification(
+                icon='',
+                color='#000000'
+            )
+        ),
+        apns=messaging.APNSConfig(
+            payload=messaging.APNSPayload(
+                aps=messaging.Aps(badge=42),
+            ),
+        ),
+        token=token,
+    )
+    response = messaging.send(message)
+    return Response("ok")
 
 
 @api_view(['PUT'])
