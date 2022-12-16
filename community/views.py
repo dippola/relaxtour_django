@@ -218,7 +218,7 @@ def getUsersLikeAll(request, id, page):
     for i in page_obj:
         post = PostModel.objects.get(id=i.parent_id_id)
         if post.imageurl != "":
-            imgcount = len(i.imageurl.split("●"))
+            imgcount = len(post.imageurl.split("●"))
         else:
             imgcount = 0
         model = {
