@@ -467,7 +467,7 @@ def createPostComment(request, pk, id):
 
 @api_view(['GET'])
 def testNotification(request):
-    token = 'fhyd4O2XT6CjNV2WB2wApW:APA91bGiofHywDzBlbOSyHrnTzxUeF_0zqkS90GcS58eT8N-zPb6SUlM-YBch2_XAt4uWQLIiWTgS3oTBwH0rNPkqC7fjRtVQsfpqof8NnLdAEFv7nC0eSW49dibDp9TKNusUa8NvZnV'
+    token = 'fzReYB5oSharmVpN4ZN0Gw:APA91bH987q9tbCZUkRUIxRNtB9jVf8Gpzvk-FfB3kw1BgOQAKMbm0buhZHJKEClk7h-d3oKw5Ow1EvCPEfYE861tyHVjT0sznslgcs4xgNz9GmiLceg_kSQvadWcVov8vk4KFghnNvt'
     message = messaging.Message(
         notification = messaging.Notification(
             title='test title',
