@@ -465,14 +465,13 @@ def createPostComment(request, pk, id):
         to_nickname=to_nickname
     )
     serializer = PostCommentModel_serializer(comment, many=False)
-    postid = main.parent_id
     if main.parent_user.id != user.id:
         if main.parent_user.notification:
-            sendNotification(token=main.parent_user.token, title="There is a comment on your comment.", body=data['body'], postid=postid)
+            sendNotification(token=main.parent_user.token, title="There is a comment on your comment.", body=data['body'], postid=pk)
     if is_have_to:
         if UserModel.objects.get(id=to_id).notification:
             to_token = UserModel.objects.get(id=to_id).token
-            sendNotification(token=to_token, title="The comment has been registered in your post.", body=data['body'], postid=postid)
+            sendNotification(token=to_token, title="The comment has been registered in your post.", body=data['body'], postid=pk)
     return Response(serializer.data)
 
 def sendNotification(token, title, body, postid):
