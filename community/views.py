@@ -465,17 +465,18 @@ def createPostComment(request, pk, id):
         to_nickname=to_nickname
     )
     serializer = PostCommentModel_serializer(comment, many=False)
+    sendNotification(main.token, "title", "body")
     if is_have_to is True:
         to_token = UserModel.objects.get(id=to_id).token
-        sendNotification(to_token)
+        sendNotification(to_token, "title", "body")
     return Response(serializer.data)
 
 @api_view(['GET'])
-def sendNotification(token):
+def sendNotification(token, title, body):
     message = messaging.Message(
         notification = messaging.Notification(
-            title='test title',
-            body='test body',
+            title=title,
+            body=body,
         ),
         android = messaging.AndroidConfig(
             ttl=datetime.timedelta(seconds=3600),
