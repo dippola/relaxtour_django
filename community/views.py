@@ -466,14 +466,14 @@ def createPostComment(request, pk, id):
     )
     serializer = PostCommentModel_serializer(comment, many=False)
     if main.parent_user != user.id:
-        sendNotification(request, token=main.parent_user.token, title="title", body="body")
+        sendNotification(token=main.parent_user.token, title="title", body="body")
     if is_have_to:
         to_token = UserModel.objects.get(id=to_id).token
-        sendNotification(request, token=to_token, title="title", body="body")
+        sendNotification(token=to_token, title="title", body="body")
     return Response(serializer.data)
 
 @api_view(['GET'])
-def sendNotification(request, token, title, body):
+def sendNotification(token, title, body):
     message = messaging.Message(
         notification = messaging.Notification(
             title=title,
