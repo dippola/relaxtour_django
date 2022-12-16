@@ -208,6 +208,37 @@ def getUsersCommentsAll(request, id, page):
         result.append(fori)
     return HttpResponse(json.dumps({'pages':paginator.num_pages, 'result': result}))
 
+@api_view(['GET'])
+def getUsersLikeAll(request, id, page):
+    likes = LikeModel.objects.filter(user_ids=id)
+    page = request.GET.get('page', page)
+    paginator = Paginator(likes, 15)
+    page_obj = paginator.page(page)
+    result = []
+    for i in page_obj:
+        post = PostModel.objects.get(id=i.parent_id_id)
+        if post.imageurl != "":
+            imgcount = len(i.imageurl.split("●"))
+        else:
+            imgcount = 0
+        model = {
+            'parent_id': post.id,
+            'parent_user': post.parent_user.id,
+            'nickname': post.parent_user.nickname,
+            'user_image': post.parent_user.imageurl,
+            'category': post.category,
+            'imageurlcount': imgcount,
+            'date': str(post.date),
+            'title': post.title,
+            'imageurl': post.imageurl,
+            'commentcount': PostCommentModel.objects.filter(parent_id=post.id).count(),
+            'view': post.view,
+            'like': LikeModel.objects.filter(parent_id=post.id).count()
+        }
+        result.append(model)
+    return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': result}))
+
+
 
 
 
