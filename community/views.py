@@ -475,7 +475,7 @@ def testNotification(request):
         ),
         android = messaging.AndroidConfig(
             ttl=datetime.timedelta(seconds=3600),
-            priority = 'nomal',
+            priority = 'normal',
             notification = messaging.AndroidNotification(
                 icon='',
                 color='#000000'
