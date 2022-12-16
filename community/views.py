@@ -465,7 +465,7 @@ def createPostComment(request, pk, id):
         to_nickname=to_nickname
     )
     serializer = PostCommentModel_serializer(comment, many=False)
-    postid = main.parent_id.id
+    postid = main.parent_id
     if main.parent_user.id != user.id:
         if main.parent_user.notification:
             sendNotification(token=main.parent_user.token, title="There is a comment on your comment.", body=data['body'], postid=postid)
