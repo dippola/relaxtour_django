@@ -447,12 +447,14 @@ def createPostComment(request, pk, id):
     to_id = 0
     to_nickname = ''
     data = request.data
+    is_have_to = False
     if data['to_id'] is not None:
         if data['to_id'] != 0:
             if UserModel.objects.get(id=data['to_id']) is not None:
                 touser = UserModel.objects.get(id=data['to_id'])
                 to_id = touser.id
                 to_nickname = touser.nickname
+                is_have_to = True
     comment = PostCommentModel.objects.create(
         parent_user=user,
         parent_id=main,
@@ -463,11 +465,13 @@ def createPostComment(request, pk, id):
         to_nickname=to_nickname
     )
     serializer = PostCommentModel_serializer(comment, many=False)
+    if is_have_to is True:
+        to_token = UserModel.objects.get(id=to_id).token
+        sendNotification(to_token)
     return Response(serializer.data)
 
 @api_view(['GET'])
-def testNotification(request):
-    token = 'fzReYB5oSharmVpN4ZN0Gw:APA91bH987q9tbCZUkRUIxRNtB9jVf8Gpzvk-FfB3kw1BgOQAKMbm0buhZHJKEClk7h-d3oKw5Ow1EvCPEfYE861tyHVjT0sznslgcs4xgNz9GmiLceg_kSQvadWcVov8vk4KFghnNvt'
+def sendNotification(token):
     message = messaging.Message(
         notification = messaging.Notification(
             title='test title',
@@ -489,7 +493,6 @@ def testNotification(request):
         token=token,
     )
     response = messaging.send(message)
-    return Response("ok")
 
 
 @api_view(['PUT'])
