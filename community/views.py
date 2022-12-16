@@ -352,7 +352,7 @@ def getPostDetail(request, pk):
     post_serializer = PostModel_serializer(model)
     main_comment = PostCommentModel.objects.filter(parent_id=pk)
     page = request.GET.get('page', 1)
-    paginator = Paginator(main_comment, 8)
+    paginator = Paginator(main_comment, 6)
     page_obj = paginator.page(page)
     comments_serializer = PostCommentModel_serializer(page_obj, many=True)
     like_user_list_serializer = LikeModel_serializer(like_user_list, many=True)
