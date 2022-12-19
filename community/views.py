@@ -332,8 +332,7 @@ def setLike(request, pk, id):
 
 
 @api_view(['PUT'])
-def getPostDetail(request, pk, test):
-    print('>>>: ' + str(test))
+def getPostDetail(request, pk):
     willAddHit = request.data['willAddHit']
     post = PostModel.objects.filter(id=pk).first()
     if willAddHit == True:
