@@ -448,6 +448,15 @@ def deletePost(request, pk):
         return Response("Failed")
 
 
+@api_view(['GET'])
+def getPostAllComments(request, pk):
+    if request.data == appkeys.appkey:
+        comments = PostCommentModel.objects.filter(parent_id=pk)
+        serializer = PostCommentModel_serializer(comments, many=True)
+        return Response(serializer.data)
+    else:
+        return Response("Failed")
+
 
 @api_view(['GET'])
 def getPostComments(request, pk, page):
