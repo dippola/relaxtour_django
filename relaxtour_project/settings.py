@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'community'
+    'community',
+    'django_user_agents',
 ]
 
 MIDDLEWARE = [
@@ -52,7 +53,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
 ]
+
+USER_AGENTS_CACHE = 'None'
 
 ROOT_URLCONF = 'relaxtour_project.urls'
 
