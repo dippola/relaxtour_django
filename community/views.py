@@ -256,8 +256,6 @@ def getPostsPageAll(request, page):
     print(">>>7: " + str(request.user_agent.device))
     if request.user_agent.browser.family == 'okhttp':
         print(">>>8")
-    else:
-        print(">>>9")
     posts = PostModel.objects.all()
     page = request.GET.get('page', page)
     paginator = Paginator(posts, 10)
@@ -335,6 +333,7 @@ def setLike(request, pk, id):
 
 @api_view(['PUT'])
 def getPostDetail(request, pk):
+    print('>>>: ' + str(request.field('test')))
     willAddHit = request.data['willAddHit']
     post = PostModel.objects.filter(id=pk).first()
     if willAddHit == True:
