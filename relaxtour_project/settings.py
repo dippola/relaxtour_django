@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
-USER_AGENTS_CACHE = 'None'
+USER_AGENTS_CACHE = 'default'
 
 ROOT_URLCONF = 'relaxtour_project.urls'
 
