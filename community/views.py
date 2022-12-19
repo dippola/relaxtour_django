@@ -275,7 +275,7 @@ def getPostsPageAll(request, page):
     if request.user_agent.browser.family == 'okhttp':
         print(">>>8")
 
-    if str(request.data['key']) == appkeys.appkey:
+    if request.data['key']['key'] == appkeys.appkey:
         posts = PostModel.objects.all()
         page = request.GET.get('page', page)
         paginator = Paginator(posts, 10)
