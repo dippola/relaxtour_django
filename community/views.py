@@ -41,7 +41,7 @@ def testDeleteStorage(reauest):
 
 @api_view(['GET'])
 def getUser(request, id):
-    if request.data['appkey'] == appkeys.appkey:
+    if request.data == appkeys.appkey:
         user = UserModel.objects.filter(id=id)
         serializer = UserModel_serializer(user, many=True)
         return Response(serializer.data)
@@ -64,42 +64,56 @@ def createUser(request):
         )
         serializer = UserModel_serializer(main, many=False)
         return Response(serializer.data)
+    else:
+        return Response("failed")
 
 
 @api_view(['PUT'])
 def updateUser(request, uid):
-    data = request.data
-    user = UserModel.objects.filter(uid=uid).first()
-    serializer = UserModel_serializer(user, data=data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors)
+    if request.data['key'] == appkeys.appkey:
+        data = request.data
+        user = UserModel.objects.filter(uid=uid).first()
+        serializer = UserModel_serializer(user, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    else:
+        return Response("failed")
 
 
 @api_view(['PUT'])
 def updateUserNotification(request, id):
-    data = request.data
-    user = UserModel.objects.filter(id=id).first()
-    serializer = UserModel_serializer(user, data=data, partial=True)
-    if (serializer.is_valid()):
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors)
+    if request.data['key'] == appkeys.appkey:
+        data = request.data
+        user = UserModel.objects.filter(id=id).first()
+        serializer = UserModel_serializer(user, data=data, partial=True)
+        if (serializer.is_valid()):
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    else:
+        return Response("failed")
 
 
 @api_view(['GET'])
 def searchEmail(request, email):
-    user = UserModel.objects.filter(email=email)
-    serializer = UserModel_serializer(user, many=True)
-    return Response(serializer.data)
+    if request.data == appkeys.appkey:
+        user = UserModel.objects.filter(email=email)
+        serializer = UserModel_serializer(user, many=True)
+        return Response(serializer.data)
+    else:
+        return Response("failed")
 
 
 @api_view(['GET'])
 def searchNickname(request, nickname):
-    user = UserModel.objects.filter(nickname=nickname)
-    serializer = UserModel_serializer(user, many=True)
-    return Response(serializer.data)
+    if request.data == appkeys.appkey:
+        user = UserModel.objects.filter(nickname=nickname)
+        serializer = UserModel_serializer(user, many=True)
+        return Response(serializer.data)
+    else:
+        return Response("failed")
 
 
 @api_view(['DELETE'])
@@ -117,119 +131,133 @@ def deleteUser(request, uid):
 
 @api_view(['GET'])
 def getUserCommunity(request, id):
-    posts = PostModel.objects.filter(parent_user=id).count()
-    comments = PostCommentModel.objects.filter(parent_user=id).count()
-    likes = LikeModel.objects.filter(user_ids=id).count()
-    return Response(str(posts) + "/" + str(comments) + "/" + str(likes))
+    if request.data == appkeys.appkey:
+        posts = PostModel.objects.filter(parent_user=id).count()
+        comments = PostCommentModel.objects.filter(parent_user=id).count()
+        likes = LikeModel.objects.filter(user_ids=id).count()
+        return Response(str(posts) + "/" + str(comments) + "/" + str(likes))
+    else:
+        return Response("failed")
 
 
 @api_view(['GET'])
 def getUserCommunityPost(request, id, page):
-    posts = PostModel.objects.filter(parent_user=id)
-    page = request.GET.get('page', page)
-    paginator = Paginator(posts, 15)
-    page_obj = paginator.page(page)
-    postview = []
-    for i in page_obj:
-        if i.imageurl != "":
-            imgcount = len(i.imageurl.split("●"))
-        else:
-            imgcount = 0
-        model = {
-            'parent_id': i.id,
-            'parent_user': i.parent_user.id,
-            'nickname': i.parent_user.nickname,
-            'user_image': i.parent_user.imageurl,
-            'category': i.category,
-            'imageurlcount': imgcount,
-            'date': str(i.date),
-            'title': i.title,
-            'imageurl': i.imageurl,
-            'commentcount': PostCommentModel.objects.filter(parent_id=i.id).count(),
-            'view': i.view,
-            'like': LikeModel.objects.filter(parent_id=i.id).count()
-        }
-        postview.append(model)
-    return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': postview}))
+    if request.data == appkeys.appkey:
+        posts = PostModel.objects.filter(parent_user=id)
+        page = request.GET.get('page', page)
+        paginator = Paginator(posts, 15)
+        page_obj = paginator.page(page)
+        postview = []
+        for i in page_obj:
+            if i.imageurl != "":
+                imgcount = len(i.imageurl.split("●"))
+            else:
+                imgcount = 0
+            model = {
+                'parent_id': i.id,
+                'parent_user': i.parent_user.id,
+                'nickname': i.parent_user.nickname,
+                'user_image': i.parent_user.imageurl,
+                'category': i.category,
+                'imageurlcount': imgcount,
+                'date': str(i.date),
+                'title': i.title,
+                'imageurl': i.imageurl,
+                'commentcount': PostCommentModel.objects.filter(parent_id=i.id).count(),
+                'view': i.view,
+                'like': LikeModel.objects.filter(parent_id=i.id).count()
+            }
+            postview.append(model)
+        return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': postview}))
+    else:
+        return HttpResponse("failed")
 
 
 @api_view(['GET'])
 def getUserCommunityCategory(request, id, category, page):
-    posts = PostModel.objects.filter(parent_user=id, category=category)
-    page = request.GET.get('page', page)
-    paginator = Paginator(posts, 15)
-    page_obj = paginator.page(page)
-    postview = []
-    for i in page_obj:
-        if i.imageurl != "":
-            imgcount = len(i.imageurl.split("●"))
-        else:
-            imgcount = 0
-        model = {
-            'parent_id': i.id,
-            'parent_user': i.parent_user.id,
-            'nickname': i.parent_user.nickname,
-            'user_image': i.parent_user.imageurl,
-            'category': i.category,
-            'imageurlcount': imgcount,
-            'date': str(i.date),
-            'title': i.title,
-            'imageurl': i.imageurl,
-            'commentcount': PostCommentModel.objects.filter(parent_id=i.id).count(),
-            'view': i.view,
-            'like': LikeModel.objects.filter(parent_id=i.id).count()
-        }
-        postview.append(model)
-    return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': postview}))
+    if request.data == appkeys.appkey:
+        posts = PostModel.objects.filter(parent_user=id, category=category)
+        page = request.GET.get('page', page)
+        paginator = Paginator(posts, 15)
+        page_obj = paginator.page(page)
+        postview = []
+        for i in page_obj:
+            if i.imageurl != "":
+                imgcount = len(i.imageurl.split("●"))
+            else:
+                imgcount = 0
+            model = {
+                'parent_id': i.id,
+                'parent_user': i.parent_user.id,
+                'nickname': i.parent_user.nickname,
+                'user_image': i.parent_user.imageurl,
+                'category': i.category,
+                'imageurlcount': imgcount,
+                'date': str(i.date),
+                'title': i.title,
+                'imageurl': i.imageurl,
+                'commentcount': PostCommentModel.objects.filter(parent_id=i.id).count(),
+                'view': i.view,
+                'like': LikeModel.objects.filter(parent_id=i.id).count()
+            }
+            postview.append(model)
+        return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': postview}))
+    else:
+        return HttpResponse("Failed")
 
 
 @api_view(['GET'])
 def getUsersCommentsAll(request, id, page):
-    comments = PostCommentModel.objects.filter(parent_user=id).order_by('-date')
-    page = request.GET.get('page', page)
-    paginator = Paginator(comments, 15)
-    page_obj = paginator.page(page)
-    result = []
-    for i in page_obj:
-        fori = {
-            'parent_id': i.parent_id_id,
-            'towho': i.to_nickname,
-            'body': i.body,
-            'date': str(i.date)
-        }
-        result.append(fori)
-    return HttpResponse(json.dumps({'pages':paginator.num_pages, 'result': result}))
+    if request.data == appkeys.appkey:
+        comments = PostCommentModel.objects.filter(parent_user=id).order_by('-date')
+        page = request.GET.get('page', page)
+        paginator = Paginator(comments, 15)
+        page_obj = paginator.page(page)
+        result = []
+        for i in page_obj:
+            fori = {
+                'parent_id': i.parent_id_id,
+                'towho': i.to_nickname,
+                'body': i.body,
+                'date': str(i.date)
+            }
+            result.append(fori)
+        return HttpResponse(json.dumps({'pages':paginator.num_pages, 'result': result}))
+    else:
+        return HttpResponse("Failed")
 
 @api_view(['GET'])
 def getUsersLikeAll(request, id, page):
-    likes = LikeModel.objects.filter(user_ids=id)
-    page = request.GET.get('page', page)
-    paginator = Paginator(likes, 15)
-    page_obj = paginator.page(page)
-    result = []
-    for i in page_obj:
-        post = PostModel.objects.get(id=i.parent_id_id)
-        if post.imageurl != "":
-            imgcount = len(post.imageurl.split("●"))
-        else:
-            imgcount = 0
-        model = {
-            'parent_id': post.id,
-            'parent_user': post.parent_user.id,
-            'nickname': post.parent_user.nickname,
-            'user_image': post.parent_user.imageurl,
-            'category': post.category,
-            'imageurlcount': imgcount,
-            'date': str(post.date),
-            'title': post.title,
-            'imageurl': post.imageurl,
-            'commentcount': PostCommentModel.objects.filter(parent_id=post.id).count(),
-            'view': post.view,
-            'like': LikeModel.objects.filter(parent_id=post.id).count()
-        }
-        result.append(model)
-    return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': result}))
-
+    if request.data == appkeys.appkey:
+        likes = LikeModel.objects.filter(user_ids=id)
+        page = request.GET.get('page', page)
+        paginator = Paginator(likes, 15)
+        page_obj = paginator.page(page)
+        result = []
+        for i in page_obj:
+            post = PostModel.objects.get(id=i.parent_id_id)
+            if post.imageurl != "":
+                imgcount = len(post.imageurl.split("●"))
+            else:
+                imgcount = 0
+            model = {
+                'parent_id': post.id,
+                'parent_user': post.parent_user.id,
+                'nickname': post.parent_user.nickname,
+                'user_image': post.parent_user.imageurl,
+                'category': post.category,
+                'imageurlcount': imgcount,
+                'date': str(post.date),
+                'title': post.title,
+                'imageurl': post.imageurl,
+                'commentcount': PostCommentModel.objects.filter(parent_id=post.id).count(),
+                'view': post.view,
+                'like': LikeModel.objects.filter(parent_id=post.id).count()
+            }
+            result.append(model)
+        return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': result}))
+    else:
+        return HttpResponse("Failed")
 
 
 
@@ -246,32 +274,36 @@ def getPostsPageAll(request, page):
     print(">>>7: " + str(request.user_agent.device))
     if request.user_agent.browser.family == 'okhttp':
         print(">>>8")
-    posts = PostModel.objects.all()
-    page = request.GET.get('page', page)
-    paginator = Paginator(posts, 10)
-    page_obj = paginator.page(page)
-    postview = []
-    for i in page_obj:
-        if i.imageurl != "":
-            imgcount = len(i.imageurl.split("●"))
-        else:
-            imgcount = 0
-        model = {
-            'parent_id': i.id,
-            'parent_user': i.parent_user.id,
-            'nickname': i.parent_user.nickname,
-            'user_image': i.parent_user.imageurl,
-            'category': i.category,
-            'imageurlcount': imgcount,
-            'date': str(i.date),
-            'title': i.title,
-            'imageurl': i.imageurl,
-            'commentcount': PostCommentModel.objects.filter(parent_id=i.id).count(),
-            'view': i.view,
-            'like': LikeModel.objects.filter(parent_id=i.id).count()
-        }
-        postview.append(model)
-    return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': postview}))
+
+    if request.data == appkeys.appkey:
+        posts = PostModel.objects.all()
+        page = request.GET.get('page', page)
+        paginator = Paginator(posts, 10)
+        page_obj = paginator.page(page)
+        postview = []
+        for i in page_obj:
+            if i.imageurl != "":
+                imgcount = len(i.imageurl.split("●"))
+            else:
+                imgcount = 0
+            model = {
+                'parent_id': i.id,
+                'parent_user': i.parent_user.id,
+                'nickname': i.parent_user.nickname,
+                'user_image': i.parent_user.imageurl,
+                'category': i.category,
+                'imageurlcount': imgcount,
+                'date': str(i.date),
+                'title': i.title,
+                'imageurl': i.imageurl,
+                'commentcount': PostCommentModel.objects.filter(parent_id=i.id).count(),
+                'view': i.view,
+                'like': LikeModel.objects.filter(parent_id=i.id).count()
+            }
+            postview.append(model)
+        return HttpResponse(json.dumps({'pages': paginator.num_pages, 'posts': postview}))
+    else:
+        return HttpResponse("Failed")
 
 
 @api_view(['GET'])
@@ -306,107 +338,115 @@ def getPostsPageWithCategory(request, category, page):
 
 @api_view(['PUT'])
 def setLike(request, pk, id):
-    like_model = LikeModel.objects.filter(parent_id=pk, user_ids=id).first()
-    if like_model is None:
-        post_model = PostModel.objects.get(id=pk)
-        user_model = UserModel.objects.get(id=id)
-        model = LikeModel(
-            parent_id=post_model,
-            user_ids=user_model
-        )
-        model.save()
-        return Response("add")
+    if request.data == appkeys.appkey:
+        like_model = LikeModel.objects.filter(parent_id=pk, user_ids=id).first()
+        if like_model is None:
+            post_model = PostModel.objects.get(id=pk)
+            user_model = UserModel.objects.get(id=id)
+            model = LikeModel(
+                parent_id=post_model,
+                user_ids=user_model
+            )
+            model.save()
+            return Response("add")
+        else:
+            like_model.delete()
+            return Response("remove")
     else:
-        like_model.delete()
-        return Response("remove")
+        return Response("Failed")
 
 
 @api_view(['PUT'])
 def getPostDetail(request, pk):
-    willAddHit = request.data['willAddHit']
-    post = PostModel.objects.filter(id=pk).first()
-    if willAddHit == True:
-        post.view += 1
-        mtd = {
-            "view": post.view,
-        }
-        update_serializer = PostModel_serializer(post, data=mtd, partial=True)
-        if update_serializer.is_valid():
-            update_serializer.save()
-    like_user_list = LikeModel.objects.filter(parent_id=post.id)
-    model = PostModel(
-        id=post.id,
-        parent_user=post.parent_user,
-        nickname=post.parent_user.nickname,
-        user_url=post.parent_user.imageurl,
-        category=post.category,
-        date=post.date,
-        title=post.title,
-        body=post.body,
-        imageurl=post.imageurl,
-        view=post.view,
-        like=like_user_list.count(),
-        list=post.list,
-        commentcount=PostCommentModel.objects.filter(parent_id=post.id).count()
-    )
-    post_serializer = PostModel_serializer(model)
-    main_comment = PostCommentModel.objects.filter(parent_id=pk)
-    page = request.GET.get('page', 1)
-    paginator = Paginator(main_comment, 6)
-    page_obj = paginator.page(page)
-    comments_serializer = PostCommentModel_serializer(page_obj, many=True)
-    like_user_list_serializer = LikeModel_serializer(like_user_list, many=True)
-    return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': comments_serializer.data,
-                                    'likeuserlist': like_user_list_serializer.data}))
+    if request.data['key'] == appkeys.appkey:
+        willAddHit = request.data['addHitModel']['willAddHit']
+        post = PostModel.objects.filter(id=pk).first()
+        if willAddHit == True:
+            post.view += 1
+            mtd = {
+                "view": post.view,
+            }
+            update_serializer = PostModel_serializer(post, data=mtd, partial=True)
+            if update_serializer.is_valid():
+                update_serializer.save()
+        like_user_list = LikeModel.objects.filter(parent_id=post.id)
+        model = PostModel(
+            id=post.id,
+            parent_user=post.parent_user,
+            nickname=post.parent_user.nickname,
+            user_url=post.parent_user.imageurl,
+            category=post.category,
+            date=post.date,
+            title=post.title,
+            body=post.body,
+            imageurl=post.imageurl,
+            view=post.view,
+            like=like_user_list.count(),
+            list=post.list,
+            commentcount=PostCommentModel.objects.filter(parent_id=post.id).count()
+        )
+        post_serializer = PostModel_serializer(model)
+        main_comment = PostCommentModel.objects.filter(parent_id=pk)
+        page = request.GET.get('page', 1)
+        paginator = Paginator(main_comment, 6)
+        page_obj = paginator.page(page)
+        comments_serializer = PostCommentModel_serializer(page_obj, many=True)
+        like_user_list_serializer = LikeModel_serializer(like_user_list, many=True)
+        return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': comments_serializer.data,
+                                        'likeuserlist': like_user_list_serializer.data}))
+    else:
+        return HttpResponse("Failed")
 
 
 @api_view(['POST'])
 def createPost(request, id):
-    data = request.data
-    user = UserModel.objects.get(id=id)
-    main = PostModel.objects.create(
-        parent_user=user,
-        category=data['category'],
-        title=data['title'],
-        body=data['body'],
-        imageurl=data['imageurl'],
-        list=data['list']
-    )
-    serializer = PostModel_serializer(main, many=False)
-    return Response(serializer.data)
-
+    if request.data['key'] == appkeys.appkey:
+        data = request.data['postModelDetail']
+        user = UserModel.objects.get(id=id)
+        main = PostModel.objects.create(
+            parent_user=user,
+            category=data['category'],
+            title=data['title'],
+            body=data['body'],
+            imageurl=data['imageurl'],
+            list=data['list']
+        )
+        serializer = PostModel_serializer(main, many=False)
+        return Response(serializer.data)
+    else:
+        return Response("Failed")
 
 @api_view(['PUT'])
 def updatePost(request, pk):
-    data = request.data
-    main = PostModel.objects.filter(id=pk).first()
-    serializer = PostModel_serializer(main, data=data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors)
+    if request.data['key'] == appkeys.appkey:
+        data = request.data['postUpdateModel']
+        main = PostModel.objects.filter(id=pk).first()
+        serializer = PostModel_serializer(main, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    else:
+        return Response("Failed")
 
 
 @api_view(['DELETE'])
 def deletePost(request, pk):
-    board = PostModel.objects.get(id=pk)
-    bucket = storage.bucket()
-    if board.imageurl != '':
-        rd = board.imageurl.split("●")[1]
-        filenames = bucket.list_blobs(prefix='community/main/' + rd + "/")
-        if filenames is not None:
-            for name in filenames:
-                path = bucket.blob(str(name.name))
-                path.delete()
-    board.delete()
-    return Response('board was deleted')
+    if request.data == appkeys.appkey:
+        board = PostModel.objects.get(id=pk)
+        bucket = storage.bucket()
+        if board.imageurl != '':
+            rd = board.imageurl.split("●")[1]
+            filenames = bucket.list_blobs(prefix='community/main/' + rd + "/")
+            if filenames is not None:
+                for name in filenames:
+                    path = bucket.blob(str(name.name))
+                    path.delete()
+        board.delete()
+        return Response('board was deleted')
+    else:
+        return Response("Failed")
 
-
-@api_view(['GET'])
-def getPostAllComments(request, pk):
-    comments = PostCommentModel.objects.filter(parent_id=pk)
-    serializer = PostCommentModel_serializer(comments, many=True)
-    return Response(serializer.data)
 
 
 @api_view(['GET'])
@@ -442,37 +482,40 @@ def getPostCommentsMore(request, pk, lastid):
 # Main에 Comment 쓰기
 @api_view(['POST'])
 def createPostComment(request, pk, id):
-    user = UserModel.objects.get(id=id)
-    main = PostModel.objects.get(id=pk)
-    to_id = 0
-    to_nickname = ''
-    data = request.data
-    is_have_to = False
-    if data['to_id'] is not None:
-        if data['to_id'] != 0:
-            if UserModel.objects.get(id=data['to_id']) is not None:
-                touser = UserModel.objects.get(id=data['to_id'])
-                to_id = touser.id
-                to_nickname = touser.nickname
-                is_have_to = True
-    comment = PostCommentModel.objects.create(
-        parent_user=user,
-        parent_id=main,
-        body=data['body'],
-        nickname=user.nickname,
-        user_url=user.imageurl,
-        to_id=to_id,
-        to_nickname=to_nickname
-    )
-    serializer = PostCommentModel_serializer(comment, many=False)
-    if main.parent_user.id != user.id:
-        if main.parent_user.notification:
-            sendNotification(token=main.parent_user.token, title="There is a comment on your comment.", body=data['body'], postid=pk, user_url=user.imageurl, nickname=user.nickname)
-    if is_have_to:
-        if UserModel.objects.get(id=to_id).notification:
-            to_token = UserModel.objects.get(id=to_id).token
-            sendNotification(token=to_token, title="The comment has been registered in your post.", body=data['body'], postid=pk, user_url=user.imageurl, nickname=user.nickname)
-    return Response(serializer.data)
+    if request.data['key'] == appkeys.appkey:
+        user = UserModel.objects.get(id=id)
+        main = PostModel.objects.get(id=pk)
+        to_id = 0
+        to_nickname = ''
+        data = request.data['postCommentModel']
+        is_have_to = False
+        if data['to_id'] is not None:
+            if data['to_id'] != 0:
+                if UserModel.objects.get(id=data['to_id']) is not None:
+                    touser = UserModel.objects.get(id=data['to_id'])
+                    to_id = touser.id
+                    to_nickname = touser.nickname
+                    is_have_to = True
+        comment = PostCommentModel.objects.create(
+            parent_user=user,
+            parent_id=main,
+            body=data['body'],
+            nickname=user.nickname,
+            user_url=user.imageurl,
+            to_id=to_id,
+            to_nickname=to_nickname
+        )
+        serializer = PostCommentModel_serializer(comment, many=False)
+        if main.parent_user.id != user.id:
+            if main.parent_user.notification:
+                sendNotification(token=main.parent_user.token, title="There is a comment on your comment.", body=data['body'], postid=pk, user_url=user.imageurl, nickname=user.nickname)
+        if is_have_to:
+            if UserModel.objects.get(id=to_id).notification:
+                to_token = UserModel.objects.get(id=to_id).token
+                sendNotification(token=to_token, title="The comment has been registered in your post.", body=data['body'], postid=pk, user_url=user.imageurl, nickname=user.nickname)
+        return Response(serializer.data)
+    else:
+        return Response("Failed")
 
 def sendNotification(token, title, body, postid, user_url, nickname):
     message = messaging.Message(
