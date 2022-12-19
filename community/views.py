@@ -21,7 +21,7 @@ import appkeys
 
 cred = credentials.Certificate('./relax-tour-de785-firebase-adminsdk-j86xu-68f3337ce7.json')
 firebase_admin.initialize_app(cred, {
-    'storageBucket': mykeys.storageBucket
+    'storageBucket': appkeys.storageBucket
 })
 
 
@@ -49,7 +49,7 @@ def getUser(request, id):
 # user생성
 @api_view(['POST'])
 def createUser(request):
-    if request.data['key'] == mykeys.appkey:
+    if request.data['key'] == appkeys.appkey:
         data = request.data['userModel']
         main = UserModel.objects.create(
             uid=data['uid'],
