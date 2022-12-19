@@ -263,7 +263,7 @@ def getUsersLikeAll(request, id, page):
 
 
 @api_view(['GET'])
-def getPostsPageAll(request, key, page):
+def getPostsPageAll(request, page):
     print(">>>1: " + str(request.user_agent.is_mobile))
     print(">>>2: " + str(request.user_agent.is_tablet))
     print(">>>3: " + str(request.user_agent.is_touch_capable))
@@ -275,7 +275,7 @@ def getPostsPageAll(request, key, page):
     if request.user_agent.browser.family == 'okhttp':
         print(">>>8")
 
-    if key == appkeys.appkey:
+    if request.data['key'] == appkeys.appkey:
         posts = PostModel.objects.all()
         page = request.GET.get('page', page)
         paginator = Paginator(posts, 10)
