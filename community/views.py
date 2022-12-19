@@ -254,7 +254,10 @@ def getPostsPageAll(request, page):
     print(">>>6: " + str(request.user_agent.browser.family))
     print(">>>7: " + str(request.user_agent.os))
     print(">>>7: " + str(request.user_agent.device))
-
+    if request.user_agent.browser.family == 'okhttp':
+        print(">>>8")
+    else:
+        print(">>>9")
     posts = PostModel.objects.all()
     page = request.GET.get('page', page)
     paginator = Paginator(posts, 10)
