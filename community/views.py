@@ -41,9 +41,12 @@ def testDeleteStorage(reauest):
 
 @api_view(['GET'])
 def getUser(request, id):
-    user = UserModel.objects.filter(id=id)
-    serializer = UserModel_serializer(user, many=True)
-    return Response(serializer.data)
+    if request.data['appkey'] == appkeys.appkey:
+        user = UserModel.objects.filter(id=id)
+        serializer = UserModel_serializer(user, many=True)
+        return Response(serializer.data)
+    else:
+        return Response("failed")
 
 
 # user생성
