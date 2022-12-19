@@ -264,17 +264,18 @@ def getUsersLikeAll(request, id, page):
 
 @api_view(['GET'])
 def getPostsPageAll(request, page):
-    print(">>>1: " + str(request.user_agent.is_mobile))
-    print(">>>2: " + str(request.user_agent.is_tablet))
-    print(">>>3: " + str(request.user_agent.is_touch_capable))
-    print(">>>4: " + str(request.user_agent.is_pc))
-    print(">>>5: " + str(request.user_agent.is_bot))
-    print(">>>6: " + str(request.user_agent.browser.family))
-    print(">>>7: " + str(request.user_agent.os))
-    print(">>>7: " + str(request.user_agent.device))
-    if request.user_agent.browser.family == 'okhttp':
-        print(">>>8")
+    # print(">>>1: " + str(request.user_agent.is_mobile))
+    # print(">>>2: " + str(request.user_agent.is_tablet))
+    # print(">>>3: " + str(request.user_agent.is_touch_capable))
+    # print(">>>4: " + str(request.user_agent.is_pc))
+    # print(">>>5: " + str(request.user_agent.is_bot))
+    # print(">>>6: " + str(request.user_agent.browser.family))
+    # print(">>>7: " + str(request.user_agent.os))
+    # print(">>>7: " + str(request.user_agent.device))
+    # if request.user_agent.browser.family == 'okhttp':
+    #     print(">>>8")
 
+    print(">>>: " + str(request.data['key']))
     if request.data['key'] == appkeys.appkey:
         posts = PostModel.objects.all()
         page = request.GET.get('page', page)
