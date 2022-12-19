@@ -195,14 +195,6 @@ def getUserCommunityCategory(request, id, category, page):
 
 @api_view(['GET'])
 def getUsersCommentsAll(request, id, page):
-    print(">>>1: " + str(request.user_agent.is_mobile))
-    print(">>>2: " + str(request.user_agent.is_tablet))
-    print(">>>3: " + str(request.user_agent.is_touch_capable))
-    print(">>>4: " + str(request.user_agent.is_pc))
-    print(">>>5: " + str(request.user_agent.is_bot))
-    print(">>>6: " + str(request.user_agent.browser))
-    print(">>>7: " + str(request.user_agent.os))
-    print(">>>7: " + str(request.user_agent.device))
     comments = PostCommentModel.objects.filter(parent_user=id).order_by('-date')
     page = request.GET.get('page', page)
     paginator = Paginator(comments, 15)
@@ -254,6 +246,15 @@ def getUsersLikeAll(request, id, page):
 
 @api_view(['GET'])
 def getPostsPageAll(request, page):
+    print(">>>1: " + str(request.user_agent.is_mobile))
+    print(">>>2: " + str(request.user_agent.is_tablet))
+    print(">>>3: " + str(request.user_agent.is_touch_capable))
+    print(">>>4: " + str(request.user_agent.is_pc))
+    print(">>>5: " + str(request.user_agent.is_bot))
+    print(">>>6: " + str(request.user_agent.browser.family))
+    print(">>>7: " + str(request.user_agent.os))
+    print(">>>7: " + str(request.user_agent.device))
+
     posts = PostModel.objects.all()
     page = request.GET.get('page', page)
     paginator = Paginator(posts, 10)
