@@ -275,7 +275,7 @@ def getPostsPageAll(request, page):
     # if request.user_agent.browser.family == 'okhttp':
     #     print(">>>8")
 
-    print(">>>: " + str(request.data['key']))
+    print(">>>: " + str(request.data.key))
     if request.data['key'] == appkeys.appkey:
         posts = PostModel.objects.all()
         page = request.GET.get('page', page)
