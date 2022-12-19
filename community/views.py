@@ -17,7 +17,7 @@ from firebase_admin import credentials
 from firebase_admin import storage
 from firebase_admin import messaging
 
-import mykeys
+import appkeys
 
 cred = credentials.Certificate('./relax-tour-de785-firebase-adminsdk-j86xu-68f3337ce7.json')
 firebase_admin.initialize_app(cred, {
@@ -40,20 +40,6 @@ def testDeleteStorage(reauest):
 
 
 @api_view(['GET'])
-def getUsers(request):
-    users = UserModel.objects.all()
-    serializer = UserModel_serializer(users, many=True)
-    return Response(serializer.data)
-
-
-@api_view(['DELETE'])
-def deleteAllUser(request):
-    users = UserModel.objects.all()
-    users.delete()
-    return Response('user was deleted')
-
-
-@api_view(['GET'])
 def getUser(request, id):
     user = UserModel.objects.filter(id=id)
     serializer = UserModel_serializer(user, many=True)
@@ -63,17 +49,18 @@ def getUser(request, id):
 # user생성
 @api_view(['POST'])
 def createUser(request):
-    data = request.data
-    main = UserModel.objects.create(
-        uid=data['uid'],
-        email=data['email'],
-        imageurl=data['imageurl'],
-        nickname=data['nickname'],
-        provider=data['provider'],
-        token=data['token'],
-    )
-    serializer = UserModel_serializer(main, many=False)
-    return Response(serializer.data)
+    if request.data['key'] == mykeys.appkey:
+        data = request.data['userModel']
+        main = UserModel.objects.create(
+            uid=data['uid'],
+            email=data['email'],
+            imageurl=data['imageurl'],
+            nickname=data['nickname'],
+            provider=data['provider'],
+            token=data['token'],
+        )
+        serializer = UserModel_serializer(main, many=False)
+        return Response(serializer.data)
 
 
 @api_view(['PUT'])

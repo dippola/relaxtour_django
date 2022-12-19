@@ -14,20 +14,19 @@ urlpatterns = [
     # path('boards/page=<str:page>/', views.getBoardsPage),
     # path('comments', views.getAllComments)
 
-    path('users/', views.getUsers),#
-    path('users/delete/', views.deleteAllUser),#will delete
-    path('user/create/', views.createUser),#
-    path('user/searchemail/<str:email>/', views.searchEmail),#
-    path('user/searchnickname/<str:nickname>/', views.searchNickname),#
-    path('user/<str:id>/', views.getUser),#
-    path('user/<str:uid>/update/', views.updateUser),#
-    path('user/<str:uid>/delete/', views.deleteUser),#
-    path('user/<str:id>/updatenotification/', views.updateUserNotification),#
-    path('user/<str:id>/community/', views.getUserCommunity),#
-    path('user/<str:id>/community/posts/page=<str:page>/', views.getUserCommunityPost),#
-    path('user/<str:id>/community/posts/category=<str:category>/page=<str:page>/', views.getUserCommunityCategory),#
-    path('user/<str:id>/community/comments/page=<str:page>/', views.getUsersCommentsAll),#
-    path('user/<str:id>/community/likes/page=<str:page>/', views.getUsersLikeAll),#
+
+    path('user/create/', views.createUser),
+    path('user/searchemail/<str:email>/', views.searchEmail),
+    path('user/searchnickname/<str:nickname>/', views.searchNickname),
+    path('user/<str:id>/', views.getUser),
+    path('user/<str:uid>/update/', views.updateUser),
+    path('user/<str:uid>/delete/', views.deleteUser),
+    path('user/<str:id>/updatenotification/', views.updateUserNotification),
+    path('user/<str:id>/community/', views.getUserCommunity),
+    path('user/<str:id>/community/posts/page=<str:page>/', views.getUserCommunityPost),
+    path('user/<str:id>/community/posts/category=<str:category>/page=<str:page>/', views.getUserCommunityCategory),
+    path('user/<str:id>/community/comments/page=<str:page>/', views.getUsersCommentsAll),
+    path('user/<str:id>/community/likes/page=<str:page>/', views.getUsersLikeAll),
 
 
     path('posts/page=<str:page>/', views.getPostsPageAll),
