@@ -406,7 +406,7 @@ def getPostDetail(request, pk):
 @api_view(['POST'])
 def createPost(request, id):
     if request.headers['key'] == appkeys.appkey:
-        data = request.data['postModelDetail']
+        data = request.data
         user = UserModel.objects.get(id=id)
         main = PostModel.objects.create(
             parent_user=user,
