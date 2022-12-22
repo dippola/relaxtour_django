@@ -440,6 +440,7 @@ def deletePost(request, pk):
     post = PostModel.objects.get(id=pk)
     print(">>>1: " + post.imageurl.split("●")[0])
     print(">>>1: " + post.imageurl.split("●")[1])
+    return Response("ok")
     # if request.headers['key'] == appkeys.appkey:
     #     board = PostModel.objects.get(id=pk)
     #     bucket = storage.bucket()
