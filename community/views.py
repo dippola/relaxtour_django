@@ -560,6 +560,7 @@ def sendNotification(token, title, body, postid, user_url, nickname):
             token=token,
         )
         response = messaging.send(message)
+        Response("Firebase Cloud Messaging Successed")
     except messaging.QuotaExceededError:
         Response("Firebase Cloud Messaging Failed")
 
