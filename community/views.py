@@ -424,7 +424,7 @@ def createPost(request, id):
 @api_view(['PUT'])
 def updatePost(request, pk):
     if request.headers['key'] == appkeys.appkey:
-        data = request.data['postUpdateModel']
+        data = request.data
         main = PostModel.objects.filter(id=pk).first()
         serializer = PostModel_serializer(main, data=data, partial=True)
         if serializer.is_valid():
@@ -437,20 +437,23 @@ def updatePost(request, pk):
 
 @api_view(['DELETE'])
 def deletePost(request, pk):
-    if request.headers['key'] == appkeys.appkey:
-        board = PostModel.objects.get(id=pk)
-        bucket = storage.bucket()
-        if board.imageurl != '':
-            rd = board.imageurl.split("●")[1]
-            filenames = bucket.list_blobs(prefix='community/main/' + rd + "/")
-            if filenames is not None:
-                for name in filenames:
-                    path = bucket.blob(str(name.name))
-                    path.delete()
-        board.delete()
-        return Response('board was deleted')
-    else:
-        return Response("Failed")
+    post = PostModel.objects.get(id=pk)
+    print(">>>1: " + post.imageurl.split("●")[0])
+    print(">>>1: " + post.imageurl.split("●")[1])
+    # if request.headers['key'] == appkeys.appkey:
+    #     board = PostModel.objects.get(id=pk)
+    #     bucket = storage.bucket()
+    #     if board.imageurl != '':
+    #         rd = board.imageurl.split("●")[1]
+    #         filenames = bucket.list_blobs(prefix='community/main/' + rd + "/")
+    #         if filenames is not None:
+    #             for name in filenames:
+    #                 path = bucket.blob(str(name.name))
+    #                 path.delete()
+    #     board.delete()
+    #     return Response('board was deleted')
+    # else:
+    #     return Response("Failed")
 
 
 @api_view(['GET'])
