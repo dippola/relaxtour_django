@@ -437,24 +437,20 @@ def updatePost(request, pk):
 
 @api_view(['DELETE'])
 def deletePost(request, pk):
-    post = PostModel.objects.get(id=pk)
-    print(">>>1: " + post.imageurl.split("●")[0])
-    print(">>>1: " + post.imageurl.split("●")[1])
-    return Response("ok")
-    # if request.headers['key'] == appkeys.appkey:
-    #     board = PostModel.objects.get(id=pk)
-    #     bucket = storage.bucket()
-    #     if board.imageurl != '':
-    #         rd = board.imageurl.split("●")[1]
-    #         filenames = bucket.list_blobs(prefix='community/main/' + rd + "/")
-    #         if filenames is not None:
-    #             for name in filenames:
-    #                 path = bucket.blob(str(name.name))
-    #                 path.delete()
-    #     board.delete()
-    #     return Response('board was deleted')
-    # else:
-    #     return Response("Failed")
+    if request.headers['key'] == appkeys.appkey:
+        board = PostModel.objects.get(id=pk)
+        bucket = storage.bucket()
+        if board.imageurl != '':
+            rd = board.imageurl.split("●")[0]
+            filenames = bucket.list_blobs(prefix='community/main/' + rd + "/")
+            if filenames is not None:
+                for name in filenames:
+                    path = bucket.blob(str(name.name))
+                    path.delete()
+        board.delete()
+        return Response('board was deleted')
+    else:
+        return Response("Failed")
 
 
 @api_view(['GET'])
