@@ -507,7 +507,7 @@ def createPostComment(request, pk, id):
         main = PostModel.objects.get(id=pk)
         to_id = 0
         to_nickname = ''
-        data = request.data['postCommentModel']
+        data = request.data
         is_have_to = False
         if data['to_id'] is not None:
             if data['to_id'] != 0:
@@ -576,6 +576,7 @@ def updatePostComment(request, id):
 @api_view(['DELETE'])
 def deletePostComment(request, pk, id):
     if request.headers['key'] == appkeys.appkey:
+        print(">>> " + PostCommentModel)
         comment = PostCommentModel.objects.get(id=id)
         comment.delete()
         return Response('comment was deleted')
