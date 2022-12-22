@@ -538,7 +538,6 @@ def createPostComment(request, pk, id):
         return Response("Failed")
 
 def sendNotification(token, title, body, postid, user_url, nickname):
-    try:
         message = messaging.Message(
             notification = messaging.Notification(
                 title="comment●" + str(postid) + "●" + user_url + "●" + nickname + "●" + title,
@@ -559,10 +558,11 @@ def sendNotification(token, title, body, postid, user_url, nickname):
             ),
             token=token,
         )
-        response = messaging.send(message)
-        Response("Firebase Cloud Messaging Successed")
-    except messaging.QuotaExceededError:
-        Response("Firebase Cloud Messaging Failed")
+        try:
+            response = messaging.send(message)
+            Response("Firebase Cloud Messaging Successed")
+        except Exception as e:
+            Response("Firebase Cloud Messaging Failed: " + str(e))
 
 
 @api_view(['PUT'])
