@@ -574,7 +574,7 @@ def updatePostComment(request, id):
         return Response("Failed")
 
 @api_view(['DELETE'])
-def deletePostComment(request, id):
+def deletePostComment(request, pk, id):
     if request.headers['key'] == appkeys.appkey:
         comment = PostCommentModel.objects.get(id=id)
         comment.delete()
