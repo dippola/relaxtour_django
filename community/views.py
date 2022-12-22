@@ -277,8 +277,6 @@ def getPostsPageAll(request, page):
     # print(">>>7: " + str(request.user_agent.device))
     # if request.user_agent.browser.family == 'okhttp':
     #     print(">>>8")
-
-    print(">>>: " + str(request.data))
     if request.headers['key'] == appkeys.appkey:
         posts = PostModel.objects.all()
         page = request.GET.get('page', page)
@@ -578,7 +576,7 @@ def updatePostComment(request, id):
 @api_view(['DELETE'])
 def deletePostComment(request, id):
     if request.headers['key'] == appkeys.appkey:
-        comment = PostCommentModel.objects.filter(id=id).first()
+        comment = PostCommentModel.objects.get(id=id)
         comment.delete()
         return Response('comment was deleted')
     else:
