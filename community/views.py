@@ -364,7 +364,7 @@ def setLike(request, pk, id):
 @api_view(['PUT'])
 def getPostDetail(request, pk):
     if request.headers['key'] == appkeys.appkey:
-        willAddHit = request.data['addHitModel']['willAddHit']
+        willAddHit = request.data['willAddHit']
         post = PostModel.objects.filter(id=pk).first()
         if willAddHit == True:
             post.view += 1
