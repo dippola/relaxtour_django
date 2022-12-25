@@ -439,7 +439,7 @@ def updatePost(request, pk):
             "imageurl": data['imageurl'],
             "list": data['list']
         }
-        serializer = PostModel_serializer(main, data=model, partial=True, required=False)
+        serializer = PostModel_serializer(main, data=model, partial=True)
         if serializer.is_valid():
             serializer.save()
             print(">>>1")

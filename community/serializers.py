@@ -14,6 +14,7 @@ class PostCommentModel_serializer(serializers.ModelSerializer):
 
 class PostModel_serializer(serializers.ModelSerializer):
     # comment = MainCommentModel_serializer(many=True, allow_null=True, read_only=True)
+    list = serializers.CharField(allow_blank=True)
     class Meta:
         model = PostModel
         fields = '__all__'
