@@ -425,7 +425,7 @@ def createPost(request, id):
 def updatePost(request, pk):
     if request.headers['key'] == appkeys.appkey:
         data = request.data
-        main = PostModel.objects.filter(id=pk).first()
+        main = PostModel.objects.get(id=pk)
         serializer = PostModel_serializer(main, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -433,7 +433,7 @@ def updatePost(request, pk):
             return Response("Success")
         else:
             print(">>>2")
-            return Response("Failed: " + str(serializer.errors))
+            return Response("Failed")
     else:
         print(">>>3")
         return Response("Failed")
