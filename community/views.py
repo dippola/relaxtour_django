@@ -77,7 +77,8 @@ def updateUser(request, uid):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors)
+        else:
+            return Response(serializer.errors)
     else:
         return Response("failed")
 
@@ -426,6 +427,7 @@ def updatePost(request, pk):
     if request.headers['key'] == appkeys.appkey:
         data = request.data
         main = PostModel.objects.get(id=pk)
+        print(">>>0: " + str(main.count()))
         serializer = PostModel_serializer(main, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
