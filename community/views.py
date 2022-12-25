@@ -427,18 +427,18 @@ def updatePost(request, pk):
     if request.headers['key'] == appkeys.appkey:
         data = request.data
         main = PostModel.objects.get(id=pk)
-        model = PostModel(
+        model = {
             # id = main.id,
             # parent_user = main.parent_user,
             # nickname = main.nickname,
             # user_url = main.user_url,
             # category = main.category,
             # date = main.date,
-            title = data['title'],
-            body = data['body'],
-            imageurl = data['imageurl'],
-            list = data['list']
-        )
+            "title": data['title'],
+            "body": data['body'],
+            "imageurl": data['imageurl'],
+            "list": data['list']
+        }
         serializer = PostModel_serializer(main, data=model, partial=True)
         if serializer.is_valid():
             serializer.save()
