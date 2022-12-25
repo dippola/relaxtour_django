@@ -19,6 +19,7 @@ class PostModel_serializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class LikeModel_serializer(serializers.ModelSerializer):
+    list = serializers.CharField(allow_blank=True)
     class Meta:
         model = LikeModel
         fields = '__all__'
