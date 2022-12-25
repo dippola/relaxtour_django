@@ -437,7 +437,6 @@ def updatePost(request, pk):
             title = data['title'],
             body = data['body'],
             imageurl = data['imageurl'],
-            view = main.view,
             list = data['list']
         )
         serializer = PostModel_serializer(main, data=model, partial=True)
