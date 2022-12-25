@@ -431,13 +431,13 @@ def updatePost(request, pk):
         if serializer.is_valid():
             serializer.save()
             print(">>>1")
-            return Response(serializer.data)
+            return Response("Success")
         else:
             print(">>>2")
-            return Response(serializer.errors)
+            return Response("Failed: " + str(serializer.error_messages))
     else:
         print(">>>3")
-        return Response(json.dumps({"is": "failed"}))
+        return Response("Failed")
 
 
 @api_view(['DELETE'])
