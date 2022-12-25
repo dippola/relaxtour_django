@@ -427,7 +427,7 @@ def updatePost(request, pk):
     if request.headers['key'] == appkeys.appkey:
         data = request.data
         main = PostModel.objects.get(id=pk)
-        print(">>>0: " + str(main.nickname))
+        print(">>>0: " + str(main.title) + "/" + str(main.body))
         serializer = PostModel_serializer(main, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
