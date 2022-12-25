@@ -433,7 +433,7 @@ def updatePost(request, pk):
             return Response("Success")
         else:
             print(">>>2")
-            return Response("Failed")
+            return Response("Failed: " + serializer.errors)
     else:
         print(">>>3")
         return Response("Failed")
