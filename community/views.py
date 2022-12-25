@@ -431,9 +431,9 @@ def updatePost(request, pk):
             serializer.save()
             print(">>>1")
             return Response("Success")
-        else:
-            print(">>>2")
-            return Response("Failed")
+        # else:
+        #     print(">>>2")
+        #     return Response("Failed")
     else:
         print(">>>3")
         return Response("Failed")
