@@ -427,18 +427,17 @@ def updatePost(request, pk):
     if request.headers['key'] == appkeys.appkey:
         data = request.data
         main = PostModel.objects.get(id=pk)
-        print(">>>0: " + str(main.title) + "/" + str(main.body))
         serializer = PostModel_serializer(main, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
             print(">>>1")
-            return Response("Success")
+            return Response(serializer.data)
         else:
             print(">>>2")
-            return Response("Failed")
+            return Response(serializer.errors)
     else:
         print(">>>3")
-        return Response("Failed")
+        return Response(json.dumps({"is": "failed"}))
 
 
 @api_view(['DELETE'])
