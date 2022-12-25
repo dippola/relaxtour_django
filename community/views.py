@@ -429,9 +429,12 @@ def updatePost(request, pk):
         serializer = PostModel_serializer(main, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
+            print(">>>1")
             return Response(serializer.data)
+        print(">>>2")
         return Response(serializer.errors)
     else:
+        print(">>>3")
         return Response("Failed")
 
 
