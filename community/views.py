@@ -42,7 +42,7 @@ def testDeleteStorage(reauest):
 @api_view(['GET'])
 def getUser(request, id):
     if request.headers['key'] == appkeys.appkey:
-        user = UserModel.objects.filter(id=id).first()
+        user = UserModel.objects.filter(id=id)
         serializer = UserModel_serializer(user, many=True)
         return Response(serializer.data)
     else:
