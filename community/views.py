@@ -545,7 +545,7 @@ def createPostComment(request, pk, id):
                         parent_user=user,
                         parent_id=main,
                         body=data['body'],
-                        to_id=to_id,
+                        to_id=UserModel.objects.get(id=data['to_id']),
                     )
         else:
             comment = PostCommentModel.objects.create(
