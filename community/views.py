@@ -389,14 +389,14 @@ def getPostDetail(request, pk):
         model_list = []
         for i in page_obj:
             comment_model = {
-                "id": i.id,
-                "date": str(i.date),
-                "parent_id": i.parent_id,
-                "parent_user": i.parent_user,
-                "body": i.body,
-                "nickname": i.parent_id.nickname,
-                "user_url": i.parent_id.imageurl,
-                "to_id": i.to_id
+                'id': i.id,
+                'date': str(i.date),
+                'parent_id': i.parent_id,
+                'parent_user': i.parent_user,
+                'body': i.body,
+                'nickname': i.parent_id.nickname,
+                'user_url': i.parent_id.imageurl,
+                'to_id': i.to_id
             }
             model_list.append(comment_model)
         like_user_list_serializer = LikeModel_serializer(like_user_list, many=True)
@@ -485,14 +485,14 @@ def getPostComments(request, pk, page):
         model_list = []
         for i in page_obj:
             model = {
-                "id": i.id,
-                "date": str(i.date),
-                "parent_id": i.parent_id,
-                "parent_user": i.parent_user,
-                "body": i.body,
-                "nickname": i.parent_id.nickname,
-                "user_url": i.parent_id.imageurl,
-                "to_id": i.to_id
+                'id': i.id,
+                'date': str(i.date),
+                'parent_id': i.parent_id,
+                'parent_user': i.parent_user,
+                'body': i.body,
+                'nickname': i.parent_id.nickname,
+                'user_url': i.parent_id.imageurl,
+                'to_id': i.to_id
             }
             model_list.append(model)
         return Response(json.dumps({"comments": model_list}))
