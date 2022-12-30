@@ -120,7 +120,7 @@ def searchNickname(request, nickname):
 @api_view(['DELETE'])
 def deleteUser(request, uid):
     if request.headers['key'] == appkeys.appkey:
-        user = UserModel.objects.filter(uid=uid)
+        user = UserModel.objects.filter(uid=uid).first()
         bucket = storage.bucket()
         filenames = bucket.list_blobs(prefix='userimages/' + str(user.id) + "/")
         if filenames is not None:
