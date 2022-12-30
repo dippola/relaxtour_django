@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 from .models import UserModel, PostModel, PostCommentModel, LikeModel
 from .serializers import UserModel_serializer, PostModel_serializer, PostCommentModel_serializer, LikeModel_serializer
 from django.core.paginator import Paginator
+from django.core.serializers.json import DjangoJSONEncoder
 
 from rest_framework.response import Response
 
@@ -495,7 +496,7 @@ def getPostComments(request, pk, page):
                 'to_id': i.to_id
             }
             modellist.append(model)
-        return HttpResponse(json.dumps({'comments': modellist}))
+        return HttpResponse(json.dumps({'comments': modellist}, cls=DjangoJSONEncoder))
     else:
         return HttpResponse("Failed")
 
