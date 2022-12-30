@@ -551,8 +551,7 @@ def createPostComment(request, pk, id):
             comment = PostCommentModel.objects.create(
                 parent_user=user,
                 parent_id=main,
-                body=data['body'],
-                to_id=None
+                body=data['body']
             )
         serializer = PostCommentModel_serializer(comment, many=False)
         if main.parent_user.id != user.id:
