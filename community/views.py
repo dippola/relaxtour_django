@@ -388,6 +388,11 @@ def getPostDetail(request, pk):
         page_obj = paginator.page(page)
         modellist = []
         for i in page_obj:
+            to_id = None
+            to_nickname = None
+            if i.to_id is not None:
+                to_id = i.to_id
+                to_nickname = UserModel.objects.get(id=i.to_id).nickname
             commentmodel = {
                 'id': i.id,
                 'date': str(i.date),
@@ -396,12 +401,9 @@ def getPostDetail(request, pk):
                 'body': i.body,
                 'nickname': i.parent_user.nickname,
                 'user_url': i.parent_user.imageurl,
-                'to_id': None,
-                'to_nickname': None
+                'to_id': to_id,
+                'to_nickname': to_nickname
             }
-            if i.to_id is not None:
-                commentmodel.to_id = i.to_id
-                commentmodel.to_nickname = UserModel.objects.get(id=i.to_id).nickname
             modellist.append(commentmodel)
         like_user_list_serializer = LikeModel_serializer(like_user_list, many=True)
         return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': modellist,
