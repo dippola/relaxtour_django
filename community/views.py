@@ -390,7 +390,7 @@ def getPostDetail(request, pk):
         for i in page_obj:
             model = {
                 "id": i.id,
-                "date": i.date,
+                "date": str(i.date),
                 "parent_id": i.parent_id,
                 "parent_user": i.parent_user,
                 "body": i.body,
@@ -486,7 +486,7 @@ def getPostComments(request, pk, page):
         for i in page_obj:
             model = {
                 "id": i.id,
-                "date": i.date,
+                "date": str(i.date),
                 "parent_id": i.parent_id,
                 "parent_user": i.parent_user,
                 "body": i.body,
