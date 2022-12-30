@@ -395,7 +395,7 @@ def getPostDetail(request, pk):
                 "parent_user": i.parent_user,
                 "body": i.body,
                 "nickname": i.parent_id.nickname,
-                "user_url": i.parent.id.imageurl,
+                "user_url": i.parent_id.imageurl,
                 "to_id": i.to_id
             }
             model_list.append(model)
@@ -491,7 +491,7 @@ def getPostComments(request, pk, page):
                 "parent_user": i.parent_user,
                 "body": i.body,
                 "nickname": i.parent_id.nickname,
-                "user_url": i.parent.id.imageurl,
+                "user_url": i.parent_id.imageurl,
                 "to_id": i.to_id
             }
             model_list.append(model)
