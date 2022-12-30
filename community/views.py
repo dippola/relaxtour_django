@@ -396,8 +396,8 @@ def getPostDetail(request, pk):
                 'body': i.body,
                 'nickname': i.parent_user.nickname,
                 'user_url': i.parent_user.imageurl,
-                'to_id': UserModel.objects.filter(id=i.to_id).first.id,
-                'to_nickname': UserModel.objects.filter(id=i.to_id).first.nickname
+                'to_id': i.to_id,
+                'to_nickname': UserModel.objects.get(id=i.to_id).nickname
             }
             modellist.append(commentmodel)
         like_user_list_serializer = LikeModel_serializer(like_user_list, many=True)
