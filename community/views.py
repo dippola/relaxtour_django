@@ -396,8 +396,8 @@ def getPostDetail(request, pk):
                 'body': i.body,
                 'nickname': i.parent_user.nickname,
                 'user_url': i.parent_user.imageurl,
-                'to_id': i.to_id,
-                'to_nickname': i.to_id.nickname
+                'to_id': UserModel.objects.get(id=i.to_id).id,
+                'to_nickname': UserModel.objects.get(id=i.to_id).nickname
             }
             modellist.append(commentmodel)
         like_user_list_serializer = LikeModel_serializer(like_user_list, many=True)
@@ -493,8 +493,8 @@ def getPostComments(request, pk, page):
                 'body': i.body,
                 'nickname': i.parent_user.nickname,
                 'user_url': i.parent_user.imageurl,
-                'to_id': i.to_id,
-                'to_nickname': i.to_id.nickname
+                'to_id': UserModel.objects.get(id=i.to_id).id,
+                'to_nickname': UserModel.objects.get(id=i.to_id).nickname
             }
             modellist.append(model)
         return HttpResponse(json.dumps({'comments': modellist}))
