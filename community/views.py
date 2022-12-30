@@ -482,7 +482,7 @@ def getPostComments(request, pk, page):
         page = request.GET.get('page', page)
         paginator = Paginator(main_comment, 6)
         page_obj = paginator.page(page)
-        model_list = []
+        modellist = []
         for i in page_obj:
             model = {
                 'id': i.id,
@@ -494,8 +494,8 @@ def getPostComments(request, pk, page):
                 'user_url': i.parent_id.imageurl,
                 'to_id': i.to_id
             }
-            model_list.append(model)
-        return Response(json.dumps({model_list}))
+            modellist.append(model)
+        return Response(json.dumps({'comments': modellist}))
     else:
         return Response("Failed")
 
