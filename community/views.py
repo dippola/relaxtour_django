@@ -289,7 +289,7 @@ def getPostsPageAll(request, page):
                 'date': str(i.date),
                 'title': i.title,
                 'imageurl': i.imageurl,
-                'commentcount': PostCommentModel.objects.filter(parent_id=i.id).count(),
+                'commentcount': PostCommentModel.objects.filter(parent_id_id=i.id).count(),
                 'view': i.view,
                 'like': LikeModel.objects.filter(parent_id=i.id).count()
             }
