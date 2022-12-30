@@ -388,9 +388,6 @@ def getPostDetail(request, pk):
         page_obj = paginator.page(page)
         modellist = []
         for i in page_obj:
-            to_id = 0
-            if UserModel.objects.get(id=i.to_id) is not None:
-                to_id = i.to_id
             commentmodel = {
                 'id': i.id,
                 'date': str(i.date),
@@ -399,8 +396,8 @@ def getPostDetail(request, pk):
                 'body': i.body,
                 'nickname': i.parent_user.nickname,
                 'user_url': i.parent_user.imageurl,
-                'to_id': to_id,
-                'to_nickname': UserModel.objects.get(id=to_id).nickname
+                'to_id': i.to_id,
+                'to_nickname': UserModel.objects.get(id=i.to_id).nickname
             }
             modellist.append(commentmodel)
         like_user_list_serializer = LikeModel_serializer(like_user_list, many=True)
@@ -540,18 +537,23 @@ def createPostComment(request, pk, id):
         to_id = 0
         data = request.data
         is_have_to = False
+        comment = PostCommentModel
         if data['to_id'] is not None:
             if data['to_id'] != 0:
                 if UserModel.objects.get(id=data['to_id']) is not None:
-                    touser = UserModel.objects.get(id=data['to_id'])
-                    to_id = touser.id
-                    is_have_to = True
-        comment = PostCommentModel.objects.create(
-            parent_user=user,
-            parent_id=main,
-            body=data['body'],
-            to_id=to_id,
-        )
+                    comment = PostCommentModel.objects.create(
+                        parent_user=user,
+                        parent_id=main,
+                        body=data['body'],
+                        to_id=to_id,
+                    )
+        else:
+            comment = PostCommentModel.objects.create(
+                parent_user=user,
+                parent_id=main,
+                body=data['body'],
+                to_id=None
+            )
         serializer = PostCommentModel_serializer(comment, many=False)
         if main.parent_user.id != user.id:
             if main.parent_user.notification:
