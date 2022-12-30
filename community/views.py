@@ -395,7 +395,9 @@ def getPostDetail(request, pk):
                 'parent_user': i.parent_user.id,
                 'body': i.body,
                 'nickname': i.parent_user.nickname,
-                'user_url': i.parent_user.imageurl
+                'user_url': i.parent_user.imageurl,
+                'to_id': None,
+                'to_nickname': None
             }
             if i.to_id is not None:
                 commentmodel.to_id = i.to_id
