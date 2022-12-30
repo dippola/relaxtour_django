@@ -391,11 +391,11 @@ def getPostDetail(request, pk):
             to_id = None
             to_nickname = None
             if i.to_id is not None:
-                if i.to_id != 0:
+                if i.to_id != 21:
                     to_id = i.to_id.id
                     to_nickname = UserModel.objects.get(id=i.to_id.id).nickname
                 else:
-                    to_id = 0
+                    to_id = 21
                     to_nickname = 'unknown'
             commentmodel = {
                 'id': i.id,
@@ -484,11 +484,11 @@ def getPostAllComments(request, pk):
             to_id = None
             to_nickname = None
             if i.to_id is not None:
-                if i.to_id != 0:
+                if i.to_id != 21:
                     to_id = i.to_id.id
                     to_nickname = UserModel.objects.get(id=i.to_id.id).nickname
                 else:
-                    to_id = 0
+                    to_id = 21
                     to_nickname = 'unknown'
             model = {
                 'id': i.id,
@@ -519,11 +519,11 @@ def getPostComments(request, pk, page):
             to_id = None
             to_nickname = None
             if i.to_id is not None:
-                if i.to_id != 0:
+                if i.to_id != 21:
                     to_id = i.to_id.id
                     to_nickname = UserModel.objects.get(id=i.to_id.id).nickname
                 else:
-                    to_id = 0
+                    to_id = 21
                     to_nickname = 'unknown'
             model = {
                 'id': i.id,
