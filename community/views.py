@@ -391,8 +391,12 @@ def getPostDetail(request, pk):
             to_id = None
             to_nickname = None
             if i.to_id is not None:
-                to_id = i.to_id.id
-                to_nickname = UserModel.objects.get(id=i.to_id.id).nickname
+                if i.to_id != 0:
+                    to_id = i.to_id.id
+                    to_nickname = UserModel.objects.get(id=i.to_id.id).nickname
+                else:
+                    to_id = 0
+                    to_nickname = 'unknown'
             commentmodel = {
                 'id': i.id,
                 'date': str(i.date),
@@ -480,8 +484,12 @@ def getPostAllComments(request, pk):
             to_id = None
             to_nickname = None
             if i.to_id is not None:
-                to_id = i.to_id.id
-                to_nickname = UserModel.objects.get(id=i.to_id.id).nickname
+                if i.to_id != 0:
+                    to_id = i.to_id.id
+                    to_nickname = UserModel.objects.get(id=i.to_id.id).nickname
+                else:
+                    to_id = 0
+                    to_nickname = 'unknown'
             model = {
                 'id': i.id,
                 'date': str(i.date),
@@ -511,8 +519,12 @@ def getPostComments(request, pk, page):
             to_id = None
             to_nickname = None
             if i.to_id is not None:
-                to_id = i.to_id.id
-                to_nickname = UserModel.objects.get(id=i.to_id.id).nickname
+                if i.to_id != 0:
+                    to_id = i.to_id.id
+                    to_nickname = UserModel.objects.get(id=i.to_id.id).nickname
+                else:
+                    to_id = 0
+                    to_nickname = 'unknown'
             model = {
                 'id': i.id,
                 'date': str(i.date),
