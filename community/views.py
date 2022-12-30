@@ -475,8 +475,26 @@ def deletePost(request, pk):
 def getPostAllComments(request, pk):
     if request.headers['key'] == appkeys.appkey:
         comments = PostCommentModel.objects.filter(parent_id=pk)
-        serializer = PostCommentModel_serializer(comments, many=True)
-        return Response(serializer.data)
+        commentlist = []
+        for i in comments:
+            to_id = None
+            to_nickname = None
+            if i.to_id is not None:
+                to_id = i.to_id.id
+                to_nickname = UserModel.objects.get(id=i.to_id.id).nickname
+            model = {
+                'id': i.id,
+                'date': str(i.date),
+                'parent_id': i.parent_id.id,
+                'parent_user': i.parent_user.id,
+                'body': i.body,
+                'nickname': i.parent_user.nickname,
+                'user_url': i.parent_user.imageurl,
+                'to_id': to_id,
+                'to_nickname': to_nickname
+            }
+            commentlist.append(model)
+        return HttpResponse(json.dumps({'comments': commentlist}))
     else:
         return Response("Failed")
 
