@@ -374,7 +374,7 @@ def getPostDetail(request, pk):
         like_user_list = LikeModel.objects.filter(parent_id=post.id)
         model = {
             'id': post.id,
-            'parent_user': post.parent_user,
+            'parent_user': post.parent_user.id,
             'nickname': post.parent_user.nickname,
             'user_url': post.parent_user.imageurl,
             'category': post.category,
