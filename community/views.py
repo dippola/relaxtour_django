@@ -492,7 +492,8 @@ def getPostComments(request, pk, page):
                 'body': i.body,
                 'nickname': i.parent_user.nickname,
                 'user_url': i.parent_user.imageurl,
-                'to_id': i.to_id
+                'to_id': i.to_id,
+                'to_nickname': i.to_id.nickname
             }
             modellist.append(model)
         return HttpResponse(json.dumps({'comments': modellist}))
@@ -542,8 +543,6 @@ def createPostComment(request, pk, id):
             parent_user=user,
             parent_id=main,
             body=data['body'],
-            nickname=user.nickname,
-            user_url=user.imageurl,
             to_id=to_id,
         )
         serializer = PostCommentModel_serializer(comment, many=False)
