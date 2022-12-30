@@ -53,7 +53,7 @@ def getUser(request, id):
 @api_view(['POST'])
 def createUser(request):
     if request.headers['key'] == appkeys.appkey:
-        data = request.data['userModel']
+        data = request.data
         main = UserModel.objects.create(
             uid=data['uid'],
             email=data['email'],
