@@ -378,7 +378,7 @@ def getPostDetail(request, pk):
             'nickname': post.parent_user.nickname,
             'user_url': post.parent_user.imageurl,
             'category': post.category,
-            'date': post.date,
+            'date': str(post.date),
             'title': post.title,
             'body': post.body,
             'imageurl': post.imageurl,
