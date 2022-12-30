@@ -388,7 +388,7 @@ def getPostDetail(request, pk):
         page_obj = paginator.page(page)
         modellist = []
         for i in page_obj:
-            comment_model = {
+            commentmodel = {
                 'id': i.id,
                 'date': str(i.date),
                 'parent_id': i.parent_id,
@@ -398,7 +398,7 @@ def getPostDetail(request, pk):
                 'user_url': i.parent_id.imageurl,
                 'to_id': i.to_id
             }
-            modellist.append(comment_model)
+            modellist.append(commentmodel)
         like_user_list_serializer = LikeModel_serializer(like_user_list, many=True)
         return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': modellist,
                                         'likeuserlist': like_user_list_serializer.data}))
@@ -495,9 +495,9 @@ def getPostComments(request, pk, page):
                 'to_id': i.to_id
             }
             modellist.append(model)
-        return Response(json.dumps({'comments': modellist}))
+        return HttpResponse(json.dumps({'comments': modellist}))
     else:
-        return Response("Failed")
+        return HttpResponse("Failed")
 
 
 @api_view(['GET'])
