@@ -388,6 +388,9 @@ def getPostDetail(request, pk):
         page_obj = paginator.page(page)
         modellist = []
         for i in page_obj:
+            to_id = 0
+            if UserModel.objects.get(id=i.to_id) is not None:
+                to_id = i.to_id
             commentmodel = {
                 'id': i.id,
                 'date': str(i.date),
@@ -396,8 +399,8 @@ def getPostDetail(request, pk):
                 'body': i.body,
                 'nickname': i.parent_user.nickname,
                 'user_url': i.parent_user.imageurl,
-                'to_id': i.to_id,
-                'to_nickname': UserModel.objects.get(id=i.to_id).nickname
+                'to_id': to_id,
+                'to_nickname': UserModel.objects.get(id=to_id).nickname
             }
             modellist.append(commentmodel)
         like_user_list_serializer = LikeModel_serializer(like_user_list, many=True)
@@ -485,6 +488,9 @@ def getPostComments(request, pk, page):
         page_obj = paginator.page(page)
         modellist = []
         for i in page_obj:
+            to_id = 0
+            if UserModel.objects.get(id=i.to_id) is not None:
+                to_id = i.to_id
             model = {
                 'id': i.id,
                 'date': str(i.date),
@@ -493,8 +499,8 @@ def getPostComments(request, pk, page):
                 'body': i.body,
                 'nickname': i.parent_user.nickname,
                 'user_url': i.parent_user.imageurl,
-                'to_id': UserModel.objects.filter(id=i.to_id).first.id,
-                'to_nickname': UserModel.objects.filter(id=i.to_id).first.nickname
+                'to_id': to_id,
+                'to_nickname': UserModel.objects.filter(id=to_id).first.nickname
             }
             modellist.append(model)
         return HttpResponse(json.dumps({'comments': modellist}))
