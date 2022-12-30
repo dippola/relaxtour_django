@@ -490,9 +490,11 @@ def getPostComments(request, pk, page):
         page_obj = paginator.page(page)
         modellist = []
         for i in page_obj:
-            to_id = 0
-            if UserModel.objects.get(id=i.to_id) is not None:
-                to_id = i.to_id
+            to_id = None
+            to_nickname = None
+            if i.to_id is not None:
+                to_id = i.to_id.id
+                to_nickname = UserModel.objects.get(id=i.to_id.id).nickname
             model = {
                 'id': i.id,
                 'date': str(i.date),
@@ -502,7 +504,7 @@ def getPostComments(request, pk, page):
                 'nickname': i.parent_user.nickname,
                 'user_url': i.parent_user.imageurl,
                 'to_id': to_id,
-                'to_nickname': UserModel.objects.filter(id=to_id).first.nickname
+                'to_nickname': to_nickname
             }
             modellist.append(model)
         return HttpResponse(json.dumps({'comments': modellist}))
