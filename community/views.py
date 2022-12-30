@@ -289,7 +289,7 @@ def getPostsPageAll(request, page):
                 'date': str(i.date),
                 'title': i.title,
                 'imageurl': i.imageurl,
-                'commentcount': PostCommentModel.objects.filter(parent_id_id=i.id).count(),
+                'commentcount': PostCommentModel.objects.filter(parent_id=i.id).count(),
                 'view': i.view,
                 'like': LikeModel.objects.filter(parent_id=i.id).count()
             }
@@ -395,10 +395,11 @@ def getPostDetail(request, pk):
                 'parent_user': i.parent_user.id,
                 'body': i.body,
                 'nickname': i.parent_user.nickname,
-                'user_url': i.parent_user.imageurl,
-                'to_id': i.to_id,
-                'to_nickname': UserModel.objects.get(id=i.to_id).nickname
+                'user_url': i.parent_user.imageurl
             }
+            if i.to_id is not None:
+                commentmodel.to_id = i.to_id
+                commentmodel.to_nickname = UserModel.objects.get(id=i.to_id).nickname
             modellist.append(commentmodel)
         like_user_list_serializer = LikeModel_serializer(like_user_list, many=True)
         return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': modellist,
