@@ -495,7 +495,7 @@ def getPostComments(request, pk, page):
                 'to_id': i.to_id
             }
             model_list.append(model)
-        return Response(json.dumps({"comments": model_list}))
+        return Response(json.dumps({'comments': model_list}))
     else:
         return Response("Failed")
 
