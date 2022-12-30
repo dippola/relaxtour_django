@@ -394,8 +394,8 @@ def getPostDetail(request, pk):
                 'parent_id': i.parent_id.id,
                 'parent_user': i.parent_user.id,
                 'body': i.body,
-                'nickname': i.parent_id.nickname,
-                'user_url': i.parent_id.imageurl,
+                'nickname': i.parent_user.nickname,
+                'user_url': i.parent_user.imageurl,
                 'to_id': i.to_id
             }
             modellist.append(commentmodel)
@@ -490,8 +490,8 @@ def getPostComments(request, pk, page):
                 'parent_id': i.parent_id.id,
                 'parent_user': i.parent_user.id,
                 'body': i.body,
-                'nickname': i.parent_id.nickname,
-                'user_url': i.parent_id.imageurl,
+                'nickname': i.parent_user.nickname,
+                'user_url': i.parent_user.imageurl,
                 'to_id': i.to_id
             }
             modellist.append(model)
