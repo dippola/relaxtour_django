@@ -22,8 +22,6 @@ class PostModel(models.Model):
     )
     id = models.AutoField(primary_key=True, null=False, blank=False)
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    nickname = models.TextField(null=True, default='')
-    user_url = models.TextField(null=True, default='')
     category = models.CharField(max_length=20, choices=CATEGORY)
     date = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=60)

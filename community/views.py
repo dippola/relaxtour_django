@@ -372,22 +372,21 @@ def getPostDetail(request, pk):
             if update_serializer.is_valid():
                 update_serializer.save()
         like_user_list = LikeModel.objects.filter(parent_id=post.id)
-        model = PostModel(
-            id=post.id,
-            parent_user=post.parent_user,
-            nickname=post.parent_user.nickname,
-            user_url=post.parent_user.imageurl,
-            category=post.category,
-            date=post.date,
-            title=post.title,
-            body=post.body,
-            imageurl=post.imageurl,
-            view=post.view,
-            like=like_user_list.count(),
-            list=post.list,
-            commentcount=PostCommentModel.objects.filter(parent_id=post.id).count()
-        )
-        post_serializer = PostModel_serializer(model)
+        model = {
+            'id': post.id,
+            'parent_user': post.parent_user,
+            'nickname': post.parent_user.nickname,
+            'user_url': post.parent_user.imageurl,
+            'category': post.category,
+            'date': post.date,
+            'title': post.title,
+            'body': post.body,
+            'imageurl': post.imageurl,
+            'view': post.view,
+            'like': like_user_list.count(),
+            'list':post.list,
+            'commentcount': PostCommentModel.objects.filter(parent_id=post.id).count()
+        }
         main_comment = PostCommentModel.objects.filter(parent_id=pk)
         page = request.GET.get('page', 1)
         paginator = Paginator(main_comment, 6)
@@ -416,7 +415,7 @@ def getPostDetail(request, pk):
             }
             modellist.append(commentmodel)
         like_user_list_serializer = LikeModel_serializer(like_user_list, many=True)
-        return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': modellist,
+        return HttpResponse(json.dumps({'post': model, 'comments': modellist,
                                         'likeuserlist': like_user_list_serializer.data}))
     else:
         return HttpResponse("Failed")
