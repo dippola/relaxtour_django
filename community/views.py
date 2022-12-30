@@ -391,8 +391,8 @@ def getPostDetail(request, pk):
             to_id = None
             to_nickname = None
             if i.to_id is not None:
-                to_id = i.to_id
-                to_nickname = UserModel.objects.get(id=i.to_id).nickname
+                to_id = i.to_id.id
+                to_nickname = UserModel.objects.get(id=i.to_id.id).nickname
             commentmodel = {
                 'id': i.id,
                 'date': str(i.date),
