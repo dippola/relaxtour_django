@@ -5,7 +5,6 @@ from rest_framework.decorators import api_view
 from .models import UserModel, PostModel, PostCommentModel, LikeModel
 from .serializers import UserModel_serializer, PostModel_serializer, PostCommentModel_serializer, LikeModel_serializer
 from django.core.paginator import Paginator
-from django.core.serializers.json import DjangoJSONEncoder
 
 from rest_framework.response import Response
 
@@ -392,8 +391,8 @@ def getPostDetail(request, pk):
             commentmodel = {
                 'id': i.id,
                 'date': str(i.date),
-                'parent_id': i.parent_id,
-                'parent_user': i.parent_user,
+                'parent_id': i.parent_id.id,
+                'parent_user': i.parent_user.id,
                 'body': i.body,
                 'nickname': i.parent_id.nickname,
                 'user_url': i.parent_id.imageurl,
@@ -488,15 +487,15 @@ def getPostComments(request, pk, page):
             model = {
                 'id': i.id,
                 'date': str(i.date),
-                'parent_id': i.parent_id,
-                'parent_user': i.parent_user,
+                'parent_id': i.parent_id.id,
+                'parent_user': i.parent_user.id,
                 'body': i.body,
                 'nickname': i.parent_id.nickname,
                 'user_url': i.parent_id.imageurl,
                 'to_id': i.to_id
             }
             modellist.append(model)
-        return HttpResponse(json.dumps({'comments': modellist}, cls=DjangoJSONEncoder))
+        return HttpResponse(json.dumps({'comments': modellist}))
     else:
         return HttpResponse("Failed")
 
