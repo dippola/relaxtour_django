@@ -42,10 +42,7 @@ class PostCommentModel(models.Model):
     parent_id = models.ForeignKey(PostModel, on_delete=models.CASCADE)
     parent_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     body = models.TextField(null=False)
-    nickname = models.TextField(default='')
-    user_url = models.TextField(default='')
     to_id = models.IntegerField(default=0)
-    to_nickname = models.TextField(default='')
     class Meta:
         ordering = ['date']
 

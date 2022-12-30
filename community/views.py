@@ -268,16 +268,6 @@ def getUsersLikeAll(request, id, page):
 
 @api_view(['GET'])
 def getPostsPageAll(request, page):
-    # print(">>>1: " + str(request.user_agent.is_mobile))
-    # print(">>>2: " + str(request.user_agent.is_tablet))
-    # print(">>>3: " + str(request.user_agent.is_touch_capable))
-    # print(">>>4: " + str(request.user_agent.is_pc))
-    # print(">>>5: " + str(request.user_agent.is_bot))
-    # print(">>>6: " + str(request.user_agent.browser.family))
-    # print(">>>7: " + str(request.user_agent.os))
-    # print(">>>7: " + str(request.user_agent.device))
-    # if request.user_agent.browser.family == 'okhttp':
-    #     print(">>>8")
     if request.headers['key'] == appkeys.appkey:
         posts = PostModel.objects.all()
         page = request.GET.get('page', page)
@@ -396,9 +386,21 @@ def getPostDetail(request, pk):
         page = request.GET.get('page', 1)
         paginator = Paginator(main_comment, 6)
         page_obj = paginator.page(page)
-        comments_serializer = PostCommentModel_serializer(page_obj, many=True)
+        model_list = []
+        for i in page_obj:
+            model = {
+                "id": i.id,
+                "date": i.date,
+                "parent_id": i.parent_id,
+                "parent_user": i.parent_user,
+                "body": i.body,
+                "nickname": i.parent_id.nickname,
+                "user_url": i.parent.id.imageurl,
+                "to_id": i.to_id
+            }
+            model_list.append(model)
         like_user_list_serializer = LikeModel_serializer(like_user_list, many=True)
-        return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': comments_serializer.data,
+        return HttpResponse(json.dumps({'post': post_serializer.data, 'comments': model_list,
                                         'likeuserlist': like_user_list_serializer.data}))
     else:
         return HttpResponse("Failed")
@@ -480,8 +482,20 @@ def getPostComments(request, pk, page):
         page = request.GET.get('page', page)
         paginator = Paginator(main_comment, 6)
         page_obj = paginator.page(page)
-        serializer = PostCommentModel_serializer(page_obj, many=True)
-        return Response(serializer.data)
+        model_list = []
+        for i in page_obj:
+            model = {
+                "id": i.id,
+                "date": i.date,
+                "parent_id": i.parent_id,
+                "parent_user": i.parent_user,
+                "body": i.body,
+                "nickname": i.parent_id.nickname,
+                "user_url": i.parent.id.imageurl,
+                "to_id": i.to_id
+            }
+            model_list.append(model)
+        return Response(json.dumps({"comments": model_list}))
     else:
         return Response("Failed")
 
@@ -516,7 +530,6 @@ def createPostComment(request, pk, id):
         user = UserModel.objects.get(id=id)
         main = PostModel.objects.get(id=pk)
         to_id = 0
-        to_nickname = ''
         data = request.data
         is_have_to = False
         if data['to_id'] is not None:
@@ -524,7 +537,6 @@ def createPostComment(request, pk, id):
                 if UserModel.objects.get(id=data['to_id']) is not None:
                     touser = UserModel.objects.get(id=data['to_id'])
                     to_id = touser.id
-                    to_nickname = touser.nickname
                     is_have_to = True
         comment = PostCommentModel.objects.create(
             parent_user=user,
@@ -533,7 +545,6 @@ def createPostComment(request, pk, id):
             nickname=user.nickname,
             user_url=user.imageurl,
             to_id=to_id,
-            to_nickname=to_nickname
         )
         serializer = PostCommentModel_serializer(comment, many=False)
         if main.parent_user.id != user.id:
