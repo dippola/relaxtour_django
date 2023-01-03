@@ -554,8 +554,8 @@ def getPostCommentsMore(request, pk, page):
         page = request.GET.get('page', page)
         paginator = Paginator(comments, 6)
         print(">>>1: " + str(type(int(paginator.num_pages))))
-        print(">>>2: " + str(type(page)))
-        if int(paginator.num_pages) < page:
+        print(">>>2: " + str(type(int(page))))
+        if int(paginator.num_pages) < int(page):
             page_obj = paginator.page(page)
             modellist = []
             for i in page_obj:
