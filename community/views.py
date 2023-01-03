@@ -415,7 +415,7 @@ def getPostDetail(request, pk):
             }
             modellist.append(commentmodel)
         like_user_list_serializer = LikeModel_serializer(like_user_list, many=True)
-        return HttpResponse(json.dumps({'post': model, 'comments': modellist,
+        return HttpResponse(json.dumps({'post': model, 'comments': modellist, 'commentsPages': paginator.num_pages,
                                         'likeuserlist': like_user_list_serializer.data}))
     else:
         return HttpResponse("Failed")
@@ -548,24 +548,30 @@ def getPostComments(request, pk, page):
 
 
 @api_view(['GET'])
-def getPostCommentsMore(request, pk, lastid):
+def getPostCommentsMore(request, pk, page):
     if request.headers['key'] == appkeys.appkey:
-        main_comment = PostCommentModel.objects.filter(parent_id=pk)
-        convert_request = PostCommentModel.objects.get(id=lastid)
-        start_position = list(main_comment).index(convert_request)
-        result_list = []
-        count = 0
-        for i, ii in enumerate(main_comment):
-            count += 1
-            if i > start_position:
-                if ii is not None:
-                    result_list.append(ii)
-                    if count == 6:
-                        break
-                else:
-                    break
-        serializer = PostCommentModel_serializer(result_list, many=True)
-        return Response(serializer.data)
+        comments = PostCommentModel.objects.filter(parent_id=pk)
+        page = request.GET.get('page', page)
+        paginator = Paginator(comments, 6)
+        page_obj = paginator.page(page)
+        serializer = PostCommentModel_serializer(page_obj, many=True)
+        return HttpResponse(json.dumps({'comments': serializer.data, 'pages': paginator.num_pages}))
+        # main_comment = PostCommentModel.objects.filter(parent_id=pk)
+        # convert_request = PostCommentModel.objects.get(id=lastid)
+        # start_position = list(main_comment).index(convert_request)
+        # result_list = []
+        # count = 0
+        # for i, ii in enumerate(main_comment):
+        #     count += 1
+        #     if i > start_position:
+        #         if ii is not None:
+        #             result_list.append(ii)
+        #             if count == 6:
+        #                 break
+        #         else:
+        #             break
+        # serializer = PostCommentModel_serializer(result_list, many=True)
+        # return Response(serializer.data)
     else:
         return Response("Failed")
 

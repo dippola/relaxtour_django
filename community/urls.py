@@ -38,7 +38,7 @@ urlpatterns = [
     path('post/<str:pk>/like/set=<str:id>/', views.setLike),
     path('post/<str:pk>/comments/', views.getPostAllComments),
     path('post/<str:pk>/comments/page=<str:page>/', views.getPostComments),
-    path('post/<str:pk>/comments/more=<str:lastid>/', views.getPostCommentsMore),
+    path('post/<str:pk>/comments/more=<str:page>/', views.getPostCommentsMore),
     path('post/<str:pk>/comment/create=<str:id>/', views.createPostComment),
     path('post/<str:pk>/comment/<str:id>/update/', views.updatePostComment),
     path('post/<str:pk>/comment/<str:id>/delete/', views.deletePostComment),
