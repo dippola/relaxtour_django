@@ -553,47 +553,32 @@ def getPostCommentsMore(request, pk, page):
         comments = PostCommentModel.objects.filter(parent_id=pk)
         page = request.GET.get('page', page)
         paginator = Paginator(comments, 6)
-        page_obj = paginator.page(page)
-        modellist = []
-        for i in page_obj:
-            to_id = None
-            to_nickname = None
-            if i.to_id is not None:
-                if i.to_id != 21:
-                    to_id = i.to_id.id
-                    to_nickname = UserModel.objects.get(id=i.to_id.id).nickname
-                else:
-                    to_id = 21
-                    to_nickname = 'unknown'
-            model = {
-                'id': i.id,
-                'date': str(i.date),
-                'parent_id': i.parent_id.id,
-                'parent_user': i.parent_user.id,
-                'body': i.body,
-                'nickname': i.parent_user.nickname,
-                'user_url': i.parent_user.imageurl,
-                'to_id': to_id,
-                'to_nickname': to_nickname
-            }
-            modellist.append(model)
-        return HttpResponse(json.dumps({'comments': modellist, 'pages': paginator.num_pages}))
-        # main_comment = PostCommentModel.objects.filter(parent_id=pk)
-        # convert_request = PostCommentModel.objects.get(id=lastid)
-        # start_position = list(main_comment).index(convert_request)
-        # result_list = []
-        # count = 0
-        # for i, ii in enumerate(main_comment):
-        #     count += 1
-        #     if i > start_position:
-        #         if ii is not None:
-        #             result_list.append(ii)
-        #             if count == 6:
-        #                 break
-        #         else:
-        #             break
-        # serializer = PostCommentModel_serializer(result_list, many=True)
-        # return Response(serializer.data)
+        if paginator.num_pages < page:
+            page_obj = paginator.page(page)
+            modellist = []
+            for i in page_obj:
+                to_id = None
+                to_nickname = None
+                if i.to_id is not None:
+                    if i.to_id != 21:
+                        to_id = i.to_id.id
+                        to_nickname = UserModel.objects.get(id=i.to_id.id).nickname
+                    else:
+                        to_id = 21
+                        to_nickname = 'unknown'
+                model = {
+                    'id': i.id,
+                    'date': str(i.date),
+                    'parent_id': i.parent_id.id,
+                    'parent_user': i.parent_user.id,
+                    'body': i.body,
+                    'nickname': i.parent_user.nickname,
+                    'user_url': i.parent_user.imageurl,
+                    'to_id': to_id,
+                    'to_nickname': to_nickname
+                }
+                modellist.append(model)
+            return HttpResponse(json.dumps({'comments': modellist, 'pages': paginator.num_pages}))
     else:
         return Response("Failed")
 
