@@ -581,6 +581,8 @@ def getPostCommentsMore(request, pk, page):
                 }
                 modellist.append(model)
             return HttpResponse(json.dumps({'comments': modellist, 'pages': paginator.num_pages}))
+        else:
+            return Response("Failed")
     else:
         return Response("Failed")
 
