@@ -553,8 +553,8 @@ def getPostCommentsMore(request, pk, page):
         comments = PostCommentModel.objects.filter(parent_id=pk)
         page = request.GET.get('page', page)
         paginator = Paginator(comments, 6)
-        print(">>>1: " + type(int(paginator.num_pages)))
-        print(">>>2: " + type(page))
+        print(">>>1: " + str(type(int(paginator.num_pages))))
+        print(">>>2: " + str(type(page)))
         if int(paginator.num_pages) < page:
             page_obj = paginator.page(page)
             modellist = []
