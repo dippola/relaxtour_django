@@ -630,7 +630,9 @@ def createPostComment(request, pk, id):
             if main.parent_user.notification:
                 sendNotification(token=main.parent_user.token, title="The comment has been registered in your post.", body=data['body'], postid=pk, user_url=user.imageurl, nickname=user.nickname)
         if is_have_to:
+            print(">>>1")
             if UserModel.objects.get(id=to_id).notification:
+                print(">>>2")
                 to_token = UserModel.objects.get(id=to_id).token
                 sendNotification(token=to_token, title="There is a comment on your comment.", body=data['body'], postid=pk, user_url=user.imageurl, nickname=user.nickname)
         return Response(serializer.data)
@@ -659,6 +661,7 @@ def sendNotification(token, title, body, postid, user_url, nickname):
             token=token,
         )
         try:
+            print(">>>3")
             response = messaging.send(message)
             Response("Firebase Cloud Messaging Successed")
         except Exception as e:
