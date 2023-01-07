@@ -601,6 +601,7 @@ def createPostComment(request, pk, id):
             if data['to_id'] != 0:
                 if UserModel.objects.get(id=data['to_id']) is not None:
                     to_id = UserModel.objects.get(id=data['to_id']).id
+                    is_have_to = True
                     comment = PostCommentModel.objects.create(
                         parent_user=user,
                         parent_id=main,
