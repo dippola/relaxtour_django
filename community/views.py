@@ -628,11 +628,11 @@ def createPostComment(request, pk, id):
         serializer = PostCommentModel_serializer(comment, many=False)
         if main.parent_user.id != user.id:
             if main.parent_user.notification:
-                sendNotification(token=main.parent_user.token, title="There is a comment on your comment.", body=data['body'], postid=pk, user_url=user.imageurl, nickname=user.nickname)
+                sendNotification(token=main.parent_user.token, title="The comment has been registered in your post.", body=data['body'], postid=pk, user_url=user.imageurl, nickname=user.nickname)
         if is_have_to:
             if UserModel.objects.get(id=to_id).notification:
                 to_token = UserModel.objects.get(id=to_id).token
-                sendNotification(token=to_token, title="The comment has been registered in your post.", body=data['body'], postid=pk, user_url=user.imageurl, nickname=user.nickname)
+                sendNotification(token=to_token, title="There is a comment on your comment.", body=data['body'], postid=pk, user_url=user.imageurl, nickname=user.nickname)
         return Response(serializer.data)
     else:
         return Response("Failed")
