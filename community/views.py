@@ -721,3 +721,59 @@ def getMainAllComments(request, pk):
     return Response(serializer.data)
 
 # Main에 comments 가져오기(url)
+
+@api_view(['DELETE'])
+def adminDeletePost(request, pk):
+    if request.headers['key'] == appkeys.appkey:
+        # board = PostModel.objects.get(id=pk)
+        # bucket = storage.bucket()
+        # if board.imageurl != '':
+        #     rd = board.imageurl.split("●")[0]
+        #     filenames = bucket.list_blobs(prefix='community/main/' + rd + "/")
+        #     if filenames is not None:
+        #         for name in filenames:
+        #             path = bucket.blob(str(name.name))
+        #             path.delete()
+        # board.delete()
+        # token = ""
+        # title = ""
+        # body = ""
+
+        post = PostModel.objects.get(id=pk)
+        token = post.parent_user.token
+        title = "Relax Tour a policy violation"
+        body = "The post has been deleted due to a violation of the community usage policy."
+        user_url = "https://firebasestorage.googleapis.com/v0/b/relax-tour-de785.appspot.com/o/admin%2Fadminimage.jpeg?alt=media&token=0963e1cd-9ae8-4df2-8ac6-25ebdf42e742"
+        # post.delete()
+        adminNotification(token=token, title=title, body=body, postid=pk, user_url=user_url, nickname="Relax Tour", why=request.headers['why'])
+        return Response('board was deleted')
+    else:
+        return Response("Failed")
+
+def adminNotification(token, title, body, postid, user_url, nickname, why):
+    message = messaging.Message(
+        notification=messaging.Notification(
+            title="admin●" + str(postid) + "●" + user_url + "●" + nickname + "●" + title,
+            body=body,
+        ),
+        android=messaging.AndroidConfig(
+            ttl=datetime.timedelta(seconds=3600),
+            priority='normal',
+            notification=messaging.AndroidNotification(
+                icon='',
+                color='#000000'
+            )
+        ),
+        apns=messaging.APNSConfig(
+            payload=messaging.APNSPayload(
+                aps=messaging.Aps(badge=42),
+            ),
+        ),
+        token=token,
+    )
+    try:
+        print(">>>3")
+        response = messaging.send(message)
+        Response("Firebase Cloud Messaging Successed")
+    except Exception as e:
+        Response("Firebase Cloud Messaging Failed: " + str(e))

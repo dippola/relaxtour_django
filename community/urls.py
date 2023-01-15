@@ -43,6 +43,7 @@ urlpatterns = [
     path('post/<str:pk>/comment/<str:id>/update/', views.updatePostComment),
     path('post/<str:pk>/comment/<str:id>/delete/', views.deletePostComment),
 
+    path('admin/post/<str:pk>/delete/', views.adminDeletePost)
 
     # path('posts/', views.getMains),#
     # path('posts/delete/', views.deleteAllMain),#will delete
