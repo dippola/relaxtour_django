@@ -742,18 +742,18 @@ def adminDeletePost(request, pk):
         post = PostModel.objects.get(id=pk)
         token = post.parent_user.token
         title = "Relax Tour a policy violation"
-        body = "The post has been deleted due to a violation of the community usage policy."
+        body = "The post has been deleted due to a violation of the community usage policy.\n(Reason: " + request.headers['key'] + ")"
         user_url = "https://firebasestorage.googleapis.com/v0/b/relax-tour-de785.appspot.com/o/admin%2Fadminimage.jpeg?alt=media&token=0963e1cd-9ae8-4df2-8ac6-25ebdf42e742"
         # post.delete()
-        adminNotification(token=token, title=title, body=body, postid=pk, user_url=user_url, nickname="Relax Tour", why=request.headers['why'])
+        adminNotification(token=token, title=title, body=body, postid=pk, user_url=user_url, nickname="Relax Tour")
         return Response('board was deleted')
     else:
         return Response("Failed")
 
-def adminNotification(token, title, body, postid, user_url, nickname, why):
+def adminNotification(token, title, body, postid, user_url, nickname):
     message = messaging.Message(
         notification=messaging.Notification(
-            title="admin●" + str(postid) + "●" + user_url + "●" + nickname + "●" + title + "●" + why,
+            title="admin●" + str(postid) + "●" + user_url + "●" + nickname + "●" + title,
             body=body,
         ),
         android=messaging.AndroidConfig(
