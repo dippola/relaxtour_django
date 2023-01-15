@@ -742,7 +742,7 @@ def adminDeletePost(request, pk):
         post = PostModel.objects.get(id=pk)
         token = post.parent_user.token
         title = "Relax Tour a policy violation"
-        body = "The post has been deleted due to a violation of the community usage policy.\n(Reason: " + request.headers['key'] + ")"
+        body = "The post has been deleted due to a violation of the community usage policy.\n(Reason: " + request.headers['why'] + ")"
         user_url = "https://firebasestorage.googleapis.com/v0/b/relax-tour-de785.appspot.com/o/admin%2Fadminimage.jpeg?alt=media&token=0963e1cd-9ae8-4df2-8ac6-25ebdf42e742"
         # post.delete()
         adminNotification(token=token, title=title, body=body, postid=pk, user_url=user_url, nickname="Relax Tour")
