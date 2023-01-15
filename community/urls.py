@@ -14,7 +14,7 @@ urlpatterns = [
     # path('boards/page=<str:page>/', views.getBoardsPage),
     # path('comments', views.getAllComments)
 
-    path('admin/post/<str:pk>/delete/', views.adminDeletePost),
+    path('myadmin/post/<str:pk>/delete/', views.adminDeletePost),
 
     path('user/create/', views.createUser),
     path('user/searchemail/<str:email>/', views.searchEmail),
