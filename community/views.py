@@ -753,7 +753,7 @@ def adminDeletePost(request, pk):
 def adminNotification(token, title, body, postid, user_url, nickname, why):
     message = messaging.Message(
         notification=messaging.Notification(
-            title="admin●" + str(postid) + "●" + user_url + "●" + nickname + "●" + title,
+            title="admin●" + str(postid) + "●" + user_url + "●" + nickname + "●" + title + "●" + why,
             body=body,
         ),
         android=messaging.AndroidConfig(
