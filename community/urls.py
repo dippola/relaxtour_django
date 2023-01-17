@@ -15,7 +15,9 @@ urlpatterns = [
     # path('comments', views.getAllComments)
 
     path('myadmin/post/<str:pk>/delete/', views.adminDeletePost),
+    path('myadmin/comment/<str:pk>/', views.adminGetCommentUser),
     path('myadmin/comment/<str:pk>/delete/', views.adminDeleteComment),
+    path('myadmin/user/<str:id>/update/', views.adminUserUpdate),
 
     path('user/create/', views.createUser),
     path('user/searchemail/<str:email>/', views.searchEmail),

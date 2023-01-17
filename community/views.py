@@ -792,3 +792,41 @@ def adminNotification(token, title, body, postid, user_url, nickname):
         Response("Firebase Cloud Messaging Successed")
     except Exception as e:
         Response("Firebase Cloud Messaging Failed: " + str(e))
+
+@api_view(['GET'])
+def adminGetCommentUser(request, pk):
+    if request.headers['key'] == appkeys.appkey:
+        comment_user = PostCommentModel.objects.get(id=pk).parent_user.id
+        return Response(comment_user)
+    else:
+        return Response(0)
+
+@api_view(['PUT'])
+def adminUserUpdate(request, id):
+    if request.headers['key'] == appkeys.appkey:
+        data = request.data
+        user = UserModel.objects.filter(id=id).first()
+        serializer = UserModel_serializer(user, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response("success")
+        else:
+            return Response("not valid")
+    else:
+        return Response("Failed")
+
+
+# @api_view(['PUT'])
+# def updateUser(request, uid):
+#     if request.headers['key'] == appkeys.appkey:
+#         data = request.data
+#         user = UserModel.objects.filter(uid=uid).first()
+#         serializer = UserModel_serializer(user, data=data, partial=True)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         else:
+#             return Response(serializer.errors)
+#     else:
+#         return Response("failed")
+
