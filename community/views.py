@@ -750,6 +750,21 @@ def adminDeletePost(request, pk):
     else:
         return Response("Failed")
 
+@api_view(['DELETE'])
+def adminDeleteComment(request, pk):
+    if request.headers['key'] == appkeys.appkey:
+        comment = PostCommentModel.objects.get(id=pk)
+        token = comment.parent_user.token
+        title = "Relax Tour a policy violation"
+        body = "The comment has been deleted due to a violation of the community usage policy.\n(Reason: " + \
+               request.headers['why'] + ")"
+        user_url = "https://firebasestorage.googleapis.com/v0/b/relax-tour-de785.appspot.com/o/admin%2Fadminimage.jpeg?alt=media&token=0963e1cd-9ae8-4df2-8ac6-25ebdf42e742"
+        # comment.delete()
+        adminNotification(token=token, title=title, body=body, postid=pk, user_url=user_url, nickname="Relax Tour")
+        return Response('board was deleted')
+    else:
+        return Response('Failed')
+
 def adminNotification(token, title, body, postid, user_url, nickname):
     message = messaging.Message(
         notification=messaging.Notification(
