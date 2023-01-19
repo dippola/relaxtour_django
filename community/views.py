@@ -807,6 +807,11 @@ def adminUserUpdate(request, id):
         data = request.data
         user = UserModel.objects.filter(id=id).first()
         serializer = UserModel_serializer(user, data=data, partial=True)
+        token = user.token
+        title = "Relax Tour a policy violation"
+        body = "Account profile has been deleted and changed due to a community policy violation."
+        user_url = "https://firebasestorage.googleapis.com/v0/b/relax-tour-de785.appspot.com/o/admin%2Fadminimage.jpeg?alt=media&token=0963e1cd-9ae8-4df2-8ac6-25ebdf42e742"
+        adminNotificationProfileUpdate(token=token, title=title, body=body, user_url=user_url, nickname="Relax Tour")
         if serializer.is_valid():
             serializer.save()
             return Response("success")
@@ -815,18 +820,30 @@ def adminUserUpdate(request, id):
     else:
         return Response("Failed")
 
-
-# @api_view(['PUT'])
-# def updateUser(request, uid):
-#     if request.headers['key'] == appkeys.appkey:
-#         data = request.data
-#         user = UserModel.objects.filter(uid=uid).first()
-#         serializer = UserModel_serializer(user, data=data, partial=True)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         else:
-#             return Response(serializer.errors)
-#     else:
-#         return Response("failed")
-
+def adminNotificationProfileUpdate(token, title, body, user_url, nickname):
+    message = messaging.Message(
+        notification=messaging.Notification(
+            title="admin_profile●" + user_url + "●" + nickname + "●" + title,
+            body=body,
+        ),
+        android=messaging.AndroidConfig(
+            ttl=datetime.timedelta(seconds=3600),
+            priority='normal',
+            notification=messaging.AndroidNotification(
+                icon='',
+                color='#000000'
+            )
+        ),
+        apns=messaging.APNSConfig(
+            payload=messaging.APNSPayload(
+                aps=messaging.Aps(badge=42),
+            ),
+        ),
+        token=token,
+    )
+    try:
+        print(">>>3")
+        response = messaging.send(message)
+        Response("Firebase Cloud Messaging Successed")
+    except Exception as e:
+        Response("Firebase Cloud Messaging Failed: " + str(e))
