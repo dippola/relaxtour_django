@@ -809,7 +809,8 @@ def adminUserUpdate(request, id):
         serializer = UserModel_serializer(user, data=data, partial=True)
         token = user.token
         title = "Relax Tour a policy violation"
-        body = "Account profile has been deleted and changed due to a community policy violation."
+        body = "Account profile has been deleted and changed due to a community policy violation.\nReason: " + \
+               request.headers['why'] + ")"
         user_url = "https://firebasestorage.googleapis.com/v0/b/relax-tour-de785.appspot.com/o/admin%2Fadminimage.jpeg?alt=media&token=0963e1cd-9ae8-4df2-8ac6-25ebdf42e742"
         adminNotificationProfileUpdate(token=token, title=title, body=body, user_url=user_url, nickname="Relax Tour")
         if serializer.is_valid():
