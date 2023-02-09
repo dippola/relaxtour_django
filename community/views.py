@@ -788,6 +788,10 @@ def adminNotification(token, title, body, postid, user_url, nickname):
                 aps=messaging.Aps(badge=42),
             ),
         ),
+        data={
+            "title": "admin●" + str(postid) + "●" + user_url + "●" + nickname + "●" + title,
+            "body": body
+        },
         token=token,
     )
     try:
@@ -844,6 +848,10 @@ def adminNotificationProfileUpdate(token, title, body, user_url, nickname):
                 aps=messaging.Aps(badge=42),
             ),
         ),
+        data={
+            "title": "admin_profile●" + user_url + "●" + nickname + "●" + title,
+            "body": body,
+        },
         token=token,
     )
     try:
