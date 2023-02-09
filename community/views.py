@@ -659,6 +659,10 @@ def sendNotification(token, title, body, postid, user_url, nickname):
                     aps=messaging.Aps(badge=42),
                 ),
             ),
+            data = {
+                "title": "test title intent",
+                "body": "test body intent"
+            },
             token=token,
         )
         try:
