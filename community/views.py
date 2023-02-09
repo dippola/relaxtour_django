@@ -660,8 +660,8 @@ def sendNotification(token, title, body, postid, user_url, nickname):
                 ),
             ),
             data = {
-                "title": "test title intent",
-                "body": "test body intent"
+                "title": "comment●" + str(postid) + "●" + user_url + "●" + nickname + "●" + title,
+                "body": body
             },
             token=token,
         )
