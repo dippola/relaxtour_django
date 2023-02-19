@@ -14,6 +14,7 @@ class PostCommentModel_serializer(serializers.ModelSerializer):
 
 class PostModel_serializer(serializers.ModelSerializer):
     # comment = MainCommentModel_serializer(many=True, allow_null=True, read_only=True)
+    imageurl = serializers.CharField(allow_blank=True)
     list = serializers.CharField(allow_blank=True)
     class Meta:
         model = PostModel
