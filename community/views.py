@@ -680,7 +680,7 @@ def updatePostComment(request, pk, id):
         serializer = PostCommentModel_serializer(comment, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response("Comment has been edited")
         return Response(serializer.errors)
     else:
         return Response("Failed")
