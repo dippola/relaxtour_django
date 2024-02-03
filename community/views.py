@@ -674,7 +674,7 @@ def sendNotification(token, title, body, postid, user_url, nickname):
 
 
 @api_view(['PUT'])
-def updatePostComment(request, id):
+def updatePostComment(request, pk, id):
     if request.headers['key'] == appkeys.appkey:
         comment = PostCommentModel.objects.filter(id=id).first()
         serializer = PostCommentModel_serializer(comment, data=request.data, partial=True)
