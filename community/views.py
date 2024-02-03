@@ -675,14 +675,18 @@ def sendNotification(token, title, body, postid, user_url, nickname):
 
 @api_view(['PUT'])
 def updatePostComment(request, pk, id):
+    print("1")
     if request.headers['key'] == appkeys.appkey:
+        print("2")
         comment = PostCommentModel.objects.filter(id=id).first()
         serializer = PostCommentModel_serializer(comment, data=request.data, partial=True)
         if serializer.is_valid():
+            print("3")
             serializer.save()
             return Response("Comment has been edited")
-        return Response(serializer.errors)
+        return Response("not valid")
     else:
+        print("4")
         return Response("Failed")
 
 @api_view(['DELETE'])
