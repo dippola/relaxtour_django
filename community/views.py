@@ -676,12 +676,12 @@ def sendNotification(token, title, body, postid, user_url, nickname):
 @api_view(['PUT'])
 def updatePostComment(request, pk, id):
     if request.headers['key'] == appkeys.appkey:
-        # commentmodel = PostCommentModel.objects.create(
-        #     body=request.data['body']
-        # )
         data = request.data
+        model = {
+            "body": data['body'],
+        }
         comment = PostCommentModel.objects.filter(id=id).first()
-        serializer = PostCommentModel_serializer(comment, data=data, partial=True)
+        serializer = PostCommentModel_serializer(comment, data=model, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response("Comment has been edited")
