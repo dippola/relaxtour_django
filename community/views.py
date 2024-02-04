@@ -677,9 +677,12 @@ def sendNotification(token, title, body, postid, user_url, nickname):
 def updatePostComment(request, pk, id):
     print("1")
     if request.headers['key'] == appkeys.appkey:
+        commentmodel = PostCommentModel.objects.create(
+            body=data['body']
+        )
         print("2")
         comment = PostCommentModel.objects.filter(id=id).first()
-        serializer = PostCommentModel_serializer(comment, data=request.data, partial=True)
+        serializer = PostCommentModel_serializer(comment, data=commentmodel, partial=True)
         if serializer.is_valid():
             print("3")
             serializer.save()
