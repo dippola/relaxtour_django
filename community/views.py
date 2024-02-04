@@ -678,7 +678,7 @@ def updatePostComment(request, pk, id):
     print("1")
     if request.headers['key'] == appkeys.appkey:
         commentmodel = PostCommentModel.objects.create(
-            body=data['body']
+            body=request.data['body']
         )
         print("2")
         comment = PostCommentModel.objects.filter(id=id).first()
